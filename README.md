@@ -5,7 +5,7 @@
 
 
 Library:
-django
-psycopg2-binary
-pytest
-pytest-django
+	django,
+	psycopg2-binary,
+	pytest,
+	pytest-django,
