@@ -1,6 +1,6 @@
 # Restaurant_management
 
-## Inventory aplication for restaurant
+Inventory aplication for restaurant
 
 
 
