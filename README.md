@@ -12,20 +12,20 @@
 	
 ## Links:
 
-	Main/				Main site
-	Register/			User register
-	Login/				Login user
-	Invoice/			Invoices list
-	Invoice/{id}/			Information about invoice, update, delete
+	main/				Main site
+	register/			User register
+	login/				Login user
+	invoice/			Invoices list
+	invoice/{id}/			Information about invoice, update, delete
 	invoice/add/			Add invoice
-	Company/			Company list
-	Company/{id}/ (maybe slug?!)	Information about company, update, delete
+	company/			Company list
+	company/{id}/ (maybe slug?!)	Information about company, update, delete
 	company/add/			Add company
-	Product/			List of products
+	product/			List of products
 	products/{id}			Information about product, update, delete
 	product/add			Add product
-	Inventory/			Inventory list
-	Inventory/add			Add invoice(products) to inventory
-	Recipe/				Recipes list
+	inventory/			Inventory list
+	inventory/add			Add invoice(products) to inventory
+	recipe/				Recipes list
 	recipe/{id}			Information about recipe, update, delete
-	Recipe/add			Add recipe
+	recipe/add			Add recipe
