@@ -1,4 +1,4 @@
-# Restaurant_management
+### Restaurant_management
 
 
 
@@ -10,7 +10,7 @@ Library:
 	pytest,
 	pytest-django,
 	
-	#### Links:
+	## Links:
 
 Main/
 Main site
