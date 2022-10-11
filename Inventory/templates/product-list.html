@@ -1,0 +1,39 @@
+{% extends '__base.html' %}
+
+{% block content %}
+        <h2>List of products:</h2>
+
+    <table class="tg">
+        {{ message }}
+
+<thead>
+  <tr>
+    <th class="tg-7cam">ID</th>
+    <th class="tg-7cam">Name</th>
+    <th class="tg-7cam">unit</th>
+    <th class="tg-7cam">quantity</th>
+    <th class="tg-7cam">gross price</th>
+    <th class="tg-7cam">net price</th>
+    <th class="tg-7cam">added date</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>  {% for product in products %}
+        <td class="tg-7cam">{{product.id}}</td>
+        <th class="tg-7cam"><a href="../product/{{product.id}}"> {{product.name}} (Edit)</a></td>
+        <th class="tg-7cam">{{product.get_unit_display}}</td>
+        <th class="tg-7cam">{{product.quantity}}</td>
+        <th class="tg-7cam">{{product.gross_price}}</td>
+        <th class="tg-7cam">{{product.net_price}}</td>
+        <th class="tg-7cam">{{product.date}}</td>
+
+  </tr>
+{% endfor %}
+</tbody>
+</table>
+
+
+{% if user.is_authenticated %}
+        <label><a href="../add_product/" >Add product</a></label>
+{% endif %}
+{% endblock %}
