@@ -24,6 +24,7 @@ Inventory aplication for restaurant
 	product/			List of products
 	products/{id}			Information about product, update, delete
 	product/add			Add product
+	product/delete/{id}		Delete product
 	inventory/			Inventory list
 	inventory/add			Add invoice(products) to inventory
 	recipe/				Recipes list
