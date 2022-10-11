@@ -8,8 +8,16 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from Inventory.forms import ProductForm, AddUserForm, \
-    PasswordChange, CompanyForm
-from Inventory.models import Product, Company
+    PasswordChange, CompanyForm, InvoiceForm, InvoiceDetailsForm
+from Inventory.models import Product, Company, Invoice, ProductQuantity
+
+"""Pamiętać!"""
+"""zrobic od nowa migrację, 
+    widok InvoiceUpdate powinien wyświetlać fakturę na sztywno, i
+    następnie ze szczegółowej listy produktów towar i jego ilość 
+    będzie można dodać do faktury
+    ZMIENIĆ NAZWĘ ProductQuantity na InvoiceDetails czy coś w tym stylu"""
+
 
 
 def home(request):
@@ -26,7 +34,7 @@ def login_view(request):
         if user:
             login(request, user)
             messages.success(request, "Login!")
-            return redirect("home")
+            return redirect("main")
         else:
             messages.warning(request, "Mistake in login or password")
             return render(request, "login.html")
@@ -34,7 +42,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect("home")
+    return redirect("main")
 
 
 @transaction.atomic
@@ -52,6 +60,9 @@ def add_user_view(request):
             return render(request, "add_user.html", {"form": AddUserForm()})
 
 
+"""Ask mentor about changing password for all users"""
+
+
 @login_required
 @transaction.atomic
 def change_password_view(request, pk):
@@ -65,7 +76,7 @@ def change_password_view(request, pk):
         form = PasswordChange(request.user, request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Hasło zmienione")
+            messages.success(request, "Password changed")
             return redirect("login")
         else:
             messages.warning(request, form.errors)
@@ -115,10 +126,10 @@ class ProductUpdateView(View):
             if Product.objects.get(pk=pk):
                 product = Product.objects.get(pk=pk)
                 form = ProductForm(initial=
-                               {'name': product.name, 'unit': product.unit,
-                                'quantity': product.quantity,
-                                'gross_price': product.gross_price,
-                                'net_price': product.net_price})
+                                   {'name': product.name, 'unit': product.unit,
+                                    'quantity': product.quantity,
+                                    'gross_price': product.gross_price,
+                                    'net_price': product.net_price})
                 context = {'form': form, 'product': product}
                 return render(request, 'product-update.html', context)
         except:
@@ -233,3 +244,46 @@ class CompanyDelete(View):
                 return redirect('company_list')
             ctx = {'message': "There is no company with this ID"}
             return render(request, 'company_list.html', ctx)
+
+
+class InvoiceAdd(View):
+    def get(self, request):
+        form = InvoiceForm()
+        context = {'form': form}
+        return render(request, 'invoice_add.html', context)
+
+    def post(self, request):
+        pDict = request.POST.copy()
+        form = InvoiceForm(pDict)
+        context = {'form': form}
+        with transaction.atomic():
+            if form.is_valid():
+                company_form = form.cleaned_data['company']
+                company = Company.objects.get(name=company_form)
+                # product_form = form.cleaned_data['products']
+                # product = Product.objects.filter(name=product_form)
+                invoice = Invoice.objects.create(number=form.cleaned_data['number'],
+                                                 company=company,
+
+                                                 date=form.cleaned_data['date'])
+                # invoice.products.set(product)
+                form = InvoiceForm()
+                context = {'form': form, 'message': 'Invoice added'}
+                return render(request, 'invoice_add.html', context)
+            context['message'] = 'something went wrong'
+            return render(request, 'invoice_add.html', context)
+
+
+class InvoiceView(View):
+
+    pass
+
+class InvoiceUpdate(View):
+    def get(self, request, pk):
+        form = InvoiceDetailsForm()
+        context = {'form': form}
+        return render(request, 'Invoice_update.html', context)
+
+
+class InvoiceDelete(View):
+    pass
