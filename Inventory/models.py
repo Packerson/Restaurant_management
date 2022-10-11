@@ -13,6 +13,9 @@ class Company(models.Model):
     nip = models.CharField(unique=True, max_length=10, validators=[RegexValidator(r'^\d{10}$')])
     address = models.TextField()
 
+    def __str__(self):
+        return self.name
+
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
@@ -22,6 +25,9 @@ class Product(models.Model):
     net_price = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField(auto_now_add=True)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         unique_together = ['name', 'quantity']
 
@@ -29,8 +35,12 @@ class Product(models.Model):
 class Invoice(models.Model):
     number = models.TextField(validators=[MaxLengthValidator(25)])
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product, through='ProductQuantity')
+    # products = models.ManyToManyField(Product, through='ProductQuantity')
     date = models.DateField()
+
+    def __str__(self):
+        return self.name
+# class InvoiceDetails(models.Model):
 
 
 class ProductQuantity(models.Model):

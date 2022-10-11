@@ -1,6 +1,12 @@
 {% extends '__base.html' %}
 
 {% block content %}
+
+{% if user.is_authenticated %}
+        <label><a href="../product/add/" >Add product</a></label>
+{% endif %}
+
+
         <h2>List of products:</h2>
 
     <table class="tg">
@@ -56,7 +62,4 @@
 </table>
 
 
-{% if user.is_authenticated %}
-        <label><a href="../product/add/" >Add product</a></label>
-{% endif %}
 {% endblock %}

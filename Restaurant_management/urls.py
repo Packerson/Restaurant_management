@@ -17,8 +17,9 @@ from django.contrib import admin
 from django.urls import path
 
 from Inventory.views import ProductView, ProductAddView, ProductUpdateView, \
-    ProductDeleteView, home, login_view, logout_view, add_user_view, CompanyAddView, \
-    CompanyListView, CompanyUpdateView, CompanyDelete
+    ProductDeleteView, home, login_view, logout_view, add_user_view, \
+    change_password_view, CompanyAddView, CompanyListView, CompanyUpdateView, \
+    CompanyDelete, InvoiceView, InvoiceAdd, InvoiceUpdate, InvoiceDelete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,7 +27,7 @@ urlpatterns = [
     path('register/', add_user_view, name='register'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
-
+    path('password/<int:pk>', change_password_view, name="change_password"),
 
     path('product/', ProductView.as_view(), name='product_list'),
     path('product/add/', ProductAddView.as_view(), name='product_add'),
@@ -34,11 +35,15 @@ urlpatterns = [
     path('product/delete/<int:pk>', ProductDeleteView.as_view(),
          name='product-delete'),
 
-
     path('company/', CompanyListView.as_view(), name='company_list'),
     path('company/add/', CompanyAddView.as_view(), name='company_add'),
     path('company/<int:pk>/', CompanyUpdateView.as_view(), name='company_edit'),
     path('company/delete/<int:pk>', CompanyDelete.as_view(),
          name='company-delete'),
 
+    path('invoice/', InvoiceView.as_view(), name='invoice_list'),
+    path('invoice/add/', InvoiceAdd.as_view(), name='invoice_add'),
+    path('invoice/<int:pk>/', InvoiceUpdate.as_view(), name='invoice_edit'),
+    path('invoice/delete/<int:pk>', InvoiceDelete.as_view(),
+         name='invoice-delete'),
 ]

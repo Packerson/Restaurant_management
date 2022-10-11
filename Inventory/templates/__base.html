@@ -7,8 +7,36 @@
     </head>
     <body>
     <div class="logo-img">
+        <a href="/">
         <img src="/static/images/label-restaurant.png" alt="logo">
+        </a>
     </div>
+
+    {% block messages %}
+          {% if messages %}
+              {% for message in messages %}
+                  <div class="alert alert-{{ message.tags }}">
+                      <a class="close" data-dismiss="alert">×</a>
+                      {{ message|safe }}
+                  </div>
+              {% endfor %}
+          {% endif %}
+      {% endblock %}
+    </div>
+
+  {% if user.is_authenticated %}
+    <p>User: {{ user.username }}</p>
+    <p><a href="{% url 'logout' %}">Logout</a></p>
+  {% else %}
+    <a href="{% url 'login' %}">Login</a>
+  {% endif %}
+
+
+<!--    <ul>  <a href="../login" >Login</a></ul>-->
+<!--    <ul>  <a href=../logout">Logout</a></ul>-->
+    <ul>  <a href="../../register" >Register</a></ul>
+    <ul>  <a href="../../company" >Company list</a></ul>
+    <ul>  <a href="../../product" >Product list</a></ul>
 
 
 

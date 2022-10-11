@@ -9,3 +9,5 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         add_products()
         self.stdout.write(self.style.SUCCESS("Successfully add products"))
+
+
