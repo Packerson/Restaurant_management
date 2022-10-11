@@ -2,12 +2,14 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
 from django.db import transaction
 from django.shortcuts import render, redirect
 from django.views import View
 
-from Inventory.forms import ProductForm, AddUserForm, PasswordChange
-from Inventory.models import Product
+from Inventory.forms import ProductForm, AddUserForm, \
+    PasswordChange, CompanyForm
+from Inventory.models import Product, Company
 
 
 def home(request):
@@ -77,6 +79,12 @@ class ProductView(View):
         ctx = {'products': products}
         if len(products) == 0:
             ctx['message'] = 'No products in base'
+
+        """tworzenie paginacji i warunek 50 przepisów na stronę"""
+        paginator = Paginator(products, 50)
+        page = request.GET.get('page')
+        products_list = paginator.get_page(page)
+        ctx = {'products_list': products_list}
         return render(request, "product-list.html", ctx)
 
 
@@ -89,27 +97,34 @@ class ProductAddView(View):
     def post(self, request):
         form = ProductForm(request.POST)
         context = {'form': form}
-        if form.is_valid():
-            gross_price = form.cleaned_data['gross_price']
-            net_price = form.cleaned_data['net_price']
-            if gross_price > net_price:
-                form.save()
-                context['message'] = 'product added'
-                return render(request, 'product-add.html', context)
-            context['message'] = 'gross price has to be bigger than net'
-        return render(request, 'product-add.html', context)
+        with transaction.atomic():
+            if form.is_valid():
+                gross_price = form.cleaned_data['gross_price']
+                net_price = form.cleaned_data['net_price']
+                if gross_price > net_price:
+                    form.save()
+                    context['message'] = 'product added'
+                    return render(request, 'product-add.html', context)
+                context['message'] = 'gross price has to be bigger than net'
+            return render(request, 'product-add.html', context)
 
 
-class ProductEdit(View):
+class ProductUpdateView(View):
     def get(self, request, pk):
-        product = Product.objects.get(pk=pk)
-        form = ProductForm(initial=
-                           {'name': product.name, 'unit': product.unit,
-                            'quantity': product.quantity,
-                            'gross_price': product.gross_price,
-                            'net_price': product.net_price})
-        context = {'form': form, 'product': product}
-        return render(request, 'product-add.html', context)
+        try:
+            if Product.objects.get(pk=pk):
+                product = Product.objects.get(pk=pk)
+                form = ProductForm(initial=
+                               {'name': product.name, 'unit': product.unit,
+                                'quantity': product.quantity,
+                                'gross_price': product.gross_price,
+                                'net_price': product.net_price})
+                context = {'form': form, 'product': product}
+                return render(request, 'product-update.html', context)
+        except:
+            form = ProductForm()
+            context = {'form': form, 'message': f"No product with this ID:{pk}"}
+            return render(request, 'product-update.html', context)
 
     def post(self, request, pk):
         form = ProductForm(request.POST)
@@ -131,12 +146,90 @@ class ProductEdit(View):
         return render(request, 'product-update.html', context)
 
 
-class ProductDelete(View):
+class ProductDeleteView(View):
     def get(self, request, pk):
         with transaction.atomic():
-            if Product.objects.filter(pk=pk).exists():
-                Product.objects.filter(pk=pk).delete()
-                ctx = {'message': "product deleted"}
-                return render(request, 'products-list.html', ctx)
-            ctx = {'message': "There is no product with this ID"}
-            return render(request, 'product-list.html', ctx)
+            try:
+                if Product.objects.filter(pk=pk).exists():
+                    Product.objects.filter(pk=pk).delete()
+                    ctx = {'message': "product deleted"}
+                    return redirect('product_list')
+            except:
+                ctx = {'message': "There is no product with this ID"}
+                return render(request, 'product-list.html', ctx)
+
+
+class CompanyAddView(View):
+    def get(self, request):
+        form = CompanyForm()
+        context = {'form': form}
+        return render(request, 'company_add.html', context)
+
+    def post(self, request):
+        pDict = request.POST.copy()
+        form = CompanyForm(pDict)
+        context = {'form': form}
+        with transaction.atomic():
+            if form.is_valid():
+                form.save()
+                form = CompanyForm()
+                context = {'form': form, 'message': 'company added'}
+                return render(request, 'company_add.html', context)
+            context['message'] = 'something went wrong'
+            return render(request, 'company_add.html', context)
+
+
+class CompanyListView(View):
+    def get(self, request):
+        companys = Company.objects.order_by('name')
+        ctx = {'companys': companys}
+        if len(companys) == 0:
+            ctx['message'] = 'No companys in base'
+
+        """tworzenie paginacji i warunek 50 przepisów na stronę"""
+        paginator = Paginator(companys, 50)
+        page = request.GET.get('page')
+        companys_list = paginator.get_page(page)
+        ctx = {'companys_list': companys_list}
+        return render(request, "company_list.html", ctx)
+
+
+class CompanyUpdateView(View):
+    def get(self, request, pk):
+        try:
+            if Company.objects.get(pk=pk):
+                company = Company.objects.get(pk=pk)
+                form = CompanyForm(initial=
+                                   {'name': company.name, 'nip': company.nip,
+                                    'address': company.address})
+                context = {'form': form, 'company': company}
+                return render(request, 'company_update.html', context)
+        except:
+            form = CompanyForm()
+            context = {'form': form, 'message': f"No company with this ID:{pk}"}
+            return render(request, 'company_update.html', context)
+
+    def post(self, request, pk):
+        form = CompanyForm(request.POST)
+        context = {'form': form}
+        if form.is_valid():
+            company = Company.objects.get(pk=pk)
+            company.name = form.cleaned_data['name']
+            company.nip = int(form.cleaned_data['nip'])
+            company.address = form.cleaned_data['address']
+            company.save()
+            context['message'] = 'Company update'
+            return render(request, 'company_update.html', context)
+        context['message'] = 'something goes wrong'
+        return render(request, 'company_update.html', context)
+
+
+class CompanyDelete(View):
+    def get(self, request, pk):
+        with transaction.atomic():
+            if Company.objects.filter(pk=pk).exists():
+                Company.objects.filter(pk=pk).delete()
+                ctx = {'message': "Company deleted"}
+                return redirect('company_list')
+            ctx = {'message': "There is no company with this ID"}
+            return render(request, 'company_list.html', ctx)

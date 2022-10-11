@@ -1,0 +1,54 @@
+{% extends '__base.html' %}
+
+{% block content %}
+        <h2>List of company's:</h2>
+
+    <table class="tg">
+        {{ message }}
+
+        <thead>
+          <tr>
+            <th class="tg-7cam">ID</th>
+            <th class="tg-7cam">Name</th>
+            <th class="tg-7cam">NIP</th>
+            <th class="tg-7cam">Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>  {% for company in companys_list %}
+                <td class="tg-7cam">{{company.id}}</td>
+                <th class="tg-7cam"><a href="../company/{{company.id}}"> {{company.name}} (Edit)</a></td>
+                <th class="tg-7cam">{{company.nip}}</td>
+                <th class="tg-7cam">{{company.address}}</td>
+          </tr>
+{% endfor %}
+<div class="pagination">
+            <span class="step-links">
+                <b>Page: </b>
+                {% if companys_list.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ companys_list.previous_page_number }}">previous</a>
+                {% endif %}
+
+                            {% for i in companys_list.paginator.page_range %}
+                  {% if companys_list.number == i %}
+                      <span class="active"><span>Page: {{ i }} <span class="sr-only">(current)</span></span></span>
+                  {% else %}
+                    <a href="?page={{ i }}">{{ i }}</a>
+                  {% endif %}
+                {% endfor %}
+
+                {% if companys_list.has_next %}
+                    <a href="?page={{ companys_list.next_page_number }}">next</a>
+                    <a href="?page={{ companys_list.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+</tbody>
+</table>
+
+
+{% if user.is_authenticated %}
+        <label><a href="../company/add/" >Add company</a></label>
+{% endif %}
+{% endblock %}

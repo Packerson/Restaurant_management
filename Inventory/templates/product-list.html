@@ -18,7 +18,9 @@
   </tr>
 </thead>
 <tbody>
-  <tr>  {% for product in products %}
+  <tr>  {% for product in products_list %}
+
+
         <td class="tg-7cam">{{product.id}}</td>
         <th class="tg-7cam"><a href="../product/{{product.id}}"> {{product.name}} (Edit)</a></td>
         <th class="tg-7cam">{{product.get_unit_display}}</td>
@@ -26,14 +28,35 @@
         <th class="tg-7cam">{{product.gross_price}}</td>
         <th class="tg-7cam">{{product.net_price}}</td>
         <th class="tg-7cam">{{product.date}}</td>
-
   </tr>
 {% endfor %}
-</tbody>
+        <div class="pagination">
+            <span class="step-links">
+                <b>Page: </b>
+                {% if products_list.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ products_list.previous_page_number }}">previous</a>
+                {% endif %}
+
+                            {% for i in products_list.paginator.page_range %}
+                  {% if products_list.number == i %}
+                      <span class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></span>
+                  {% else %}
+                    <a href="?page={{ i }}">{{ i }}</a>
+                  {% endif %}
+                {% endfor %}
+
+                {% if products_list.has_next %}
+                    <a href="?page={{ products_list.next_page_number }}">next</a>
+                    <a href="?page={{ products_list.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </tbody>
 </table>
 
 
 {% if user.is_authenticated %}
-        <label><a href="../add_product/" >Add product</a></label>
+        <label><a href="../product/add/" >Add product</a></label>
 {% endif %}
 {% endblock %}
