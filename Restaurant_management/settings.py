@@ -74,15 +74,6 @@ WSGI_APPLICATION = 'Restaurant_management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'HOST': '127.0.0.1',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Restaurant_management',
-        'USER': 'postgres',
-        'PASSWORD': 'coderslab',
-    }
-}
 
 
 # Password validation
@@ -125,3 +116,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+try:
+    from Restaurant_management.local_settings import DATABASES
+except ModuleNotFoundError:
+    print("No database configuration in local_settings.py!")
+    print("Update data and try again!")
+    exit(0)
