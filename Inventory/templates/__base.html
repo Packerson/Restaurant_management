@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head><meta charset="utf-8">
+        <title>Restaurant XYZ </title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+    <body>
+    <div class="logo-img">
+        <img src="/static/images/label-restaurant.png" alt="logo">
+    </div>
+
+
+
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>
+
+
