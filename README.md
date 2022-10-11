@@ -31,6 +31,6 @@ Inventory aplication for restaurant
 	recipe/{id}			Information about recipe, update, delete
 	recipe/add			Add recipe
 
-## Helpful commands
+## Helpfull commands
 
 	python manage.py add_products - add 150products
