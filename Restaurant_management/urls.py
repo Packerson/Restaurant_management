@@ -16,8 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from Inventory.views import ProductView, ProductAddView, ProductEdit, \
-    ProductDelete, home, login_view, logout_view, add_user_view
+from Inventory.views import ProductView, ProductAddView, ProductUpdateView, \
+    ProductDeleteView, home, login_view, logout_view, add_user_view, CompanyAddView, \
+    CompanyListView, CompanyUpdateView, CompanyDelete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,8 +26,19 @@ urlpatterns = [
     path('register/', add_user_view, name='register'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
+
+
     path('product/', ProductView.as_view(), name='product_list'),
     path('product/add/', ProductAddView.as_view(), name='product_add'),
-    path('product/<int:pk>/', ProductEdit.as_view(), name='product_edit'),
-    path('product/delete/<int:pk>', ProductDelete.as_view(), name='product-delete')
+    path('product/<int:pk>/', ProductUpdateView.as_view(), name='product_edit'),
+    path('product/delete/<int:pk>', ProductDeleteView.as_view(),
+         name='product-delete'),
+
+
+    path('company/', CompanyListView.as_view(), name='company_list'),
+    path('company/add/', CompanyAddView.as_view(), name='company_add'),
+    path('company/<int:pk>/', CompanyUpdateView.as_view(), name='company_edit'),
+    path('company/delete/<int:pk>', CompanyDelete.as_view(),
+         name='company-delete'),
+
 ]
