@@ -3,6 +3,7 @@
 {% block content %}
     <form action="" method="post">
         {% csrf_token %}
+        <label>{{invoice.number}}</label>
          {{ form}}
         <input type="submit" value="Wyślij">
     </form>

@@ -12,12 +12,11 @@ from Inventory.forms import ProductForm, AddUserForm, \
 from Inventory.models import Product, Company, Invoice, ProductQuantity
 
 """Pamiętać!"""
-"""zrobic od nowa migrację, 
-    widok InvoiceUpdate powinien wyświetlać fakturę na sztywno, i
-    następnie ze szczegółowej listy produktów towar i jego ilość 
-    będzie można dodać do faktury
-    ZMIENIĆ NAZWĘ ProductQuantity na InvoiceDetails czy coś w tym stylu"""
+"""Product update i Company update, zwraca błąd gdy jest 
+    update tych samych wartość, poodobnie przy update produktow w fakturze
+    ,"""
 
+"""Ask mentor about changing password for all users for themself"""
 
 
 def home(request):
@@ -58,9 +57,6 @@ def add_user_view(request):
         else:
             messages.warning(request, form.errors)
             return render(request, "add_user.html", {"form": AddUserForm()})
-
-
-"""Ask mentor about changing password for all users"""
 
 
 @login_required
@@ -260,13 +256,9 @@ class InvoiceAdd(View):
             if form.is_valid():
                 company_form = form.cleaned_data['company']
                 company = Company.objects.get(name=company_form)
-                # product_form = form.cleaned_data['products']
-                # product = Product.objects.filter(name=product_form)
                 invoice = Invoice.objects.create(number=form.cleaned_data['number'],
                                                  company=company,
-
                                                  date=form.cleaned_data['date'])
-                # invoice.products.set(product)
                 form = InvoiceForm()
                 context = {'form': form, 'message': 'Invoice added'}
                 return render(request, 'invoice_add.html', context)
@@ -275,13 +267,30 @@ class InvoiceAdd(View):
 
 
 class InvoiceView(View):
-
     pass
+
 
 class InvoiceUpdate(View):
     def get(self, request, pk):
         form = InvoiceDetailsForm()
-        context = {'form': form}
+        invoice = Invoice.objects.get(pk=pk)
+        context = {'form': form, 'invoice': invoice}
+        return render(request, 'Invoice_update.html', context)
+
+    def post(self, request, pk):
+        form = InvoiceDetailsForm(request.POST)
+        invoice = Invoice.objects.get(pk=pk)
+        if form.is_valid():
+            product = form.cleaned_data['product']
+            quantity = form.cleaned_data['quantity']
+            product_quantity = ProductQuantity.objects.create(product=product,
+                                                              invoice=invoice,
+                                                              quantity=quantity
+                                                              )
+            context = {'form': form, 'message': 'Product added', 'invoice': invoice}
+            return render(request, 'Invoice_update.html', context)
+        context = {'message': 'something went wrong', 'form': InvoiceDetailsForm(),
+                   'invoice': invoice}
         return render(request, 'Invoice_update.html', context)
 
 
