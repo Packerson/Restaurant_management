@@ -19,7 +19,7 @@ from django.urls import path
 from Inventory.views import ProductView, ProductAddView, ProductUpdateView, \
     ProductDeleteView, home, login_view, logout_view, add_user_view, \
     change_password_view, CompanyAddView, CompanyListView, CompanyUpdateView, \
-    CompanyDelete, InvoiceView, InvoiceAdd, InvoiceUpdate, InvoiceDelete
+    CompanyDelete, InvoiceListView, InvoiceAdd, InvoiceAddProduct, InvoiceDelete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -41,9 +41,9 @@ urlpatterns = [
     path('company/delete/<int:pk>', CompanyDelete.as_view(),
          name='company-delete'),
 
-    path('invoice/', InvoiceView.as_view(), name='invoice_list'),
+    path('invoice/', InvoiceListView.as_view(), name='invoice_list'),
     path('invoice/add/', InvoiceAdd.as_view(), name='invoice_add'),
-    path('invoice/<int:pk>/', InvoiceUpdate.as_view(), name='invoice_edit'),
+    path('invoice/<int:pk>/', InvoiceAddProduct.as_view(), name='invoice_edit'),
     path('invoice/delete/<int:pk>', InvoiceDelete.as_view(),
          name='invoice-delete'),
 ]

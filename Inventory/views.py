@@ -12,12 +12,10 @@ from Inventory.forms import ProductForm, AddUserForm, \
 from Inventory.models import Product, Company, Invoice, ProductQuantity
 
 """Pamiętać!"""
-"""zrobic od nowa migrację, 
-    widok InvoiceUpdate powinien wyświetlać fakturę na sztywno, i
-    następnie ze szczegółowej listy produktów towar i jego ilość 
-    będzie można dodać do faktury
-    ZMIENIĆ NAZWĘ ProductQuantity na InvoiceDetails czy coś w tym stylu"""
-
+"""Dodać ograniczenia w dodawaniu faktur tak by nie można było dodać faktury z przyszłości"""
+"""Przy dodaniu produktu do faktury nie wyświetla się on od razu po dodaniu,
+ lecz z opóźnieniem jednego produktu"""
+"""Ask mentor about changing password for all users for themself"""
 
 
 def home(request):
@@ -58,9 +56,6 @@ def add_user_view(request):
         else:
             messages.warning(request, form.errors)
             return render(request, "add_user.html", {"form": AddUserForm()})
-
-
-"""Ask mentor about changing password for all users"""
 
 
 @login_required
@@ -127,7 +122,7 @@ class ProductUpdateView(View):
                 product = Product.objects.get(pk=pk)
                 form = ProductForm(initial=
                                    {'name': product.name, 'unit': product.unit,
-                                    'quantity': product.quantity,
+                                    'amount': product.amount,
                                     'gross_price': product.gross_price,
                                     'net_price': product.net_price})
                 context = {'form': form, 'product': product}
@@ -138,22 +133,19 @@ class ProductUpdateView(View):
             return render(request, 'product-update.html', context)
 
     def post(self, request, pk):
-        form = ProductForm(request.POST)
+        product = Product.objects.get(pk=pk)
+        form = ProductForm(request.POST, instance=product)
         context = {'form': form}
         if form.is_valid():
             gross_price = form.cleaned_data['gross_price']
             net_price = form.cleaned_data['net_price']
             if gross_price > net_price:
-                product = Product.objects.get(pk=pk)
-                product.name = form.cleaned_data['name']
-                product.unit = int(form.cleaned_data['unit'])
-                product.quantity = form.cleaned_data['quantity']
-                product.gross_price = form.cleaned_data['gross_price']
-                product.net_price = form.cleaned_data['net_price']
                 product.save()
                 context['message'] = 'product update'
                 return render(request, 'product-update.html', context)
             context['message'] = 'gross price has to be bigger than net'
+            return render(request, 'product-update.html', context)
+        context['message'] = 'something went wrong'
         return render(request, 'product-update.html', context)
 
 
@@ -221,13 +213,10 @@ class CompanyUpdateView(View):
             return render(request, 'company_update.html', context)
 
     def post(self, request, pk):
-        form = CompanyForm(request.POST)
+        company = Company.objects.get(pk=pk)
+        form = CompanyForm(request.POST, instance=company)
         context = {'form': form}
         if form.is_valid():
-            company = Company.objects.get(pk=pk)
-            company.name = form.cleaned_data['name']
-            company.nip = int(form.cleaned_data['nip'])
-            company.address = form.cleaned_data['address']
             company.save()
             context['message'] = 'Company update'
             return render(request, 'company_update.html', context)
@@ -260,13 +249,9 @@ class InvoiceAdd(View):
             if form.is_valid():
                 company_form = form.cleaned_data['company']
                 company = Company.objects.get(name=company_form)
-                # product_form = form.cleaned_data['products']
-                # product = Product.objects.filter(name=product_form)
                 invoice = Invoice.objects.create(number=form.cleaned_data['number'],
                                                  company=company,
-
                                                  date=form.cleaned_data['date'])
-                # invoice.products.set(product)
                 form = InvoiceForm()
                 context = {'form': form, 'message': 'Invoice added'}
                 return render(request, 'invoice_add.html', context)
@@ -274,14 +259,61 @@ class InvoiceAdd(View):
             return render(request, 'invoice_add.html', context)
 
 
-class InvoiceView(View):
+class InvoiceListView(View):
+    def get(self, request):
+        invoices = Invoice.objects.order_by('-date')
+        ctx = {'invoices': invoices}
+        if len(invoices) == 0:
+            ctx['message'] = 'No invoices in base'
 
-    pass
+        """tworzenie paginacji i warunek 50 przepisów na stronę"""
+        paginator = Paginator(invoices, 50)
+        page = request.GET.get('page')
+        invoices_list = paginator.get_page(page)
+        ctx = {'invoices_list': invoices_list}
+        return render(request, "invoice_list.html", ctx)
 
-class InvoiceUpdate(View):
+
+class InvoiceAddProduct(View):
+    """Add product to invoice"""
     def get(self, request, pk):
         form = InvoiceDetailsForm()
-        context = {'form': form}
+        invoice = Invoice.objects.get(pk=pk)
+        products_list = ProductQuantity.objects.filter(invoice=pk)
+        """loop for showing gross and net value in templates"""
+        result_total = []
+        for result in products_list:
+            gross = round(result.amount * result.product.gross_price, 2)
+            net = round(result.amount * result.product.net_price, 2)
+            result_total.append((gross, net))
+        total = zip(products_list, result_total)
+        context = {'form': form, 'invoice': invoice,
+                   'total': total}
+        return render(request, 'Invoice_update.html', context)
+
+    def post(self, request, pk):
+        form = InvoiceDetailsForm(request.POST)
+        invoice = Invoice.objects.get(pk=pk)
+        products_list = ProductQuantity.objects.filter(invoice=pk)
+        result_total = []
+        for result in products_list:
+            gross = round(result.amount * result.product.gross_price, 2)
+            net = round(result.amount * result.product.net_price, 2)
+            result_total.append((gross, net))
+        total = zip(products_list, result_total)
+
+        if form.is_valid():
+            product = form.cleaned_data['product']
+            amount = form.cleaned_data['amount']
+            product_quantity = ProductQuantity.objects.create(product=product,
+                                                              invoice=invoice,
+                                                              amount=amount
+                                                              )
+            context = {'form': form, 'message': 'Product added', 'invoice': invoice,
+                       'total': total}
+            return render(request, 'Invoice_update.html', context)
+        context = {'message': 'something went wrong', 'form': InvoiceDetailsForm(),
+                   'invoice': invoice, 'total': total}
         return render(request, 'Invoice_update.html', context)
 
 
