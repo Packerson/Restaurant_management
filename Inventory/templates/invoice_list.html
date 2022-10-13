@@ -1,10 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends '__base.html' %}
 
-</body>
-</html>
+{% block content %}
+
+{% if user.is_authenticated %}
+        <label><a href="../invoice/add/" >Add invoice</a></label>
+{% endif %}
+
+
+        <h2>Invoices list: </h2>
+
+    <table class="tg">
+        {{ message }}
+
+<thead>
+  <tr>
+    <th class="tg-7cam">ID</th>
+    <th class="tg-7cam">Number</th>
+    <th class="tg-7cam">Company</th>
+    <th class="tg-7cam">Added date</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>  {% for invoice in invoices_list %}
+
+
+        <td class="tg-7cam">{{invoice.id}}</td>
+        <th class="tg-7cam"><a href="../invoice/{{invoice.id}}">
+            {{invoice.number}} (Edit)</a></td>
+        <th class="tg-7cam">{{invoice.company}}</td>
+        <th class="tg-7cam">{{invoice.date}}</td>
+
+  </tr>
+{% endfor %}
+        <div class="pagination">
+            <span class="step-links">
+                <b>Page: </b>
+                {% if invoices_list.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ invoices_list.previous_page_number }}">previous</a>
+                {% endif %}
+
+                            {% for i in invoices_list.paginator.page_range %}
+                  {% if invoices_list.number == i %}
+                      <span class="active"><span>{{ i }} <span class="sr-only">(current)
+                      </span></span></span>
+                  {% else %}
+                    <a href="?page={{ i }}">{{ i }}</a>
+                  {% endif %}
+                {% endfor %}
+
+                {% if invoices_list.has_next %}
+                    <a href="?page={{ invoices_list.next_page_number }}">next</a>
+                    <a href="?page={{ invoices_list.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </tbody>
+</table>
+
+
+{% endblock %}

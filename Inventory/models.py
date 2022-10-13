@@ -1,4 +1,4 @@
-from django.core.validators import RegexValidator, MaxLengthValidator
+from django.core.validators import RegexValidator, MaxLengthValidator, MinValueValidator
 from django.db import models
 
 CAPACITY_CHOICES = (
@@ -20,16 +20,16 @@ class Company(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=255)
     unit = models.CharField(max_length=10, choices=CAPACITY_CHOICES)
-    quantity = models.DecimalField(max_digits=10, decimal_places=4)
-    gross_price = models.DecimalField(max_digits=10, decimal_places=2)
-    net_price = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.FloatField(validators=[MinValueValidator(0, 0)])
+    gross_price = models.FloatField(validators=[MinValueValidator(0, 0)])
+    net_price = models.FloatField(validators=[MinValueValidator(0, 0)])
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.name}, {self.unit}"
 
     class Meta:
-        unique_together = ['name', 'quantity']
+        unique_together = ['name', 'amount']
 
 
 class Invoice(models.Model):
@@ -45,7 +45,7 @@ class Invoice(models.Model):
 class ProductQuantity(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
-    quantity = models.DecimalField(max_digits=15, decimal_places=4)
+    amount = models.FloatField(validators=[MinValueValidator(0, 0)])
 
     class Meta:
         unique_together = ['product', 'invoice']
@@ -54,7 +54,7 @@ class ProductQuantity(models.Model):
 class Inventory(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     invoice = models.ForeignKey('Invoice', on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=15, decimal_places=4)
+    amount = models.FloatField(validators=[MinValueValidator(0, 0)])
     date = models.DateField(auto_now_add=True)
 
 

@@ -10,7 +10,7 @@ choices = ["QTY", "L",  "KG"]
 def add_products():
     for i in range(1, 150):
         Product.objects.create(name=f'Product{i}', unit=random.choice(choices),
-                               quantity=(i + i / 100), gross_price=(i + i / 100) + 5,
+                               amount=(3 + i / 100), gross_price=(i + i / 100) + 5,
                                net_price=(i + i / 100))
 
 
