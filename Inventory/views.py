@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.db import transaction
 from django.shortcuts import render, redirect
@@ -12,10 +11,12 @@ from Inventory.forms import ProductForm, AddUserForm, \
 from Inventory.models import Product, Company, Invoice, ProductQuantity
 
 """Pamiętać!"""
+# zmienić invoiceAddProduct, zrobić metode statyczną!
+# zrobić metodę statyczną  do netto i brutto w InvoiceProduct
+# zmienić wszędzie hiperlinki
+
+"""Dodać alerty w momencie dodania po raz drugi tego samego produktu do faktury"""
 """Dodać ograniczenia w dodawaniu faktur tak by nie można było dodać faktury z przyszłości"""
-"""Przy dodaniu produktu do faktury nie wyświetla się on od razu po dodaniu,
- lecz z opóźnieniem jednego produktu"""
-"""Ask mentor about changing password for all users for themself"""
 
 
 def home(request):
@@ -60,9 +61,10 @@ def add_user_view(request):
 
 @login_required
 @transaction.atomic
-def change_password_view(request, pk):
-    if not request.user.has_perm("auth.change_user") or request.user.id != pk:
-        raise PermissionDenied()
+def change_password_view(request):
+    # zastanowić się nad tym
+    # if not request.user.has_perm("auth.change_user") or request.user.id != int(pk):
+    #     raise PermissionDenied()
 
     if request.method == "GET":
         return render(request, "change_password.html",
@@ -274,44 +276,48 @@ class InvoiceListView(View):
         return render(request, "invoice_list.html", ctx)
 
 
+
+
+
 class InvoiceAddProduct(View):
     """Add product to invoice"""
-    def get(self, request, pk):
-        form = InvoiceDetailsForm()
-        invoice = Invoice.objects.get(pk=pk)
-        products_list = ProductQuantity.objects.filter(invoice=pk)
-        """loop for showing gross and net value in templates"""
+    @staticmethod
+    def result_total(self):
         result_total = []
+        invoice = Invoice.objects.get(pk=self)
+        products_list = ProductQuantity.objects.filter(invoice=self)
         for result in products_list:
             gross = round(result.amount * result.product.gross_price, 2)
             net = round(result.amount * result.product.net_price, 2)
             result_total.append((gross, net))
         total = zip(products_list, result_total)
-        context = {'form': form, 'invoice': invoice,
+        context = {'invoice': invoice,
                    'total': total}
+
+    def get(self, request, pk):
+        form = InvoiceDetailsForm()
+
+        """loop for showing gross and net value in templates"""
+        context = {'form': form}
         return render(request, 'Invoice_update.html', context)
 
     def post(self, request, pk):
-        form = InvoiceDetailsForm(request.POST)
         invoice = Invoice.objects.get(pk=pk)
         products_list = ProductQuantity.objects.filter(invoice=pk)
-        result_total = []
-        for result in products_list:
-            gross = round(result.amount * result.product.gross_price, 2)
-            net = round(result.amount * result.product.net_price, 2)
-            result_total.append((gross, net))
-        total = zip(products_list, result_total)
-
+        form = InvoiceDetailsForm(request.POST)
         if form.is_valid():
             product = form.cleaned_data['product']
             amount = form.cleaned_data['amount']
-            product_quantity = ProductQuantity.objects.create(product=product,
-                                                              invoice=invoice,
-                                                              amount=amount
-                                                              )
-            context = {'form': form, 'message': 'Product added', 'invoice': invoice,
-                       'total': total}
-            return render(request, 'Invoice_update.html', context)
+            # tak albo robić update produktu
+            if not ProductQuantity.objects.filter(product=product).filter(invoice=invoice):
+                product_quantity = ProductQuantity.objects.create(product=product,
+                                                                  invoice=invoice,
+                                                                  amount=amount
+                                                                  )
+                invoice.refresh_from_db()
+                context = {'form': form, 'message': 'Product added', 'invoice': invoice,
+                           'total': total}
+                return render(request, 'Invoice_update.html', context)
         context = {'message': 'something went wrong', 'form': InvoiceDetailsForm(),
                    'invoice': invoice, 'total': total}
         return render(request, 'Invoice_update.html', context)

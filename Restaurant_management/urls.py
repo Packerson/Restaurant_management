@@ -27,7 +27,7 @@ urlpatterns = [
     path('register/', add_user_view, name='register'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
-    path('password/<int:pk>', change_password_view, name="change_password"),
+    path('password/', change_password_view, name="change_password"),
 
     path('product/', ProductView.as_view(), name='product_list'),
     path('product/add/', ProductAddView.as_view(), name='product_add'),
