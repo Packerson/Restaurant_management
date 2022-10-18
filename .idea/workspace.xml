@@ -2,18 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="69b563b4-1177-4b01-b632-db5e2c918b95" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Inventory/templates/inventory.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/Invoice_update.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/Invoice_update.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/__base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/__base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/company_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/company_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/templates/invoice_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/invoice_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/product-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/product-list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Restaurant_management/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Restaurant_management/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -30,6 +37,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
@@ -44,7 +52,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1666107941798</updated>
-      <workItem from="1666107944864" duration="4649000" />
+      <workItem from="1666107944864" duration="9859000" />
     </task>
     <servers />
   </component>

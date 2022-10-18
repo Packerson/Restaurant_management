@@ -7,13 +7,20 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from Inventory.forms import ProductForm, AddUserForm, \
-    PasswordChange, CompanyForm, InvoiceForm, InvoiceDetailsForm
-from Inventory.models import Product, Company, Invoice, ProductQuantity
+    PasswordChange, CompanyForm, InvoiceForm, InvoiceDetailsForm, \
+    InventoryForm
+from Inventory.models import Product, Company, Invoice, ProductQuantity, \
+    Inventory
 
 """Pamiętać!"""
 
-"""Dodać alerty w momencie dodania po raz drugi tego samego produktu do faktury"""
-"""Dodać ograniczenia w dodawaniu faktur tak by nie można było dodać faktury z przyszłości"""
+"""widok InventoryView (dodać kilka produktów na magazyn, i 
+    spróbować później dodać całą fakturę z listy faktur  """
+"""dodać opcję edytowania istniejącej faktury"""
+"""Dodać alerty w momencie dodania po raz drugi tego samego produktu do 
+        faktury/update/edycja faktury faktury"""
+"""Dodać ograniczenia w dodawaniu faktur tak by nie można było dodać faktury 
+        z przyszłości"""
 
 
 def home(request):
@@ -236,6 +243,7 @@ class CompanyDelete(View):
 
 class InvoiceAdd(View):
     """add invoice to database"""
+
     def get(self, request):
         form = InvoiceForm()
         context = {'form': form}
@@ -304,26 +312,47 @@ class InvoiceAddProduct(View):
 
     def post(self, request, pk):
         form = InvoiceDetailsForm(request.POST)
+        context = InvoiceAddProduct.result_total(pk)
         if form.is_valid():
             invoice = Invoice.objects.get(pk=pk)
-            products_list = ProductQuantity.objects.filter(invoice=pk)
             product = form.cleaned_data['product']
             amount = form.cleaned_data['amount']
             # tak albo robić update produktu
-            if not ProductQuantity.objects.filter(product=product).filter(invoice=invoice):
-                product_quantity = ProductQuantity.objects.create(product=product,
-                                                                  invoice=invoice,
-                                                                  amount=amount
-                                                                  )
+            if not ProductQuantity.objects.filter(product=product).filter \
+                        (invoice=invoice):
+                ProductQuantity.objects.create(product=product, invoice=invoice,
+                                               amount=amount)
                 context = InvoiceAddProduct.result_total(pk)
                 context2 = {'form': form, 'message': 'Product added'}
                 context.update(context2)
                 return render(request, 'Invoice_update.html', context)
-        context = InvoiceAddProduct.result_total(pk)
+
+            # dodać update produktu!!!!!!
+            context = InvoiceAddProduct.result_total(pk)
+            context2 = {'form': form, 'message': 'Product updated!'}
+            context.update(context2)
+            return render(request, 'Invoice_update.html', context)
+
         context2 = {'message': 'something went wrong', 'form': InvoiceDetailsForm()}
         context.update(context2)
         return render(request, 'Invoice_update.html', context)
 
 
 class InvoiceDelete(View):
-    pass
+    def get(self, request, pk):
+        with transaction.atomic():
+            if Invoice.objects.filter(pk=pk).exists():
+                Invoice.objects.filter(pk=pk).delete()
+                ctx = {'message': "Invoice deleted"}
+                return redirect('invoice_list')
+            ctx = {'message': "There is no Invoice with this ID"}
+            return render(request, 'invoice_list.html', ctx)
+
+
+class InventoryView(View):
+    def get(self, request, ):
+        form = InventoryForm()
+        inventory = Inventory.objects.all()
+
+        context = {'form': form, 'inventory': inventory}
+        return render(request, 'inventory.html', context)
