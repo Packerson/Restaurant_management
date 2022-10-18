@@ -23,6 +23,8 @@
 <tbody>
   <tr>  {% for invoice in invoices_list %}
 
+            {{ message }}
+
 
         <td class="tg-7cam">{{invoice.id}}</td>
         <th class="tg-7cam"><a href="{% url 'invoice_edit' pk=invoice.id %}">
