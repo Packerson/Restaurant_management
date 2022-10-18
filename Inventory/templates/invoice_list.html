@@ -25,7 +25,7 @@
 
 
         <td class="tg-7cam">{{invoice.id}}</td>
-        <th class="tg-7cam"><a href="../invoice/{{invoice.id}}">
+        <th class="tg-7cam"><a href="{% url 'invoice_edit' pk=invoice.id %}">
             {{invoice.number}} (Edit)</a></td>
         <th class="tg-7cam">{{invoice.company}}</td>
         <th class="tg-7cam">{{invoice.date}}</td>

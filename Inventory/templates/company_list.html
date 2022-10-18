@@ -22,7 +22,7 @@
         <tbody>
           <tr>  {% for company in companys_list %}
                 <td class="tg-7cam">{{company.id}}</td>
-                <th class="tg-7cam"><a href="../company/{{company.id}}"> {{company.name}} (Edit)</a></td>
+                <th class="tg-7cam"><a href="{% url 'company_edit' pk=company.id %}" > {{company.name}} (Edit)</a></td>
                 <th class="tg-7cam">{{company.nip}}</td>
                 <th class="tg-7cam">{{company.address}}</td>
           </tr>
