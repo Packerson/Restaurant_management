@@ -11,9 +11,6 @@ from Inventory.forms import ProductForm, AddUserForm, \
 from Inventory.models import Product, Company, Invoice, ProductQuantity
 
 """Pamiętać!"""
-# zmienić invoiceAddProduct, zrobić metode statyczną!
-# zrobić metodę statyczną  do netto i brutto w InvoiceProduct
-# zmienić wszędzie hiperlinki
 
 """Dodać alerty w momencie dodania po raz drugi tego samego produktu do faktury"""
 """Dodać ograniczenia w dodawaniu faktur tak by nie można było dodać faktury z przyszłości"""
@@ -238,12 +235,14 @@ class CompanyDelete(View):
 
 
 class InvoiceAdd(View):
+    """add invoice to database"""
     def get(self, request):
         form = InvoiceForm()
         context = {'form': form}
         return render(request, 'invoice_add.html', context)
 
     def post(self, request):
+        """pDict allow to upodate form """
         pDict = request.POST.copy()
         form = InvoiceForm(pDict)
         context = {'form': form}
@@ -262,13 +261,15 @@ class InvoiceAdd(View):
 
 
 class InvoiceListView(View):
+    """Invoice list"""
+
     def get(self, request):
+        """Order invoices by creating date"""
         invoices = Invoice.objects.order_by('-date')
         ctx = {'invoices': invoices}
         if len(invoices) == 0:
             ctx['message'] = 'No invoices in base'
-
-        """tworzenie paginacji i warunek 50 przepisów na stronę"""
+        """create pagination and conditions 50 elements on page"""
         paginator = Paginator(invoices, 50)
         page = request.GET.get('page')
         invoices_list = paginator.get_page(page)
@@ -276,16 +277,15 @@ class InvoiceListView(View):
         return render(request, "invoice_list.html", ctx)
 
 
-
-
-
 class InvoiceAddProduct(View):
     """Add product to invoice"""
+
     @staticmethod
-    def result_total(self):
+    def result_total(pk):
+        """Static method for calculate total gross and net value"""
         result_total = []
-        invoice = Invoice.objects.get(pk=self)
-        products_list = ProductQuantity.objects.filter(invoice=self)
+        invoice = Invoice.objects.get(pk=pk)
+        products_list = ProductQuantity.objects.filter(invoice=pk)
         for result in products_list:
             gross = round(result.amount * result.product.gross_price, 2)
             net = round(result.amount * result.product.net_price, 2)
@@ -293,19 +293,20 @@ class InvoiceAddProduct(View):
         total = zip(products_list, result_total)
         context = {'invoice': invoice,
                    'total': total}
+        return context
 
     def get(self, request, pk):
         form = InvoiceDetailsForm()
-
         """loop for showing gross and net value in templates"""
-        context = {'form': form}
+        context = InvoiceAddProduct.result_total(pk)
+        context['form'] = form
         return render(request, 'Invoice_update.html', context)
 
     def post(self, request, pk):
-        invoice = Invoice.objects.get(pk=pk)
-        products_list = ProductQuantity.objects.filter(invoice=pk)
         form = InvoiceDetailsForm(request.POST)
         if form.is_valid():
+            invoice = Invoice.objects.get(pk=pk)
+            products_list = ProductQuantity.objects.filter(invoice=pk)
             product = form.cleaned_data['product']
             amount = form.cleaned_data['amount']
             # tak albo robić update produktu
@@ -314,12 +315,13 @@ class InvoiceAddProduct(View):
                                                                   invoice=invoice,
                                                                   amount=amount
                                                                   )
-                invoice.refresh_from_db()
-                context = {'form': form, 'message': 'Product added', 'invoice': invoice,
-                           'total': total}
+                context = InvoiceAddProduct.result_total(pk)
+                context2 = {'form': form, 'message': 'Product added'}
+                context.update(context2)
                 return render(request, 'Invoice_update.html', context)
-        context = {'message': 'something went wrong', 'form': InvoiceDetailsForm(),
-                   'invoice': invoice, 'total': total}
+        context = InvoiceAddProduct.result_total(pk)
+        context2 = {'message': 'something went wrong', 'form': InvoiceDetailsForm()}
+        context.update(context2)
         return render(request, 'Invoice_update.html', context)
 
 
