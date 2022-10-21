@@ -43,6 +43,7 @@
     <th class="tg-7cam">net price</th>
     <th class="tg-7cam">Total gross</th>
     <th class="tg-7cam">Total net</th>
+    <th class="tg-7cam">Delete</th>
 
   </tr>
 </thead>
@@ -59,6 +60,7 @@
         <th class="tg-7cam"> {{product.product.net_price}}</td>
         <th class="tg-7cam"> {{result.0}}</td>
         <th class="tg-7cam"> {{result.1}}</td>
+        <th class="tg-7cam"> <a href="{% url 'invoice_product_delete' pk=product.id %}"> {{product.id}} (Edit)</a></td>
 
 
   </tr>
