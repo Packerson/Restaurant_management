@@ -20,7 +20,7 @@ from Inventory.views import ProductView, ProductAddView, ProductUpdateView, \
     ProductDeleteView, home, login_view, logout_view, add_user_view, \
     change_password_view, CompanyAddView, CompanyListView, CompanyUpdateView, \
     CompanyDelete, InvoiceListView, InvoiceAdd, InvoiceAddProduct, InvoiceDelete, \
-    InventoryView
+    InventoryView, InvoiceDeleteProduct
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -47,6 +47,8 @@ urlpatterns = [
     path('invoice/<int:pk>/', InvoiceAddProduct.as_view(), name='invoice_edit'),
     path('invoice/delete/<int:pk>', InvoiceDelete.as_view(),
          name='invoice_delete'),
+    path('invoice/product/delete/<int:pk>', InvoiceDeleteProduct.as_view(),
+         name='invoice_product_delete'),
 
     path('inventory/', InventoryView.as_view(), name='inventory_list')
 ]

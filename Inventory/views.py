@@ -16,9 +16,8 @@ from Inventory.models import Product, Company, Invoice, ProductQuantity, \
 
 """widok InventoryView (dodać kilka produktów na magazyn, i 
     spróbować później dodać całą fakturę z listy faktur  """
-"""dodać opcję edytowania istniejącej faktury"""
-"""Dodać alerty w momencie dodania po raz drugi tego samego produktu do 
-        faktury/update/edycja faktury faktury"""
+"""Jak dodać messages do redirect"""
+
 """Dodać ograniczenia w dodawaniu faktur tak by nie można było dodać faktury 
         z przyszłości"""
 
@@ -327,7 +326,6 @@ class InvoiceAddProduct(View):
                 context.update(context2)
                 return render(request, 'Invoice_update.html', context)
 
-            # dodać update produktu!!!!!!
             context = InvoiceAddProduct.result_total(pk)
             context2 = {'form': form, 'message': 'Product updated!'}
             context.update(context2)
@@ -336,6 +334,19 @@ class InvoiceAddProduct(View):
         context2 = {'message': 'something went wrong', 'form': InvoiceDetailsForm()}
         context.update(context2)
         return render(request, 'Invoice_update.html', context)
+
+
+class InvoiceDeleteProduct(View):
+    def get(self, request, pk):
+        with transaction.atomic():
+            if ProductQuantity.objects.filter(pk=pk).exists():
+                product = ProductQuantity.objects.get(pk=pk)
+                invoice_id = product.invoice.id
+                product.delete()
+                ctx = {'message': "Product deleted"}
+                return redirect('invoice_edit', pk=invoice_id)
+            ctx = {'message': "There is no product with this ID"}
+            return render(request, 'Invoice_update.html', ctx)
 
 
 class InvoiceDelete(View):
@@ -353,6 +364,5 @@ class InventoryView(View):
     def get(self, request, ):
         form = InventoryForm()
         inventory = Inventory.objects.all()
-
         context = {'form': form, 'inventory': inventory}
         return render(request, 'inventory.html', context)
