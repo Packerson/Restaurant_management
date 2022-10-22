@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="69b563b4-1177-4b01-b632-db5e2c918b95" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/templates/Invoice_update.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/Invoice_update.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/templates/inventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/inventory.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,7 +51,7 @@
       <updated>1666107941798</updated>
       <workItem from="1666107944864" duration="9859000" />
       <workItem from="1666370629480" duration="9296000" />
-      <workItem from="1666419987590" duration="20483000" />
+      <workItem from="1666419987590" duration="22949000" />
     </task>
     <servers />
   </component>
