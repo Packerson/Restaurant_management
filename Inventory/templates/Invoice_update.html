@@ -71,7 +71,7 @@
 
 {% if user.is_authenticated %}
 <!--      zrobić ukryty formularz z delete-->
-        <th class="tg-7cam"> <a href="{% url 'invoice_product_delete' pk=product.id %}"> {{product.id}} (Edit)</a></td>
+        <th class="tg-7cam"> <a href="{% url 'invoice_product_delete' pk=product.id %}"> delete</a></td>
 {% endif %}
 
   </tr>

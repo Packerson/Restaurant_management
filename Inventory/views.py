@@ -17,10 +17,13 @@ from Inventory.models import Product, Company, Invoice, ProductQuantity, \
 """widok InventoryView (dodać kilka produktów na magazyn, i 
     spróbować później dodać całą fakturę z listy faktur  """
 
+"""w przyszłości wyszukiwarka produktów i firm z bazy danych"""
+
+"""pomyśleć nad dodaniem zapytania ,czy na pewno usunąc ? w JavaScripcie?"""
+
+
 """update one to one , informacja że produkt już istnieje w bazie?????"""
-
 """ograniczenia w dodawaniu faktur powinny być w forms"""
-
 """Jak dodać messages do redirect"""
 
 
@@ -409,7 +412,8 @@ class InventoryView(View):
     def get(self, request, ):
         form = InventoryForm()
         inventory = Inventory.objects.all()
-        context = {'form': form, 'inventory': inventory}
+        invoices = Invoice.objects.order_by("-date")
+        context = {'form': form, 'inventory': inventory, 'invoices':invoices}
         return render(request, 'inventory.html', context)
 
     def post(self, request):
@@ -427,6 +431,7 @@ class InventoryView(View):
             updated_product = Inventory.objects.get(product=request.POST['product'])
             updated_product.amount = request.POST['amount']
             updated_product.save()
+        """maybe add invoice to inventory"""
         inventory = Inventory.objects.all()
         context = {'form': form, 'message': 'Product updated!',
                    'inventory': inventory}

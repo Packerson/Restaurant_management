@@ -1,7 +1,7 @@
 {% extends '__base.html' %}
 
 {% block content %}
-    <form action="" method="post">
+<form action="" method="post" xmlns="http://www.w3.org/1999/html">
         {% csrf_token %}
         <table class="tg">
 
@@ -77,5 +77,18 @@
             {{ form}}
          {% endif %}
     </form>
+
+<div>
+    <select>
+        <option value="Add invoice to inventory"> Select invoice: </option>
+        {% for invoice in invoices %}
+        <option value="{{invoice.number}}" >{{invoice.number}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Add invoice">
+
+</div>
+
+
 
 {% endblock %}
