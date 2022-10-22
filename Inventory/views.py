@@ -14,13 +14,17 @@ from Inventory.models import Product, Company, Invoice, ProductQuantity, \
 
 """Pamiętać!"""
 
+
+
 """widok InventoryView (dodać kilka produktów na magazyn, i 
     spróbować później dodać całą fakturę z listy faktur  """
-"""Jak dodać messages do redirect"""
+
+"""update one to one , informacja że produkt już istnieje w bazie?????"""
 
 """Dodać ograniczenia w dodawaniu faktur tak by nie można było dodać faktury 
         z przyszłości"""
 
+"""Jak dodać messages do redirect"""
 
 def home(request):
     return render(request, "main.html")
@@ -140,7 +144,7 @@ class ProductUpdateView(View):
     def post(self, request, pk):
         product = Product.objects.get(pk=pk)
         form = ProductForm(request.POST, instance=product)
-        context = {'form': form}
+        context = {'form': form, 'product': product}
         if form.is_valid():
             gross_price = form.cleaned_data['gross_price']
             net_price = form.cleaned_data['net_price']
@@ -155,16 +159,15 @@ class ProductUpdateView(View):
 
 
 class ProductDeleteView(View):
+
     def get(self, request, pk):
-        with transaction.atomic():
-            try:
-                if Product.objects.filter(pk=pk).exists():
-                    Product.objects.filter(pk=pk).delete()
-                    ctx = {'message': "product deleted"}
-                    return redirect('product_list')
-            except:
-                ctx = {'message': "There is no product with this ID"}
-                return render(request, 'product-list.html', ctx)
+        product_to_delete = Product.objects.get(pk=pk)
+        ctx = {'product_to_delete': product_to_delete}
+        return render(request, 'product_delete.html', ctx)
+
+    def post(self, request, pk):
+        Product.objects.filter(pk=pk).delete()
+        return redirect('product_list')
 
 
 class CompanyAddView(View):
@@ -220,24 +223,27 @@ class CompanyUpdateView(View):
     def post(self, request, pk):
         company = Company.objects.get(pk=pk)
         form = CompanyForm(request.POST, instance=company)
-        context = {'form': form}
+        context = {'form': form, 'company': company}
         if form.is_valid():
             company.save()
             context['message'] = 'Company update'
             return render(request, 'company_update.html', context)
+
         context['message'] = 'something goes wrong'
         return render(request, 'company_update.html', context)
 
 
 class CompanyDelete(View):
     def get(self, request, pk):
+        company_to_delete = Company.objects.get(pk=pk)
+        ctx = {'company_to_delete': company_to_delete}
+        return render(request, 'company_delete.html', ctx)
+
+    def post(self, request, pk):
         with transaction.atomic():
-            if Company.objects.filter(pk=pk).exists():
-                Company.objects.filter(pk=pk).delete()
-                ctx = {'message': "Company deleted"}
-                return redirect('company_list')
-            ctx = {'message': "There is no company with this ID"}
-            return render(request, 'company_list.html', ctx)
+            Company.objects.get(pk=pk).delete()
+            # ctx = {'message': "Company deleted"}
+            return redirect('company_list')
 
 
 class InvoiceAdd(View):
@@ -266,6 +272,27 @@ class InvoiceAdd(View):
             context['message'] = 'something went wrong'
             return render(request, 'invoice_add.html', context)
 
+
+class InvoiceUpdateView(View):
+    def get(self, request, pk):
+        invoice = Invoice.objects.get(pk=pk)
+        form = InvoiceForm(initial={'number': invoice.number,
+                                    'company': invoice.company,
+                                    'date': invoice.date})
+        context = {'form': form, 'invoice': invoice}
+        return render(request, 'invoice_add.html', context)
+
+    def post(self, request, pk):
+        invoice = Invoice.objects.get(pk=pk)
+        form = InvoiceForm(request.POST, instance=invoice)
+        context = {'form': form, 'invoice': invoice}
+        if form.is_valid():
+            invoice.save()
+            context['message'] = 'invoice update'
+            return render(request, 'invoice_add.html', context)
+
+        context['message'] = 'something went wrong'
+        return render(request, 'invoice_add.html', context)
 
 class InvoiceListView(View):
     """Invoice list"""
@@ -297,6 +324,7 @@ class InvoiceAddProduct(View):
             gross = round(result.amount * result.product.gross_price, 2)
             net = round(result.amount * result.product.net_price, 2)
             result_total.append((gross, net))
+            """zip for making liste list"""
         total = zip(products_list, result_total)
         context = {'invoice': invoice,
                    'total': total}
@@ -305,13 +333,13 @@ class InvoiceAddProduct(View):
     def get(self, request, pk):
         form = InvoiceDetailsForm()
         """loop for showing gross and net value in templates"""
-        context = InvoiceAddProduct.result_total(pk)
+        context = self.result_total(pk)
         context['form'] = form
         return render(request, 'Invoice_update.html', context)
 
     def post(self, request, pk):
         form = InvoiceDetailsForm(request.POST)
-        context = InvoiceAddProduct.result_total(pk)
+        context = self.result_total(pk)
         if form.is_valid():
             invoice = Invoice.objects.get(pk=pk)
             product = form.cleaned_data['product']
@@ -321,12 +349,16 @@ class InvoiceAddProduct(View):
                         (invoice=invoice):
                 ProductQuantity.objects.create(product=product, invoice=invoice,
                                                amount=amount)
-                context = InvoiceAddProduct.result_total(pk)
+                context = self.result_total(pk)
                 context2 = {'form': form, 'message': 'Product added'}
                 context.update(context2)
                 return render(request, 'Invoice_update.html', context)
-
-            context = InvoiceAddProduct.result_total(pk)
+            else:
+                updated_product = ProductQuantity.objects.get(product=product,
+                                                              invoice=invoice)
+                updated_product.amount = amount
+                updated_product.save()
+            context = self.result_total(pk)
             context2 = {'form': form, 'message': 'Product updated!'}
             context.update(context2)
             return render(request, 'Invoice_update.html', context)
@@ -337,27 +369,36 @@ class InvoiceAddProduct(View):
 
 
 class InvoiceDeleteProduct(View):
+    """Delete product form invoice"""
+
     def get(self, request, pk):
+        product_to_delete = ProductQuantity.objects.get(pk=pk)
+        context = {'product_to_delete': product_to_delete}
+        return render(request, 'invoice_delete_product.html', context)
+
+    def post(self, request, pk):
+        """After delete redirect to invoice view"""
         with transaction.atomic():
-            if ProductQuantity.objects.filter(pk=pk).exists():
-                product = ProductQuantity.objects.get(pk=pk)
-                invoice_id = product.invoice.id
-                product.delete()
-                ctx = {'message': "Product deleted"}
-                return redirect('invoice_edit', pk=invoice_id)
-            ctx = {'message': "There is no product with this ID"}
-            return render(request, 'Invoice_update.html', ctx)
+            product = ProductQuantity.objects.get(pk=pk)
+            invoice_id = product.invoice.id
+            product.delete()
+            # context = {'message': "Product deleted"}
+            return redirect('invoice_edit', pk=invoice_id)
 
 
 class InvoiceDelete(View):
+    """delete Invoice"""
+
     def get(self, request, pk):
+        invoice_to_delete = Invoice.objects.get(pk=pk)
+        context = {'invoice_to_delete': invoice_to_delete}
+        return render(request, 'invoice_delete.html', context)
+
+    def post(self, request, pk):
         with transaction.atomic():
-            if Invoice.objects.filter(pk=pk).exists():
-                Invoice.objects.filter(pk=pk).delete()
-                ctx = {'message': "Invoice deleted"}
-                return redirect('invoice_list')
-            ctx = {'message': "There is no Invoice with this ID"}
-            return render(request, 'invoice_list.html', ctx)
+            Invoice.objects.filter(pk=pk).delete()
+            # ctx = {'message': "Invoice deleted"}
+            return redirect('invoice_list')
 
 
 class InventoryView(View):
@@ -366,3 +407,39 @@ class InventoryView(View):
         inventory = Inventory.objects.all()
         context = {'form': form, 'inventory': inventory}
         return render(request, 'inventory.html', context)
+
+    def post(self, request):
+        form = InventoryForm(request.POST)
+        if form.is_valid():
+            product = form.cleaned_data['product']
+            amount = form.cleaned_data['amount']
+            if not Inventory.objects.filter(product=product):
+                Inventory.objects.create(product=product, amount=amount)
+                inventory = Inventory.objects.all()
+                context = {'form': InventoryForm(), 'message': 'Product added',
+                           'inventory': inventory}
+                return render(request, 'inventory.html', context)
+        else:
+            updated_product = Inventory.objects.get(product=request.POST['product'])
+            updated_product.amount = request.POST['amount']
+            updated_product.save()
+        inventory = Inventory.objects.all()
+        context = {'form': form, 'message': 'Product updated!',
+                   'inventory': inventory}
+        return render(request, 'inventory.html', context)
+
+
+class InventoryDeleteProduct(View):
+    """Delete product form Inventory"""
+
+    def get(self, request, pk):
+        product_to_delete = Inventory.objects.get(pk=pk)
+        context = {'product_to_delete': product_to_delete}
+        return render(request, 'inventory_delete_product.html', context)
+
+    def post(self, request, pk):
+        """After delete redirect to invoice view"""
+        with transaction.atomic():
+            inventory = Inventory.objects.get(pk=pk)
+            inventory.delete()
+            return redirect('inventory_list')

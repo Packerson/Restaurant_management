@@ -20,7 +20,7 @@ from Inventory.views import ProductView, ProductAddView, ProductUpdateView, \
     ProductDeleteView, home, login_view, logout_view, add_user_view, \
     change_password_view, CompanyAddView, CompanyListView, CompanyUpdateView, \
     CompanyDelete, InvoiceListView, InvoiceAdd, InvoiceAddProduct, InvoiceDelete, \
-    InventoryView, InvoiceDeleteProduct
+    InventoryView, InvoiceDeleteProduct, InventoryDeleteProduct, InvoiceUpdateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,21 +34,25 @@ urlpatterns = [
     path('product/add/', ProductAddView.as_view(), name='product_add'),
     path('product/<int:pk>/', ProductUpdateView.as_view(), name='product_edit'),
     path('product/delete/<int:pk>', ProductDeleteView.as_view(),
-         name='product-delete'),
+         name='product_delete'),
 
     path('company/', CompanyListView.as_view(), name='company_list'),
     path('company/add/', CompanyAddView.as_view(), name='company_add'),
     path('company/<int:pk>/', CompanyUpdateView.as_view(), name='company_edit'),
-    path('company/delete/<int:pk>', CompanyDelete.as_view(),
-         name='company-delete'),
+    path('company/delete/<int:pk>/', CompanyDelete.as_view(),
+         name='company_delete'),
 
     path('invoice/', InvoiceListView.as_view(), name='invoice_list'),
     path('invoice/add/', InvoiceAdd.as_view(), name='invoice_add'),
     path('invoice/<int:pk>/', InvoiceAddProduct.as_view(), name='invoice_edit'),
+    path('invoice/update/<int:pk>/', InvoiceUpdateView.as_view(),
+         name='invoice_update'),
     path('invoice/delete/<int:pk>', InvoiceDelete.as_view(),
          name='invoice_delete'),
     path('invoice/product/delete/<int:pk>', InvoiceDeleteProduct.as_view(),
          name='invoice_product_delete'),
 
-    path('inventory/', InventoryView.as_view(), name='inventory_list')
+    path('inventory/', InventoryView.as_view(), name='inventory_list'),
+    path('inventory/delete/<int:pk>/', InventoryDeleteProduct.as_view(),
+         name='inventory_delete_product')
 ]
