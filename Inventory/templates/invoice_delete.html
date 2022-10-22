@@ -1,0 +1,10 @@
+{% extends '__base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete "{{ invoice_to_delete.number }}"?</p>
+    <input type="submit" value="Confirm">
+</form>
+{% endif %}
+{% endblock %}

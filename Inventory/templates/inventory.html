@@ -9,6 +9,8 @@
 
 </table>
         <!--        Products tabel-->
+<h1>INVENTORY</h1>
+
 
 <h2>List of products:</h2>
 
@@ -19,31 +21,29 @@
   <tr>
     <th class="tg-7cam">ID</th>
     <th class="tg-7cam">Name</th>
-    <th class="tg-7cam">Amount on invoice</th>
     <th class="tg-7cam">unit</th>
     <th class="tg-7cam">base amount</th>
-    <th class="tg-7cam">gross price</th>
-    <th class="tg-7cam">net price</th>
-    <th class="tg-7cam">Total gross</th>
-    <th class="tg-7cam">Total net</th>
+    <th class="tg-7cam">total</th>
+    <th class="tg-7cam">date</th>
+
 
   </tr>
 </thead>
 <tbody>
-  <tr>  {% for product, result in total %}
+  <tr>  {% for product in inventory %}
 
 
         <td class="tg-7cam">{{product.product.id}}</td>
         <th class="tg-7cam"><a href="{% url 'product_edit' pk=product.id %}">
             {{product.product.name}} (Edit)</a></td>
-        <th class="tg-7cam">{{product.amount}}</td>
         <th class="tg-7cam">{{product.product.get_unit_display}}</td>
         <th class="tg-7cam">{{product.product.amount}}</td>
-        <th class="tg-7cam"> {{product.product.gross_price}}</td>
-        <th class="tg-7cam"> {{product.product.net_price}}</td>
-        <th class="tg-7cam"> {{result.0}}</td>
-        <th class="tg-7cam"> {{result.1}}</td>
+        <th class="tg-7cam">{{product.amount}}</td>
+        <th class="tg-7cam"> {{product.date}}</td>
 
+      {% if user.is_authenticated %}
+         <th class="tg-7cam"> <a href="{% url 'inventory_delete_product' pk=product.id %}"> (delete)</a></td>
+       {% endif %}
 
   </tr>
 {% endfor %}
@@ -51,30 +51,31 @@
         <div class="pagination">
             <span class="step-links">
                 <b>Page: </b>
-                {% if products_list.has_previous %}
+                {% if inventory.has_previous %}
                     <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ products_list.previous_page_number }}">previous</a>
+                    <a href="?page={{ inventory.previous_page_number }}">previous</a>
                 {% endif %}
 
-                            {% for i in products_list.paginator.page_range %}
-                  {% if products_list.number == i %}
+                            {% for i in inventory.paginator.page_range %}
+                  {% if inventory.number == i %}
                       <span class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></span>
                   {% else %}
                     <a href="?page={{ i }}">{{ i }}</a>
                   {% endif %}
                 {% endfor %}
 
-                {% if products_list.has_next %}
-                    <a href="?page={{ products_list.next_page_number }}">next</a>
-                    <a href="?page={{ products_list.paginator.num_pages }}">last &raquo;</a>
+                {% if inventory.has_next %}
+                    <a href="?page={{ inventory.next_page_number }}">next</a>
+                    <a href="?page={{ inventory.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
             </span>
         </div>
     </tbody>
 </table>
-
+        {% if user.is_authenticated %}
         <input type="submit" value="Wyślij">
             {{ form}}
+         {% endif %}
     </form>
-{{ message }}
+
 {% endblock %}

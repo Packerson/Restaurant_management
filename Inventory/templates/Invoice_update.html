@@ -1,8 +1,8 @@
 {% extends '__base.html' %}
 
 {% block content %}
-    <form action="" method="post">
-        {% csrf_token %}
+
+
         <table class="tg">
 <!--        Invoice tabel-->
 <thead>
@@ -18,10 +18,15 @@
 
 
         <td class="tg-7cam">{{invoice.id}}</td>
-        <th class="tg-7cam"><a href="{% url 'invoice_edit' pk=invoice.id %}">
-            {{invoice.number}} (Edit)</a></td>
+        <th class="tg-7cam">{{invoice.number}}</td>
         <th class="tg-7cam">{{invoice.company}}</td>
         <th class="tg-7cam">{{invoice.date}}</td>
+
+      {% if user.is_authenticated %}
+         <th class="tg-7cam"> <a href="{% url 'invoice_delete' pk=invoice.id %}"> (delete)</a></td>
+      <th class="tg-7cam"> <a href="{% url 'invoice_update' pk=invoice.id %}"> (update)</a></td>
+       {% endif %}
+
 
   </tr>
 </table>
@@ -43,7 +48,10 @@
     <th class="tg-7cam">net price</th>
     <th class="tg-7cam">Total gross</th>
     <th class="tg-7cam">Total net</th>
+
+      {% if user.is_authenticated %}
     <th class="tg-7cam">Delete</th>
+      {% endif %}
 
   </tr>
 </thead>
@@ -60,8 +68,11 @@
         <th class="tg-7cam"> {{product.product.net_price}}</td>
         <th class="tg-7cam"> {{result.0}}</td>
         <th class="tg-7cam"> {{result.1}}</td>
-        <th class="tg-7cam"> <a href="{% url 'invoice_product_delete' pk=product.id %}"> {{product.id}} (Edit)</a></td>
 
+{% if user.is_authenticated %}
+<!--      zrobić ukryty formularz z delete-->
+        <th class="tg-7cam"> <a href="{% url 'invoice_product_delete' pk=product.id %}"> {{product.id}} (Edit)</a></td>
+{% endif %}
 
   </tr>
 {% endfor %}
@@ -90,9 +101,13 @@
         </div>
     </tbody>
 </table>
+{% if user.is_authenticated %}
 
+    <form action="" method="post">
+        {% csrf_token %}
         <input type="submit" value="Wyślij">
             {{ form}}
     </form>
-{{ message }}
+{% endif %}
+
 {% endblock %}

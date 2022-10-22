@@ -3,10 +3,14 @@
 {% block content %}
 
     <h2>Update product</h2>
+{% if user.is_authenticated %}
     <form action="" method="post">
         {% csrf_token %}
         {{ form }}
+        <a href="{% url 'product_delete' pk=product.pk %}">(delete)</a>
         <input type="submit" value="Wyślij">
     </form>
+{% endif %}
+
 {{ message }}
 {% endblock %}
