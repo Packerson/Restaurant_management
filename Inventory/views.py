@@ -14,17 +14,15 @@ from Inventory.models import Product, Company, Invoice, ProductQuantity, \
 
 """Pamiętać!"""
 
-
-
 """widok InventoryView (dodać kilka produktów na magazyn, i 
     spróbować później dodać całą fakturę z listy faktur  """
 
 """update one to one , informacja że produkt już istnieje w bazie?????"""
 
-"""Dodać ograniczenia w dodawaniu faktur tak by nie można było dodać faktury 
-        z przyszłości"""
+"""ograniczenia w dodawaniu faktur powinny być w forms"""
 
 """Jak dodać messages do redirect"""
+
 
 def home(request):
     return render(request, "main.html")
@@ -263,14 +261,19 @@ class InvoiceAdd(View):
             if form.is_valid():
                 company_form = form.cleaned_data['company']
                 company = Company.objects.get(name=company_form)
-                invoice = Invoice.objects.create(number=form.cleaned_data['number'],
-                                                 company=company,
-                                                 date=form.cleaned_data['date'])
-                form = InvoiceForm()
-                context = {'form': form, 'message': 'Invoice added'}
-                return render(request, 'invoice_add.html', context)
-            context['message'] = 'something went wrong'
-            return render(request, 'invoice_add.html', context)
+
+                """validate date, should be in form"""
+
+                date = form.cleaned_data['date']
+                present = date.today()
+                if date < present:
+                    invoice = Invoice.objects.create(number=form.cleaned_data
+                    ['number'], company=company, date=date)
+                    form = InvoiceForm()
+                    context = {'form': form, 'message': 'Invoice added'}
+                    return render(request, 'invoice_add.html', context)
+        context['message'] = 'something went wrong'
+        return render(request, 'invoice_add.html', context)
 
 
 class InvoiceUpdateView(View):
@@ -293,6 +296,7 @@ class InvoiceUpdateView(View):
 
         context['message'] = 'something went wrong'
         return render(request, 'invoice_add.html', context)
+
 
 class InvoiceListView(View):
     """Invoice list"""
@@ -438,7 +442,7 @@ class InventoryDeleteProduct(View):
         return render(request, 'inventory_delete_product.html', context)
 
     def post(self, request, pk):
-        """After delete redirect to invoice view"""
+        """After delete redirect to inventory view"""
         with transaction.atomic():
             inventory = Inventory.objects.get(pk=pk)
             inventory.delete()
