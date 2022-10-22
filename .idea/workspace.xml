@@ -2,21 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="69b563b4-1177-4b01-b632-db5e2c918b95" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Inventory/templates/company_delete.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Inventory/templates/inventory_delete_product.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Inventory/templates/invoice_delete.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Inventory/templates/invoice_delete_product.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Inventory/templates/product_delete.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/Invoice_update.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/Invoice_update.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/__base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/__base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/company_update.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/company_update.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/inventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/inventory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/product-add.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/product-add.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/product-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/product-list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/product-update.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/product-update.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Restaurant_management/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Restaurant_management/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +50,7 @@
       <updated>1666107941798</updated>
       <workItem from="1666107944864" duration="9859000" />
       <workItem from="1666370629480" duration="9296000" />
-      <workItem from="1666419987590" duration="14019000" />
+      <workItem from="1666419987590" duration="20483000" />
     </task>
     <servers />
   </component>

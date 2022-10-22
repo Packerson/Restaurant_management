@@ -1,6 +1,9 @@
+import datetime
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 from Inventory.models import Product, Company, Invoice, ProductQuantity, Inventory
 
@@ -29,15 +32,10 @@ class CompanyForm(forms.ModelForm):
         fields = '__all__'
 
 
+
+
 class DateInput(forms.DateInput):
     input_type = 'date'
-
-
-class InvoiceDetailsForm(forms.ModelForm):
-    class Meta:
-        model = ProductQuantity
-        # fields = '__all__'
-        exclude = ['invoice']
 
 
 class InvoiceForm(forms.ModelForm):
@@ -46,8 +44,27 @@ class InvoiceForm(forms.ModelForm):
         exclude = ['products']
 
         widgets = {
-            'date': DateInput(),
+            'date': DateInput()
         }
+    # def clean_date(self, *args, **kwargs):
+    #     date = self.clean_date('date')
+    #     print(date)
+    #     present = datetime.date.today()
+    #     if date > present:
+    #         raise forms.ValidationError("Date is from future")
+
+    # def save(self, *args, **kwargs):
+    #     print(self.date)
+    #
+    #     if self.date > datetime.date.today():
+    #         raise ValidationError("The date cannot be in the future!")
+
+
+class InvoiceDetailsForm(forms.ModelForm):
+    class Meta:
+        model = ProductQuantity
+        # fields = '__all__'
+        exclude = ['invoice']
 
 
 class InventoryForm(forms.ModelForm):
