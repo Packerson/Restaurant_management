@@ -7,5 +7,6 @@
     </content>
     <orderEntry type="jdk" jdkName="Python 3.8 (Restaurant_management)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="ONL_PYT_W_19_TDD" />
   </component>
 </module>
