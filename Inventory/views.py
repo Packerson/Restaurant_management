@@ -13,18 +13,19 @@ from Inventory.models import Product, Company, Invoice, ProductQuantity, \
     Inventory
 
 """Pamiętać!"""
+"""test invoice-update!
 
+"""
 """widok InventoryView (dodać kilka produktów na magazyn, i 
     spróbować później dodać całą fakturę z listy faktur  """
 
 """w przyszłości wyszukiwarka produktów i firm z bazy danych"""
 
-"""pomyśleć nad dodaniem zapytania ,czy na pewno usunąc ? w JavaScripcie?"""
-
-
 """update one to one , informacja że produkt już istnieje w bazie?????"""
-"""ograniczenia w dodawaniu faktur powinny być w forms"""
+
 """Jak dodać messages do redirect"""
+"""pomyśleć nad dodaniem zapytania ,czy na pewno usunął ? w JavaScripcie?"""
+"""fastAPI, PANDAS"""
 
 
 def home(request):
@@ -115,13 +116,10 @@ class ProductAddView(View):
         context = {'form': form}
         with transaction.atomic():
             if form.is_valid():
-                gross_price = form.cleaned_data['gross_price']
-                net_price = form.cleaned_data['net_price']
-                if gross_price > net_price:
-                    form.save()
-                    context['message'] = 'product added'
-                    return render(request, 'product-add.html', context)
-                context['message'] = 'gross price has to be bigger than net'
+                form.save()
+                context['message'] = 'product added'
+                return render(request, 'product-add.html', context)
+                # context['message'] = 'gross price has to be bigger than net'
             return render(request, 'product-add.html', context)
 
 
@@ -147,14 +145,10 @@ class ProductUpdateView(View):
         form = ProductForm(request.POST, instance=product)
         context = {'form': form, 'product': product}
         if form.is_valid():
-            gross_price = form.cleaned_data['gross_price']
-            net_price = form.cleaned_data['net_price']
-            if gross_price > net_price:
-                product.save()
-                context['message'] = 'product update'
-                return render(request, 'product-update.html', context)
-            context['message'] = 'gross price has to be bigger than net'
+            form.save()
+            context['message'] = 'product update'
             return render(request, 'product-update.html', context)
+
         context['message'] = 'something went wrong'
         return render(request, 'product-update.html', context)
 
@@ -187,6 +181,7 @@ class CompanyAddView(View):
                 form = CompanyForm()
                 context = {'form': form, 'message': 'company added'}
                 return render(request, 'company_add.html', context)
+
             context['message'] = 'something went wrong'
             return render(request, 'company_add.html', context)
 
@@ -226,7 +221,7 @@ class CompanyUpdateView(View):
         form = CompanyForm(request.POST, instance=company)
         context = {'form': form, 'company': company}
         if form.is_valid():
-            company.save()
+            form.save()
             context['message'] = 'Company update'
             return render(request, 'company_update.html', context)
 
@@ -262,19 +257,10 @@ class InvoiceAdd(View):
         context = {'form': form}
         with transaction.atomic():
             if form.is_valid():
-                company_form = form.cleaned_data['company']
-                company = Company.objects.get(name=company_form)
-
-                """validate date, should be in form"""
-
-                date = form.cleaned_data['date']
-                present = date.today()
-                if date < present:
-                    invoice = Invoice.objects.create(number=form.cleaned_data
-                    ['number'], company=company, date=date)
-                    form = InvoiceForm()
-                    context = {'form': form, 'message': 'Invoice added'}
-                    return render(request, 'invoice_add.html', context)
+                form.save()
+                form = InvoiceForm()
+                context = {'form': form, 'message': 'Invoice added'}
+                return render(request, 'invoice_add.html', context)
         context['message'] = 'something went wrong'
         return render(request, 'invoice_add.html', context)
 
@@ -413,7 +399,7 @@ class InventoryView(View):
         form = InventoryForm()
         inventory = Inventory.objects.all()
         invoices = Invoice.objects.order_by("-date")
-        context = {'form': form, 'inventory': inventory, 'invoices':invoices}
+        context = {'form': form, 'inventory': inventory, 'invoices': invoices}
         return render(request, 'inventory.html', context)
 
     def post(self, request):

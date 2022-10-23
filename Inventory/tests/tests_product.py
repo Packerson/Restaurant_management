@@ -4,20 +4,22 @@ from django.urls import reverse
 from Inventory.models import Product
 
 # Create your tests here.
-"""Pomysły:
+"""Tests:
 
     # -dodanie produktu
-    -usunięcie produktu
-    -zmiana produktu
-    -dodanie firmy
-    -usuniecie
-    -zmiana
-    -dodanie faktury
-    -usuniecie
-    -zmiana
+    # -usunięcie produktu
+    # -zmiana produktu
+    # -order by
+    # -dodanie firmy
+    # -usuniecie
+    # -zmiana
+    # -order by
+    # -dodanie faktury
+    # -usuniecie faktury
+    -zmiana 
     -dodanie produktu do faktury
-    -usuniecie
-    -zmiana
+    -usuniecie produktu
+    -zmiana produktu
     -dodanie produktu do inventory
     -usuniecie
     -zmiana
@@ -73,7 +75,7 @@ def test_product_update(client, product):
 
 @pytest.mark.django_db
 def test_products_list(client, product):
-    """Test for checking order_by: name """
+    """Test for checking order_by: (name) """
     response = client.get(reverse('product_list'))
 
     assert response.status_code == 200

@@ -1,4 +1,4 @@
-from django.core.validators import RegexValidator, MaxLengthValidator, MinValueValidator
+from django.core.validators import RegexValidator, MaxLengthValidator, MinValueValidator, MaxValueValidator
 from django.db import models
 
 CAPACITY_CHOICES = (

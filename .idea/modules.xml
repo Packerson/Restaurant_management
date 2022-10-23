@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/ONL_PYT_W_19_TDD.iml" filepath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/ONL_PYT_W_19_TDD.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ONL_PYT_W_19_django_rest_api_warsztat/.idea/ONL_PYT_W_19_django_rest_api_warsztat.iml" filepath="$PROJECT_DIR$/../ONL_PYT_W_19_django_rest_api_warsztat/.idea/ONL_PYT_W_19_django_rest_api_warsztat.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Restaurant_management.iml" filepath="$PROJECT_DIR$/.idea/Restaurant_management.iml" />
     </modules>
   </component>
