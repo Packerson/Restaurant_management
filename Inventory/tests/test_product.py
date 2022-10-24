@@ -20,9 +20,10 @@ from Inventory.models import Product
     # -dodanie produktu do faktury
     # -usuniecie produktu
     # -zmiana produktu
-    -dodanie produktu do inventory
-    -usuniecie
-    -zmiana
+    # -dodanie produktu do inventory
+    # -usuniecie
+    # -zmiana
+    
     -stworzenie użytkownika"""
 
 

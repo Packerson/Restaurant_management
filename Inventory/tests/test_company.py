@@ -26,6 +26,17 @@ def test_company_add(client):
     assert company.name == "abc"
     assert company.nip == '1234567891'
     assert company.address == "random address"
+    assert response.context['message'] == 'company added'
+
+
+@pytest.mark.django_db
+def test_company_add_nip(client):
+    """Nip has to have ten digits"""
+    response = client.post(reverse("company_add"),
+                           {"name": "abc", "nip": 'AAAA56A891',
+                            "address": "random address"})
+
+    assert response.context['message'] == 'something went wrong'
 
 
 @pytest.mark.django_db

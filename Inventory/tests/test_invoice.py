@@ -9,9 +9,7 @@ from Inventory.models import Company, Invoice, ProductQuantity
 @pytest.mark.django_db
 def test_invoice_add(client):
     """add invoice test"""
-    # response_company = client.post(reverse("company_add"),
-    #                                {"name": "abc", "nip": '1234567891',
-    #                                 "address": "random address"})
+
     company = Company.objects.create(name="abc", nip='1234567891',
                                      address="random address")
 
@@ -27,6 +25,17 @@ def test_invoice_add(client):
     assert invoice.number == "123"
     assert invoice.company == company
     assert invoice.date == date(2019, 10, 31)
+
+
+@pytest.mark.django_db
+def test_invoice_date(client, company):
+    """test invoice date, date cant be from future"""
+
+    response = client.post(reverse("invoice_add"),
+                           {"number": "123", "company": company[0].id,
+                            "date": "2033-10-31"})
+
+    assert response.context['message'] == 'something went wrong'
 
 
 @pytest.mark.django_db
@@ -88,4 +97,3 @@ def test_invoice_update_and_remove_product(client, invoice, company, product):
 
     assert len(ProductQuantity.objects.all()) == 0
     assert response_remove.status_code == 302
-
