@@ -8,13 +8,13 @@ from django.views import View
 
 from Inventory.forms import ProductForm, AddUserForm, \
     PasswordChange, CompanyForm, InvoiceForm, InvoiceDetailsForm, \
-    InventoryForm
+    InventoryForm, AddInvoiceToInventoryForm
 from Inventory.models import Product, Company, Invoice, ProductQuantity, \
     Inventory
 
 """Pamiętać!"""
 
-
+"""Inventory View, walka:) """
 """
 coś naknocone z Inventory(form.valid()), 
 update one to one , informacja że produkt już istnieje w bazie?????,
@@ -406,40 +406,58 @@ class InventoryView(View):
     """Inventory list"""
     def get(self, request, ):
         form = InventoryForm()
+        form_invoice = AddInvoiceToInventoryForm()
         inventory = Inventory.objects.all()
         invoices = Invoice.objects.order_by("-date")
-        context = {'form': form, 'inventory': inventory, 'invoices': invoices}
+        context = {'form': form, 'inventory': inventory, 'invoices': invoices,
+                   'form_invoice': form_invoice}
         return render(request, 'inventory.html', context)
 
     def post(self, request):
         """Product add or update in inventory"""
-        form = InventoryForm(request.POST)
-        if form.is_valid():
-            product = form.cleaned_data['product']
-            amount = form.cleaned_data['amount']
-            if not Inventory.objects.filter(product=product):
-                Inventory.objects.create(product=product, amount=amount)
-                inventory = Inventory.objects.all()
-                context = {'form': InventoryForm(), 'message': 'Product added',
-                           'inventory': inventory}
-                return render(request, 'inventory.html', context)
-        else:
-            updated_product = Inventory.objects.get(product=request.POST['product'])
-            amount_value = float(request.POST['amount'])
-            # updated_product.amount = amount_value if amount_value > 0 else False
-            if amount_value > 0:
-                updated_product.amount = amount_value
-                updated_product.save()
-                """maybe add invoice to inventory"""
-                inventory = Inventory.objects.all()
-                context = {'form': form, 'message': 'Product updated!',
-                           'inventory': inventory}
-                return render(request, 'inventory.html', context)
+        if 'Add product' in request.POST:
+            form = InventoryForm(request.POST)
+            form_invoice = AddInvoiceToInventoryForm()
+            if form.is_valid():
+                product = form.cleaned_data['product']
+                amount = form.cleaned_data['amount']
+                if not Inventory.objects.filter(product=product):
+                    Inventory.objects.create(product=product, amount=amount)
+                    inventory = Inventory.objects.all()
+                    context = {'form': InventoryForm(), 'message': 'Product added',
+                               'inventory': inventory, 'form_invoice': form_invoice}
+                    return render(request, 'inventory.html', context)
             else:
+                updated_product = Inventory.objects.get(product=request.POST['product'])
+                amount_value = float(request.POST['amount'])
+                # updated_product.amount = amount_value if amount_value > 0 else False
+                if amount_value > 0:
+                    updated_product.amount = amount_value
+                    updated_product.save()
+                    """maybe add invoice to inventory"""
+                    inventory = Inventory.objects.all()
+                    context = {'form': form, 'message': 'Product updated!',
+                               'inventory': inventory}
+                    return render(request, 'inventory.html', context)
+                else:
+                    inventory = Inventory.objects.all()
+                    context = {'form': form, 'message': 'Amount cant be negative!',
+                               'inventory': inventory}
+                    return render(request, 'inventory.html', context)
+        if 'Add invoice' in request.POST:
+            form = InventoryForm()
+            form_invoice = AddInvoiceToInventoryForm(request.POST)
+            if form_invoice.is_valid():
                 inventory = Inventory.objects.all()
-                context = {'form': form, 'message': 'Amount cant be negative!',
+                invoice_to_inventory = form_invoice.cleaned_data['invoice']
+                print(invoice_to_inventory)
+
+                context = {'form': form, 'form_invoice': form_invoice,
+                           'message': 'Amount cant be negative!',
                            'inventory': inventory}
+
                 return render(request, 'inventory.html', context)
+
 
 
 class InventoryDeleteProduct(View):

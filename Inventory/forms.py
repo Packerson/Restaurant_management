@@ -74,8 +74,22 @@ class InvoiceDetailsForm(forms.ModelForm):
         widgets = {'invoice': forms.HiddenInput()}
 
 
-
 class InventoryForm(forms.ModelForm):
     class Meta:
         model = Inventory
         fields = "__all__"
+
+
+"""function for select/choices list in Inventory view"""
+
+
+def choices_invoices():
+    invoices = Invoice.objects.all()
+    invoices_list = []
+    for invoice in invoices:
+        invoices_list.append((invoice.id, invoice.number))
+    return invoices_list
+
+
+class AddInvoiceToInventoryForm(forms.Form):
+    invoice = forms.ChoiceField(choices=choices_invoices)
