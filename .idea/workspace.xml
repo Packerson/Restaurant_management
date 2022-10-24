@@ -11,17 +11,11 @@
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_django_rest_api_warsztat/.idea/ONL_PYT_W_19_django_rest_api_warsztat.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_django_rest_api_warsztat/.idea/ONL_PYT_W_19_django_rest_api_warsztat.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_django_rest_api_warsztat/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_django_rest_api_warsztat/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_django_rest_api_warsztat/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_django_rest_api_warsztat/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Restaurant_management.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Restaurant_management.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/tests/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/conftest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/tests/test_company.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/test_company.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/tests/test_invoice.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/test_invoice.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/tests/tests_product.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/tests_product.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/tests/tests_product.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/test_product.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pytest.ini" beforeDir="false" afterPath="$PROJECT_DIR$/pytest.ini" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +64,8 @@
       <workItem from="1666370629480" duration="9296000" />
       <workItem from="1666419987590" duration="25919000" />
       <workItem from="1666511261226" duration="13334000" />
-      <workItem from="1666541511638" duration="5518000" />
+      <workItem from="1666541511638" duration="5785000" />
+      <workItem from="1666616905961" duration="4520000" />
     </task>
     <servers />
   </component>

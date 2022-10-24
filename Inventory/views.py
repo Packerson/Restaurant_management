@@ -346,6 +346,7 @@ class InvoiceAddProduct(View):
                 context2 = {'form': form, 'message': 'Product added'}
                 context.update(context2)
                 return render(request, 'Invoice_update.html', context)
+            
             else:
                 updated_product = ProductQuantity.objects.get(product=product,
                                                               invoice=invoice)

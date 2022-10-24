@@ -16,10 +16,10 @@ from Inventory.models import Product
     # -order by
     # -dodanie faktury
     # -usuniecie faktury
-    -zmiana 
-    -dodanie produktu do faktury
-    -usuniecie produktu
-    -zmiana produktu
+    # -zmiana 
+    # -dodanie produktu do faktury
+    # -usuniecie produktu
+    # -zmiana produktu
     -dodanie produktu do inventory
     -usuniecie
     -zmiana

@@ -1,4 +1,5 @@
 import random
+from datetime import date
 
 import pytest
 from django.test import Client
@@ -49,6 +50,6 @@ def invoice(company):
     invoice = []
     for i in range(3):
         invoice.append(Invoice.objects.create(number=f"test_number_{i}", company=company[i],
-                                              date=f"200{i}-10-31"))
+                                              date=date(int(f"200{i}"), 10, 31)))
 
     return invoice
