@@ -13,18 +13,21 @@ from Inventory.models import Product, Company, Invoice, ProductQuantity, \
     Inventory
 
 """Pamiętać!"""
-"""test invoice-update!
+"""test invoice-update!"""
 
 """
+coś naknocone z Inventory(form.valid()), 
+update one to one , informacja że produkt już istnieje w bazie?????,
+after updated product product is going on bottom of the table, why?"""
+
 """widok InventoryView (dodać kilka produktów na magazyn, i 
     spróbować później dodać całą fakturę z listy faktur  """
 
 """w przyszłości wyszukiwarka produktów i firm z bazy danych"""
 
-"""update one to one , informacja że produkt już istnieje w bazie?????"""
-
 """Jak dodać messages do redirect"""
 """pomyśleć nad dodaniem zapytania ,czy na pewno usunął ? w JavaScripcie?"""
+
 """fastAPI, PANDAS"""
 
 
@@ -346,6 +349,7 @@ class InvoiceAddProduct(View):
                 context2 = {'form': form, 'message': 'Product added'}
                 context.update(context2)
                 return render(request, 'Invoice_update.html', context)
+
             else:
                 updated_product = ProductQuantity.objects.get(product=product,
                                                               invoice=invoice)
@@ -415,13 +419,21 @@ class InventoryView(View):
                 return render(request, 'inventory.html', context)
         else:
             updated_product = Inventory.objects.get(product=request.POST['product'])
-            updated_product.amount = request.POST['amount']
-            updated_product.save()
-        """maybe add invoice to inventory"""
-        inventory = Inventory.objects.all()
-        context = {'form': form, 'message': 'Product updated!',
-                   'inventory': inventory}
-        return render(request, 'inventory.html', context)
+            amount_value = float(request.POST['amount'])
+            # updated_product.amount = amount_value if amount_value > 0 else False
+            if amount_value > 0:
+                updated_product.amount = amount_value
+                updated_product.save()
+                """maybe add invoice to inventory"""
+                inventory = Inventory.objects.all()
+                context = {'form': form, 'message': 'Product updated!',
+                           'inventory': inventory}
+                return render(request, 'inventory.html', context)
+            else:
+                inventory = Inventory.objects.all()
+                context = {'form': form, 'message': 'Amount cant be negative!',
+                           'inventory': inventory}
+                return render(request, 'inventory.html', context)
 
 
 class InventoryDeleteProduct(View):
