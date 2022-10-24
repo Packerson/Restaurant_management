@@ -13,7 +13,7 @@ from Inventory.models import Product, Company, Invoice, ProductQuantity, \
     Inventory
 
 """Pamiętać!"""
-"""test invoice-update!"""
+
 
 """
 coś naknocone z Inventory(form.valid()), 
@@ -32,10 +32,12 @@ after updated product product is going on bottom of the table, why?"""
 
 
 def home(request):
+    """main page"""
     return render(request, "main.html")
 
 
 def login_view(request):
+    """login view"""
     if request.method == "GET":
         return render(request, "login.html")
     else:
@@ -58,6 +60,7 @@ def logout_view(request):
 
 @transaction.atomic
 def add_user_view(request):
+    """create user"""
     if request.method == "GET":
         return render(request, "add_user.html", {"form": AddUserForm()})
     else:
@@ -74,9 +77,7 @@ def add_user_view(request):
 @login_required
 @transaction.atomic
 def change_password_view(request):
-    # zastanowić się nad tym
-    # if not request.user.has_perm("auth.change_user") or request.user.id != int(pk):
-    #     raise PermissionDenied()
+    """changing password"""
 
     if request.method == "GET":
         return render(request, "change_password.html",
@@ -94,13 +95,14 @@ def change_password_view(request):
 
 
 class ProductView(View):
+    """Product list view"""
     def get(self, request):
         products = Product.objects.order_by('name')
         ctx = {'products': products}
         if len(products) == 0:
             ctx['message'] = 'No products in base'
 
-        """tworzenie paginacji i warunek 50 przepisów na stronę"""
+        """create pagination, condition 50 products on page"""
         paginator = Paginator(products, 50)
         page = request.GET.get('page')
         products_list = paginator.get_page(page)
@@ -109,6 +111,7 @@ class ProductView(View):
 
 
 class ProductAddView(View):
+    """add product"""
     def get(self, request):
         form = ProductForm()
         context = {'form': form}
@@ -122,11 +125,12 @@ class ProductAddView(View):
                 form.save()
                 context['message'] = 'product added'
                 return render(request, 'product-add.html', context)
-                # context['message'] = 'gross price has to be bigger than net'
+            context['message'] = 'something went wrong'
             return render(request, 'product-add.html', context)
 
 
 class ProductUpdateView(View):
+    """Update product, initial value"""
     def get(self, request, pk):
         try:
             if Product.objects.get(pk=pk):
@@ -157,7 +161,7 @@ class ProductUpdateView(View):
 
 
 class ProductDeleteView(View):
-
+    """delete product"""
     def get(self, request, pk):
         product_to_delete = Product.objects.get(pk=pk)
         ctx = {'product_to_delete': product_to_delete}
@@ -169,6 +173,7 @@ class ProductDeleteView(View):
 
 
 class CompanyAddView(View):
+    """add company"""
     def get(self, request):
         form = CompanyForm()
         context = {'form': form}
@@ -190,13 +195,14 @@ class CompanyAddView(View):
 
 
 class CompanyListView(View):
+    """company list view, order by name"""
     def get(self, request):
         companys = Company.objects.order_by('name')
         ctx = {'companys': companys}
         if len(companys) == 0:
             ctx['message'] = 'No companys in base'
 
-        """tworzenie paginacji i warunek 50 przepisów na stronę"""
+        """create pagination, condition 50 elements on page"""
         paginator = Paginator(companys, 50)
         page = request.GET.get('page')
         companys_list = paginator.get_page(page)
@@ -205,6 +211,7 @@ class CompanyListView(View):
 
 
 class CompanyUpdateView(View):
+    """Update inforamtion about company, initial value"""
     def get(self, request, pk):
         try:
             if Company.objects.get(pk=pk):
@@ -233,12 +240,14 @@ class CompanyUpdateView(View):
 
 
 class CompanyDelete(View):
+    """"delete company"""
     def get(self, request, pk):
         company_to_delete = Company.objects.get(pk=pk)
         ctx = {'company_to_delete': company_to_delete}
         return render(request, 'company_delete.html', ctx)
 
     def post(self, request, pk):
+        """redirect after succes delete"""
         with transaction.atomic():
             Company.objects.get(pk=pk).delete()
             # ctx = {'message': "Company deleted"}
@@ -269,6 +278,7 @@ class InvoiceAdd(View):
 
 
 class InvoiceUpdateView(View):
+    """update information about invoice"""
     def get(self, request, pk):
         invoice = Invoice.objects.get(pk=pk)
         form = InvoiceForm(initial={'number': invoice.number,
@@ -320,43 +330,37 @@ class InvoiceAddProduct(View):
             gross = round(result.amount * result.product.gross_price, 2)
             net = round(result.amount * result.product.net_price, 2)
             result_total.append((gross, net))
-            """zip for making liste list"""
+            """zip for making lists list"""
         total = zip(products_list, result_total)
         context = {'invoice': invoice,
                    'total': total}
         return context
 
     def get(self, request, pk):
-        form = InvoiceDetailsForm()
+        """initial, passing invoice.id to hidden input """
+        invoice = Invoice.objects.get(pk=pk)
+        form = InvoiceDetailsForm(initial={'invoice': invoice.id})
         """loop for showing gross and net value in templates"""
         context = self.result_total(pk)
         context['form'] = form
         return render(request, 'Invoice_update.html', context)
 
     def post(self, request, pk):
-        form = InvoiceDetailsForm(request.POST)
+        """creating or updating product on invoice"""
+        invoice = Invoice.objects.get(pk=pk)
+        product = request.POST['product']
+
+        if not ProductQuantity.objects.filter(invoice=invoice, product=product):
+            form = InvoiceDetailsForm(request.POST)
+            context2 = {'form': form, 'message': 'Product added!'}
+        else:
+            product_on_invoice = ProductQuantity.objects.get(invoice=invoice, product=product)
+            form = InvoiceDetailsForm(request.POST, instance=product_on_invoice)
+            context2 = {'form': form, 'message': 'Product updated!'}
         context = self.result_total(pk)
         if form.is_valid():
-            invoice = Invoice.objects.get(pk=pk)
-            product = form.cleaned_data['product']
-            amount = form.cleaned_data['amount']
-            # tak albo robić update produktu
-            if not ProductQuantity.objects.filter(product=product).filter \
-                        (invoice=invoice):
-                ProductQuantity.objects.create(product=product, invoice=invoice,
-                                               amount=amount)
-                context = self.result_total(pk)
-                context2 = {'form': form, 'message': 'Product added'}
-                context.update(context2)
-                return render(request, 'Invoice_update.html', context)
-
-            else:
-                updated_product = ProductQuantity.objects.get(product=product,
-                                                              invoice=invoice)
-                updated_product.amount = amount
-                updated_product.save()
+            form.save()
             context = self.result_total(pk)
-            context2 = {'form': form, 'message': 'Product updated!'}
             context.update(context2)
             return render(request, 'Invoice_update.html', context)
 
@@ -399,6 +403,7 @@ class InvoiceDelete(View):
 
 
 class InventoryView(View):
+    """Inventory list"""
     def get(self, request, ):
         form = InventoryForm()
         inventory = Inventory.objects.all()
@@ -407,6 +412,7 @@ class InventoryView(View):
         return render(request, 'inventory.html', context)
 
     def post(self, request):
+        """Product add or update in inventory"""
         form = InventoryForm(request.POST)
         if form.is_valid():
             product = form.cleaned_data['product']

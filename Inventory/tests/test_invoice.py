@@ -64,7 +64,7 @@ def test_invoice_update(client, invoice, company):
 def test_invoice_add_product(client, invoice, company, product):
     """Adding product test"""
     response = client.post(reverse("invoice_edit", kwargs={'pk': invoice[2].id}),
-                           {'product': product[0].id, 'amount': 2})
+                           {'product': product[0].id, 'invoice': invoice[2].id, 'amount': 2})
 
     invoice_products_test = ProductQuantity.objects.first()
 
@@ -84,7 +84,7 @@ def test_invoice_update_and_remove_product(client, invoice, company, product):
     assert invoice_products_test.amount == 2
 
     response = client.post(reverse("invoice_edit", kwargs={'pk': invoice[1].id}),
-                           {'product': product[0].id, 'amount': 3})
+                           {'product': product[0].id, 'invoice': invoice[1].id, 'amount': 3})
     invoice_products_test = ProductQuantity.objects.first()
 
     assert invoice_products_test.product.id == product[0].id

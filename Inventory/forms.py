@@ -69,7 +69,10 @@ class InvoiceForm(forms.ModelForm):
 class InvoiceDetailsForm(forms.ModelForm):
     class Meta:
         model = ProductQuantity
-        exclude = ['invoice']
+        fields = "__all__"
+
+        widgets = {'invoice': forms.HiddenInput()}
+
 
 
 class InventoryForm(forms.ModelForm):
