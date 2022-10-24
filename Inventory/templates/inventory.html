@@ -73,22 +73,24 @@
     </tbody>
 </table>
         {% if user.is_authenticated %}
-        <input type="submit" value="Wyślij">
-            {{ form}}
-         {% endif %}
-    </form>
 
+            {{ form}}
+    <input type="submit" value="Add product" name="Add product">
+
+</form>
+<form action="" method="post" xmlns="http://www.w3.org/1999/html">
+        {% csrf_token %}
 <div>
-    <select>
-        <option value="Add invoice to inventory"> Select invoice: </option>
-        {% for invoice in invoices %}
-        <option value="{{invoice.number}}" >{{invoice.number}}</option>
-        {% endfor %}
+    {{ form_invoice }}
+
+        <input type="submit" value="Add invoice" name="Add invoice">
     </select>
-    <input type="submit" value="Add invoice">
+
+
+ {% endif %}
 
 </div>
 
-
+</form>
 
 {% endblock %}

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="69b563b4-1177-4b01-b632-db5e2c918b95" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Inventory/tests/test_inventory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/ONL_PYT_W_19_TDD.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/ONL_PYT_W_19_TDD.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/conftest.py" afterDir="false" />
@@ -13,9 +12,8 @@
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_django_rest_api_warsztat/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_django_rest_api_warsztat/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_django_rest_api_warsztat/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_django_rest_api_warsztat/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/tests/test_company.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/test_company.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/tests/test_invoice.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/test_invoice.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/tests/test_product.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/test_product.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/templates/inventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/inventory.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +64,7 @@
       <workItem from="1666419987590" duration="25919000" />
       <workItem from="1666511261226" duration="13334000" />
       <workItem from="1666541511638" duration="5785000" />
-      <workItem from="1666616905961" duration="9975000" />
+      <workItem from="1666616905961" duration="20815000" />
     </task>
     <servers />
   </component>
