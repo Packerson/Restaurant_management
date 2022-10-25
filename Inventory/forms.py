@@ -80,10 +80,9 @@ class InventoryForm(forms.ModelForm):
         fields = "__all__"
 
 
-"""function for select/choices list in Inventory view"""
-
 
 def choices_invoices():
+    """function for select/choices list in Inventory view"""
     invoices = Invoice.objects.all()
     invoices_list = []
     for invoice in invoices:
@@ -92,4 +91,20 @@ def choices_invoices():
 
 
 class AddInvoiceToInventoryForm(forms.Form):
+    """Form for adding invoice to inventory"""
     invoice = forms.ChoiceField(choices=choices_invoices)
+
+    def clean_invoice(self):
+        invoice = Invoice.objects.get(id=self.cleaned_data['invoice'])
+        products_on_invoice = ProductQuantity.objects.filter(invoice=invoice.pk)
+        inventory = Inventory.objects.all()
+        for products in products_on_invoice:
+            if not Inventory.objects.filter(product=products.product.id):
+                Inventory.objects.create(product=products.product, amount=products.amount)
+            elif Inventory.objects.filter(product=products.product.id):
+                product_updated = Inventory.objects.get(product=products.product.id)
+                product_updated.amount += products.amount
+                product_updated.save()
+            else:
+                raise forms.ValidationError("Something goes wrong")
+        return invoice.id
