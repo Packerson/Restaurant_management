@@ -13,7 +13,6 @@
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_django_rest_api_warsztat/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_django_rest_api_warsztat/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/inventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/inventory.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -65,6 +64,7 @@
       <workItem from="1666511261226" duration="13334000" />
       <workItem from="1666541511638" duration="5785000" />
       <workItem from="1666616905961" duration="20815000" />
+      <workItem from="1666722711162" duration="3460000" />
     </task>
     <servers />
   </component>

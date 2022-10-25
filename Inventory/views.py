@@ -14,18 +14,17 @@ from Inventory.models import Product, Company, Invoice, ProductQuantity, \
 
 """Pamiętać!"""
 
-"""Inventory View, walka:) """
+"""Add tests for invoice_inventory_add """
+"""Jak dodać messages do redirect"""
+
 """
 coś naknocone z Inventory(form.valid()), 
 update one to one , informacja że produkt już istnieje w bazie?????,
 after updated product product is going on bottom of the table, why?"""
 
-"""widok InventoryView (dodać kilka produktów na magazyn, i 
-    spróbować później dodać całą fakturę z listy faktur  """
-
 """w przyszłości wyszukiwarka produktów i firm z bazy danych"""
 
-"""Jak dodać messages do redirect"""
+
 """pomyśleć nad dodaniem zapytania ,czy na pewno usunął ? w JavaScripcie?"""
 
 """fastAPI, PANDAS"""
@@ -96,6 +95,7 @@ def change_password_view(request):
 
 class ProductView(View):
     """Product list view"""
+
     def get(self, request):
         products = Product.objects.order_by('name')
         ctx = {'products': products}
@@ -112,6 +112,7 @@ class ProductView(View):
 
 class ProductAddView(View):
     """add product"""
+
     def get(self, request):
         form = ProductForm()
         context = {'form': form}
@@ -131,6 +132,7 @@ class ProductAddView(View):
 
 class ProductUpdateView(View):
     """Update product, initial value"""
+
     def get(self, request, pk):
         try:
             if Product.objects.get(pk=pk):
@@ -162,6 +164,7 @@ class ProductUpdateView(View):
 
 class ProductDeleteView(View):
     """delete product"""
+
     def get(self, request, pk):
         product_to_delete = Product.objects.get(pk=pk)
         ctx = {'product_to_delete': product_to_delete}
@@ -174,6 +177,7 @@ class ProductDeleteView(View):
 
 class CompanyAddView(View):
     """add company"""
+
     def get(self, request):
         form = CompanyForm()
         context = {'form': form}
@@ -196,6 +200,7 @@ class CompanyAddView(View):
 
 class CompanyListView(View):
     """company list view, order by name"""
+
     def get(self, request):
         companys = Company.objects.order_by('name')
         ctx = {'companys': companys}
@@ -212,6 +217,7 @@ class CompanyListView(View):
 
 class CompanyUpdateView(View):
     """Update inforamtion about company, initial value"""
+
     def get(self, request, pk):
         try:
             if Company.objects.get(pk=pk):
@@ -241,6 +247,7 @@ class CompanyUpdateView(View):
 
 class CompanyDelete(View):
     """"delete company"""
+
     def get(self, request, pk):
         company_to_delete = Company.objects.get(pk=pk)
         ctx = {'company_to_delete': company_to_delete}
@@ -279,6 +286,7 @@ class InvoiceAdd(View):
 
 class InvoiceUpdateView(View):
     """update information about invoice"""
+
     def get(self, request, pk):
         invoice = Invoice.objects.get(pk=pk)
         form = InvoiceForm(initial={'number': invoice.number,
@@ -404,6 +412,7 @@ class InvoiceDelete(View):
 
 class InventoryView(View):
     """Inventory list"""
+
     def get(self, request, ):
         form = InventoryForm()
         form_invoice = AddInvoiceToInventoryForm()
@@ -415,7 +424,9 @@ class InventoryView(View):
 
     def post(self, request):
         """Product add or update in inventory"""
+        """add product"""
         if 'Add product' in request.POST:
+
             form = InventoryForm(request.POST)
             form_invoice = AddInvoiceToInventoryForm()
             if form.is_valid():
@@ -444,20 +455,18 @@ class InventoryView(View):
                     context = {'form': form, 'message': 'Amount cant be negative!',
                                'inventory': inventory}
                     return render(request, 'inventory.html', context)
+
         if 'Add invoice' in request.POST:
+            """Add invoice to inventory"""
             form = InventoryForm()
             form_invoice = AddInvoiceToInventoryForm(request.POST)
             if form_invoice.is_valid():
+                invoice_to_inventory = Invoice.objects.get(id=form_invoice.cleaned_data['invoice'])
                 inventory = Inventory.objects.all()
-                invoice_to_inventory = form_invoice.cleaned_data['invoice']
-                print(invoice_to_inventory)
-
                 context = {'form': form, 'form_invoice': form_invoice,
-                           'message': 'Amount cant be negative!',
+                           'message': f'Invoice {invoice_to_inventory} added to inventory',
                            'inventory': inventory}
-
                 return render(request, 'inventory.html', context)
-
 
 
 class InventoryDeleteProduct(View):
