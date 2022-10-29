@@ -1,16 +1,26 @@
 {% extends '__base.html' %}
 
 {% block content %}
+<view>
 
-{% if user.is_authenticated %}
+         <form action="">
+
+      <label>Search company:</label>
+      <input type="text" id="search" name="search">
+      <input type="submit" value="search">
+        </form>
+     <div>
+        {% if user.is_authenticated %}
+         <br><br>
         <label><a href="../company/add/" >Add company</a></label>
-{% endif %}
 
-        <h2>List of company's:</h2>
-
-    <table class="tg">
         {{ message }}
+        {% endif %}
+    </div>
 
+    <div>
+        <h2>List of company's:</h2>
+    <table class="tg">
         <thead>
           <tr>
             <th class="tg-7cam">ID</th>
@@ -26,15 +36,16 @@
                 <th class="tg-7cam">{{company.nip}}</td>
                 <th class="tg-7cam">{{company.address}}</td>
           </tr>
-{% endfor %}
-<div class="pagination">
+                {% endfor %}
+
+
+    <div class="pagination">
             <span class="step-links">
                 <b>Page: </b>
                 {% if companys_list.has_previous %}
                     <a href="?page=1">&laquo; first</a>
                     <a href="?page={{ companys_list.previous_page_number }}">previous</a>
                 {% endif %}
-
                             {% for i in companys_list.paginator.page_range %}
                   {% if companys_list.number == i %}
                       <span class="active"><span>Page: {{ i }} <span class="sr-only">(current)</span></span></span>
@@ -48,10 +59,10 @@
                     <a href="?page={{ companys_list.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
             </span>
-        </div>
-</tbody>
-</table>
+    </div>
+        </tbody>
+        </table>
 
-
-
+    </div>
+</view>
 {% endblock %}

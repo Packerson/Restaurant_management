@@ -8,6 +8,6 @@
     <orderEntry type="jdk" jdkName="Python 3.8 (Restaurant_management)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="ONL_PYT_W_19_TDD" />
-    <orderEntry type="module" module-name="ONL_PYT_W_19_django_rest_api_warsztat" />
+    <orderEntry type="module" module-name="ONL_SPY_W_93_ScrumLab" />
   </component>
 </module>

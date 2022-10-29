@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, serif;
+    font-size: 20px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #b4c2fb;
+}
+
+.block_view {
+    display: flex;
+    justify-content:left ;
+}
+
+.block {
+    padding-top: 100px;
+    padding-left: 50px;
+    display: flex;
+    justify-content:space-evenly ;
+    background-color: #f8f8f8;
+}
+.inventory {
+    display: inline-flex;
+    align-items: normal;
+    justify-content: left;
+}
+/*.submit {*/
+/*    align-items: flex;*/
+/*}*/
+.logo-img {
+    height: 150px;
+    width: 150px;
+}
+
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-7cam{border-color:#330001;font-size:15px;text-align:left;vertical-align:top}
+
+.register_list {
+
+}

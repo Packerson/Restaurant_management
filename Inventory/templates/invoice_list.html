@@ -1,7 +1,14 @@
 {% extends '__base.html' %}
 
 {% block content %}
+<view>
+    <form action="">
 
+      <label>Search invoice:</label>
+      <input type="text" id="search" name="search">
+      <input type="submit" value="search">
+        </form>
+    <br><br>
 {% if user.is_authenticated %}
         <label><a href="../invoice/add/" >Add invoice</a></label>
 {% endif %}
@@ -60,5 +67,5 @@
     </tbody>
 </table>
 
-
+</view>
 {% endblock %}
