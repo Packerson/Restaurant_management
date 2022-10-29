@@ -42,6 +42,10 @@ class CompanyForm(forms.ModelForm):
         model = Company
         fields = '__all__'
 
+        # widgets = {
+        #     'Address': forms.CharField(widget=)
+        # }
+
 
 class DateInput(forms.DateInput):
     input_type = 'date'
