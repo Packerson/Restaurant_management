@@ -2,12 +2,15 @@
 <view>
 {% block content %}
     <form action="" method="post">
+        <div class="column_form">
+            <span class="message">{{ message }}</span>
         <h3>Add company</h3>
 
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Add">
+        </div>
     </form>
-{{ message }}
+
 </view>
 {% endblock %}

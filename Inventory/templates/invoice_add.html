@@ -1,10 +1,17 @@
 {% extends '__base.html' %}
-
+<view class="">
 {% block content %}
     <form action="" method="post">
+        <h3>Invoice</h3>
+        <span class="message">{{ message }}</span>
         {% csrf_token %}
+        <div class="column_form" >
+
+
          {{ form}}
         <input type="submit" value="Add">
+        </div>
     </form>
-{{ message }}
+
+</view>
 {% endblock %}

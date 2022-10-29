@@ -21,8 +21,8 @@
                 <th class="tg-7cam">{{invoice.company}}</td>
                 <th class="tg-7cam">{{invoice.date}}</td>
               {% if user.is_authenticated %}
-                 <th class="tg-7cam"> <a href="{% url 'invoice_delete' pk=invoice.id %}"> (delete)</a></td>
-              <th class="tg-7cam"> <a href="{% url 'invoice_update' pk=invoice.id %}"> (update)</a></td>
+                 <th class="tg-7cam"> <a class="myButton" href="{% url 'invoice_delete' pk=invoice.id %}"> delete</a></td>
+              <th class="tg-7cam"> <a class="myButtonUpdate" href="{% url 'invoice_update' pk=invoice.id %}"> update</a></td>
                {% endif %}
           </tr>
     </table>

@@ -15,9 +15,8 @@
       <change beforePath="$PROJECT_DIR$/Inventory/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/static/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/templates/Invoice_update.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/Invoice_update.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/templates/company_add.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/company_add.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/templates/company_update.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/company_update.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/templates/invoice_add.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/invoice_add.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/invoice_details.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/templates/product-add.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/product-add.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/templates/product-update.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/product-update.html" afterDir="false" />
     </list>
@@ -83,7 +82,7 @@
       <workItem from="1666616905961" duration="20815000" />
       <workItem from="1666722711162" duration="3460000" />
       <workItem from="1666813785187" duration="2988000" />
-      <workItem from="1667045359627" duration="16476000" />
+      <workItem from="1667045359627" duration="19540000" />
     </task>
     <servers />
   </component>

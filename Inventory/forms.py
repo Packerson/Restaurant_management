@@ -42,9 +42,9 @@ class CompanyForm(forms.ModelForm):
         model = Company
         fields = '__all__'
 
-        widgets = {
-            'Address': forms.TextInput(attrs={'size': '40'})
-        }
+        # widgets = {
+        #     'Address': forms.CharField(widget=)
+        # }
 
 
 class DateInput(forms.DateInput):

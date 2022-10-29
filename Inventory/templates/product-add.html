@@ -1,13 +1,21 @@
 {% extends '__base.html' %}
-
+<view>
 {% block content %}
+    <div>
+   <h3>Add product</h3>
+
+    <span class="message">{{message}}</span>
 {% if user.is_authenticated %}
     <form action="" method="post">
         {% csrf_token %}
+        <section class="column_form">
         {{ form }}
         <input type="submit" value="Add">
+        </section>
     </form>
 
 {% endif %}
-{{ message }}
+    </div>
+</view>
+
 {% endblock %}

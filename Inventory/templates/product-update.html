@@ -1,16 +1,24 @@
 {% extends '__base.html' %}
-
+<view>
 {% block content %}
-
+<div class="product_update">
     <h2>Update product</h2>
+
+    <span class="message">{{message}}</span>
+
 {% if user.is_authenticated %}
-    <form action="" method="post">
+    <form  action="" method="post">
         {% csrf_token %}
-        {{ form }}
-        <a href="{% url 'product_delete' pk=product.pk %}">(delete)</a>
-        <input type="submit" value="Send">
+
+        <section class="column_form">{{ form }}
+            <input type="submit" value="Send">
+            </section>
+        <a class="myButton" href="{% url 'product_delete' pk=product.pk %}">Delete product</a>
     </form>
+</div>
+
 {% endif %}
 
-{{ message }}
+
+    </view>
 {% endblock %}
