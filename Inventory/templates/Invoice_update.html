@@ -1,113 +1,114 @@
 {% extends '__base.html' %}
-
+<view>
 {% block content %}
+    <section>
 
 
-        <table class="tg">
-<!--        Invoice tabel-->
-<thead>
-  <tr>
-    <th class="tg-7cam">ID</th>
-    <th class="tg-7cam">Number</th>
-    <th class="tg-7cam">Company</th>
-    <th class="tg-7cam">Added date</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
 
+    <table class="tg">
+        <thead>
+          <tr>
+            <th class="tg-7cam">ID</th>
+            <th class="tg-7cam">Number</th>
+            <th class="tg-7cam">Company</th>
+            <th class="tg-7cam">Added date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+                <td class="tg-7cam">{{invoice.id}}</td>
+                <th class="tg-7cam">{{invoice.number}}</td>
+                <th class="tg-7cam">{{invoice.company}}</td>
+                <th class="tg-7cam">{{invoice.date}}</td>
+              {% if user.is_authenticated %}
+                 <th class="tg-7cam"> <a href="{% url 'invoice_delete' pk=invoice.id %}"> (delete)</a></td>
+              <th class="tg-7cam"> <a href="{% url 'invoice_update' pk=invoice.id %}"> (update)</a></td>
+               {% endif %}
+          </tr>
+    </table>
 
-        <td class="tg-7cam">{{invoice.id}}</td>
-        <th class="tg-7cam">{{invoice.number}}</td>
-        <th class="tg-7cam">{{invoice.company}}</td>
-        <th class="tg-7cam">{{invoice.date}}</td>
+         {% if user.is_authenticated %}
+        <br>
+    <form class="block_view" action="" method="post">
+        {% csrf_token %}
+        {{ form}}
+        <input type="submit" value="Add">
 
-      {% if user.is_authenticated %}
-         <th class="tg-7cam"> <a href="{% url 'invoice_delete' pk=invoice.id %}"> (delete)</a></td>
-      <th class="tg-7cam"> <a href="{% url 'invoice_update' pk=invoice.id %}"> (update)</a></td>
-       {% endif %}
-
-
-  </tr>
-</table>
-        <!--        Products tabel-->
+    </form>
 
 <h2>List of products:</h2>
 
+{% endif %}
     <table class="tg">
         {{ message }}
+        <thead>
+          <tr>
+            <th class="tg-7cam, table-bold ">ID</th>
+            <th class="tg-7cam, table-bold ">Name</th>
+            <th class="tg-7cam, table-bold ">Amount on invoice</th>
+            <th class="tg-7cam">unit</th>
+            <th class="tg-7cam">base amount</th>
+            <th class="tg-7cam">gross price</th>
+            <th class="tg-7cam">net price</th>
+            <th class="tg-7cam">Total gross</th>
+            <th class="tg-7cam">Total net</th>
 
-<thead>
-  <tr>
-    <th class="tg-7cam">ID</th>
-    <th class="tg-7cam">Name</th>
-    <th class="tg-7cam">Amount on invoice</th>
-    <th class="tg-7cam">unit</th>
-    <th class="tg-7cam">base amount</th>
-    <th class="tg-7cam">gross price</th>
-    <th class="tg-7cam">net price</th>
-    <th class="tg-7cam">Total gross</th>
-    <th class="tg-7cam">Total net</th>
+              {% if user.is_authenticated %}
+            <th class="tg-7cam">Delete</th>
+              {% endif %}
 
-      {% if user.is_authenticated %}
-    <th class="tg-7cam">Delete</th>
-      {% endif %}
-
-  </tr>
-</thead>
-<tbody>
-  <tr>  {% for product, result in total %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>  {% for product, result in total %}
 
 
-        <td class="tg-7cam">{{product.product.id}}</td>
-        <th class="tg-7cam"><a href="{% url 'product_edit' pk=product.id %}"> {{product.product.name}} (Edit)</a></td>
-        <th class="tg-7cam">{{product.amount}}</td>
-        <th class="tg-7cam">{{product.product.get_unit_display}}</td>
-        <th class="tg-7cam">{{product.product.amount}}</td>
-        <th class="tg-7cam"> {{product.product.gross_price}}</td>
-        <th class="tg-7cam"> {{product.product.net_price}}</td>
-        <th class="tg-7cam"> {{result.0}}</td>
-        <th class="tg-7cam"> {{result.1}}</td>
+                <td class="tg-7cam">{{product.product.id}}</td>
+                <th class="tg-7cam"><a href="{% url 'product_edit' pk=product.id %}"> {{product.product.name}} (Edit)</a></td>
+                <th class="tg-7cam">{{product.amount}}</td>
+                <th class="tg-7cam">{{product.product.get_unit_display}}</td>
+                <th class="tg-7cam">{{product.product.amount}}</td>
+                <th class="tg-7cam"> {{product.product.gross_price}}</td>
+                <th class="tg-7cam"> {{product.product.net_price}}</td>
+                <th class="tg-7cam"> {{result.0}}</td>
+                <th class="tg-7cam"> {{result.1}}</td>
 
-{% if user.is_authenticated %}
-<!--      zrobić ukryty formularz z delete-->
-        <th class="tg-7cam"> <a href="{% url 'invoice_product_delete' pk=product.id %}"> delete</a></td>
-{% endif %}
+        {% if user.is_authenticated %}
+        <!--      zrobić ukryty formularz z delete-->
+                <th class="tg-7cam"> <a href="{% url 'invoice_product_delete' pk=product.id %}"> delete</a></td>
+        {% endif %}
 
-  </tr>
-{% endfor %}
+          </tr>
+        {% endfor %}
 
-        <div class="pagination">
+                <div class="pagination">
             <span class="step-links">
                 <b>Page: </b>
-                {% if products_list.has_previous %}
+                {% if product_list.has_previous %}
                     <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ products_list.previous_page_number }}">previous</a>
+                    <a href="?page={{ product_list.previous_page_number }}">previous</a>
                 {% endif %}
 
-                            {% for i in products_list.paginator.page_range %}
-                  {% if products_list.number == i %}
-                      <span class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></span>
+                            {% for i in product_list.paginator.page_range %}
+                  {% if product_list.number == i %}
+                      <span class="active"><span>{{ i }} <span class="sr-only">(current)
+                      </span></span></span>
                   {% else %}
                     <a href="?page={{ i }}">{{ i }}</a>
                   {% endif %}
                 {% endfor %}
 
-                {% if products_list.has_next %}
-                    <a href="?page={{ products_list.next_page_number }}">next</a>
-                    <a href="?page={{ products_list.paginator.num_pages }}">last &raquo;</a>
+                {% if product_list.has_next %}
+                    <a href="?page={{ product_list.next_page_number }}">next</a>
+                    <a href="?page={{ product_list.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
             </span>
         </div>
-    </tbody>
-</table>
-{% if user.is_authenticated %}
+            </tbody>
+    </table>
 
-    <form action="" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Wyślij">
-            {{ form}}
-    </form>
-{% endif %}
 
+
+            </section>
+</view>
 {% endblock %}
