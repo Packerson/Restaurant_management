@@ -426,9 +426,12 @@ class InventoryView(View):
         """Product add or update in inventory"""
         """add product"""
         if 'Add product' in request.POST:
+            # instance or initial?
+            # zanim sprawdzać formularz sprawdzić czy produkt jest na fakturze, sprawdzić instancję
 
             form = InventoryForm(request.POST)
             form_invoice = AddInvoiceToInventoryForm()
+
             if form.is_valid():
                 product = form.cleaned_data['product']
                 amount = form.cleaned_data['amount']

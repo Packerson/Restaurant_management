@@ -1,71 +1,78 @@
 {% extends '__base.html' %}
 
 {% block content %}
+<view>
+        <form action="">
 
-{% if user.is_authenticated %}
-        <label><a href="../product/add/" >Add product</a></label>
-{% endif %}
+      <label>Search company:</label>
+      <input type="text" id="search" name="search">
+      <input type="submit" value="search">
+        </form>
 
+    <br><br>
+        {% if user.is_authenticated %}
+                <label><a href="../product/add/" >Add product</a></label>
+        {% endif %}
+
+      <h3>{{ message }}</h3>
 
         <h2>List of products:</h2>
-
     <table class="tg">
-        {{ message }}
 
-<thead>
-  <tr>
-    <th class="tg-7cam">ID</th>
-    <th class="tg-7cam">Name</th>
-    <th class="tg-7cam">unit</th>
-    <th class="tg-7cam">Base amount</th>
-    <th class="tg-7cam">gross price</th>
-    <th class="tg-7cam">net price</th>
-    <th class="tg-7cam">added date</th>
+        <thead>
+          <tr>
+            <th class="tg-7cam">ID</th>
+            <th class="tg-7cam">Name</th>
+            <th class="tg-7cam">unit</th>
+            <th class="tg-7cam">Base amount</th>
+            <th class="tg-7cam">gross price</th>
+            <th class="tg-7cam">net price</th>
+            <th class="tg-7cam">added date</th>
 
-  </tr>
-</thead>
-<tbody>
-  <tr>  {% for product in products_list %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>  {% for product in products_list %}
 
 
-        <td class="tg-7cam">{{product.id}}</td>
-        <th class="tg-7cam">{{product.name}}</td>
-        <th class="tg-7cam">{{product.get_unit_display}}</td>
-        <th class="tg-7cam">{{product.amount}}</td>
-        <th class="tg-7cam">{{product.gross_price}}</td>
-        <th class="tg-7cam">{{product.net_price}}</td>
-        <th class="tg-7cam">{{product.date}}</td>
+                <td class="tg-7cam">{{product.id}}</td>
+                <th class="tg-7cam">{{product.name}}</td>
+                <th class="tg-7cam">{{product.get_unit_display}}</td>
+                <th class="tg-7cam">{{product.amount}}</td>
+                <th class="tg-7cam">{{product.gross_price}}</td>
+                <th class="tg-7cam">{{product.net_price}}</td>
+                <th class="tg-7cam">{{product.date}}</td>
 
-      {% if user.is_authenticated %}
-        <th class="tg-7cam"><a href="{% url 'product_edit' pk=product.id %}">(Edit)</a></th>
-      {% endif %}
+              {% if user.is_authenticated %}
+                <th class="tg-7cam"><a href="{% url 'product_edit' pk=product.id %}">(Edit)</a></th>
+              {% endif %}
 
-  </tr>
-{% endfor %}
-        <div class="pagination">
-            <span class="step-links">
-                <b>Page: </b>
-                {% if products_list.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ products_list.previous_page_number }}">previous</a>
-                {% endif %}
+          </tr>
+        {% endfor %}
+                <div class="pagination">
+                    <span class="step-links">
+                        <b>Page: </b>
+                        {% if products_list.has_previous %}
+                            <a href="?page=1">&laquo; first</a>
+                            <a href="?page={{ products_list.previous_page_number }}">previous</a>
+                        {% endif %}
 
-                            {% for i in products_list.paginator.page_range %}
-                  {% if products_list.number == i %}
-                      <span class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></span>
-                  {% else %}
-                    <a href="?page={{ i }}">{{ i }}</a>
-                  {% endif %}
-                {% endfor %}
+                                    {% for i in products_list.paginator.page_range %}
+                          {% if products_list.number == i %}
+                              <span class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></span>
+                          {% else %}
+                            <a href="?page={{ i }}">{{ i }}</a>
+                          {% endif %}
+                        {% endfor %}
 
-                {% if products_list.has_next %}
-                    <a href="?page={{ products_list.next_page_number }}">next</a>
-                    <a href="?page={{ products_list.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
-    </tbody>
-</table>
-
+                        {% if products_list.has_next %}
+                            <a href="?page={{ products_list.next_page_number }}">next</a>
+                            <a href="?page={{ products_list.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </tbody>
+    </table>
+</view>
 
 {% endblock %}

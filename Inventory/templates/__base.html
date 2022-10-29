@@ -1,50 +1,68 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <head><meta charset="utf-8">
-        <title>Restaurant XYZ </title>
+
+<head>
+    <meta charset="utf-8">
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    </head>
-    <body>
-    <div class="logo-img">
-        <a href="/">
-        <img src="/static/images/label-restaurant.png" alt="logo">
-        </a>
-    </div>
+    <title>Restaurant XYZ </title>
+</head>
 
-    {% block messages %}
-          {% if messages %}
-              {% for message in messages %}
-                  <div class="alert alert-{{ message.tags }}">
-                      <a class="close" data-dismiss="alert">×</a>
-                      {{ message|safe }}
-                  </div>
-              {% endfor %}
-          {% endif %}
-      {% endblock %}
-    </div>
+<body>
+    <header>
+        <section class="logo-img">
+            <a href="/">
+            <img src="/Inventory/static/images/label-restaurant.png" alt="logo">
+            </a>
+        </section>
 
-  {% if user.is_authenticated %}
-    <p>User: {{ user.username }}</p>
-    <p><a href="{% url 'logout' %}">Logout</a></p>
-  {% else %}
-    <a href="{% url 'login' %}">Login</a>
-  {% endif %}
+        <section>
+            <h2>Restaurant XYZ</h2>
+            <h3>Management system</h3>
+
+        </section>
+
+        <section class="register_list">
+        {% block messages %}
+              {% if messages %}
+                  {% for message in messages %}
+                      <div class="alert alert-{{ message.tags }}">
+                          <a class="close" data-dismiss="alert">×</a>
+                          {{ message|safe }}
+                      </div>
+                  {% endfor %}
+              {% endif %}
+          {% endblock %}
 
 
-<!--    <ul>  <a href="../login" >Login</a></ul>-->
-<!--    <ul>  <a href=../logout">Logout</a></ul>-->
+      {% if user.is_authenticated %}
+        <p>User: {{ user.username }}</p>
+        <p><a href="{% url 'logout' %}">Logout</a></p>
+      {% else %}
+        <a href="{% url 'login' %}">Login</a>
+      {% endif %}
+
+        </section>
+    </header>
+
+    <div class="block_view">
+
+        <section>
     <ul>  <a href="{% url 'register' %}" >Register</a></ul>
     <ul>  <a href="{% url 'company_list' %}"  >Company's list</a></ul>
     <ul>  <a href="{% url 'product_list' %}" >Products list</a></ul>
     <ul>  <a href="{% url 'invoice_list' %}"  >Invoices list</a></ul>
     <ul>  <a href="{% url 'inventory_list' %}"  >Inventory</a></ul>
+        </section>
 
 
-
-
+        <section class="block">
         {% block content %}
         {% endblock %}
+        </section>
+
+    </div>
+
     </body>
 </html>
 

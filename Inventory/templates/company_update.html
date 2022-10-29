@@ -7,7 +7,7 @@
         {% csrf_token %}
         {{ form }}
         <a href="{% url 'company_delete' pk=company.pk %}">(delete)</a>
-        <input type="submit" value="Wyślij">
+        <input type="submit" value="Send">
 
     </form>
   {% endif %}
