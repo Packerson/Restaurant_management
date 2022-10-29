@@ -16,12 +16,25 @@ header {
 }
 
 .block {
-    padding-top: 100px;
-    padding-left: 50px;
+    /*padding-top: 50px;*/
+    /*padding-left: 50px;*/
     display: flex;
     justify-content:space-evenly ;
     background-color: #f8f8f8;
 }
+.main_view {
+	/*height: 100%*/
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-image: url("../images/background_main.jpg");
+	background-color: #cccccc;
+	height: 300%;
+	padding-right: 25%;
+	padding-left: 5%;
+
+}
+
 .inventory {
     display: inline-flex;
     align-items: normal;
