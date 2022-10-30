@@ -2,7 +2,7 @@ from datetime import date
 
 import pytest
 from django.urls import reverse
-
+from django.contrib.messages import get_messages
 from Inventory.models import Company, Invoice, ProductQuantity
 
 
@@ -35,7 +35,9 @@ def test_invoice_date(client, company):
                            {"number": "123", "company": company[0].id,
                             "date": "2033-10-31"})
 
-    assert response.context['message'] == 'something went wrong'
+    messages = list(get_messages(response.wsgi_request))
+    assert len(messages) == 1
+    assert str(messages[0]) == 'something went wrong'
 
 
 @pytest.mark.django_db

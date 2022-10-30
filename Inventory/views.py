@@ -16,7 +16,7 @@ from Inventory.models import Product, Company, Invoice, ProductQuantity, \
 
 
 """Add tests for invoice_inventory_add """
-
+""" https://www.codementor.io/@lakshminp/handling-multiple-forms-on-the-same-page-in-django-fv89t2s3j """
 """w przyszłości wyszukiwarka produktów i firm z bazy danych"""
 
 """pomyśleć nad dodaniem zapytania ,czy na pewno usunął ? w JavaScripcie?"""

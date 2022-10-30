@@ -11,10 +11,9 @@
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/test_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/test_functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_SPY_W_93_ScrumLab/jedzonko/templates/__base__.html" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_SPY_W_93_ScrumLab/jedzonko/templates/__base__.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/inventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/inventory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/tests/test_company.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/test_company.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/tests/test_inventory.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/test_inventory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/tests/test_invoice.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/test_invoice.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +79,7 @@
       <workItem from="1666813785187" duration="2988000" />
       <workItem from="1667045359627" duration="22683000" />
       <workItem from="1667119546876" duration="2845000" />
-      <workItem from="1667143990233" duration="8005000" />
+      <workItem from="1667143990233" duration="11492000" />
     </task>
     <servers />
   </component>
