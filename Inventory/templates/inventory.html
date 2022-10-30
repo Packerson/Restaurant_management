@@ -24,9 +24,17 @@
 
     </form>
 
+                    {% for message in messages%}
+                  <span class="message message_delete"> {{ message }}</span>
+                    {% endfor %}
+
+
             <h2>List of products:</h2>
                 <table class="tg">
-                    {{ message }}
+
+
+
+
                     <thead>
                       <tr>
                         <th class="tg-7cam">ID</th>

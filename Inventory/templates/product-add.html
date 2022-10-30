@@ -2,9 +2,15 @@
 <view>
 {% block content %}
     <div>
+
+
    <h3>Add product</h3>
 
-    <span class="message">{{message}}</span>
+        {% for message in messages%}
+      <span class="message_delete "> {{ message }}</span>
+
+        {% endfor %}
+
 {% if user.is_authenticated %}
     <form action="" method="post">
         {% csrf_token %}
