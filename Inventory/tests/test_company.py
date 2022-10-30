@@ -1,6 +1,6 @@
 import pytest
 from django.urls import reverse
-
+from django.contrib.messages import get_messages
 from Inventory.models import Company
 
 
@@ -17,6 +17,7 @@ def test_company_add(client):
     response = client.post(reverse("company_add"),
                            {"name": "abc", "nip": '1234567891',
                             "address": "random address"})
+    messages = list(get_messages(response.wsgi_request))
 
     assert response.status_code == 200
     assert len(Company.objects.all()) == 1
@@ -26,7 +27,8 @@ def test_company_add(client):
     assert company.name == "abc"
     assert company.nip == '1234567891'
     assert company.address == "random address"
-    assert response.context['message'] == 'company added'
+    assert len(messages) == 1
+    assert str(messages[0]) == 'company added'
 
 
 @pytest.mark.django_db
@@ -36,7 +38,9 @@ def test_company_add_nip(client):
                            {"name": "abc", "nip": 'AAAA56A891',
                             "address": "random address"})
 
-    assert response.context['message'] == 'something went wrong'
+    messages = list(get_messages(response.wsgi_request))
+    assert len(messages) == 1
+    assert str(messages[0]) == 'something went wrong'
 
 
 @pytest.mark.django_db
