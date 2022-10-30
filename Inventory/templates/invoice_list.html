@@ -13,6 +13,11 @@
         <label><a href="../invoice/add/" >Add invoice</a></label>
 {% endif %}
 
+    {% for message in messages%}
+      <h3 class="message message_delete"> {{ message }}</h3>
+        {% endfor %}
+
+
 
         <h2>Invoices list: </h2>
 
@@ -30,7 +35,6 @@
 <tbody>
   <tr>  {% for invoice in invoices_list %}
 
-            {{ message }}
 
 
         <td class="tg-7cam">{{invoice.id}}</td>

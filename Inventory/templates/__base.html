@@ -23,16 +23,16 @@
         </section>
 
         <section class="register_list">
-        {% block messages %}
-              {% if messages %}
-                  {% for message in messages %}
-                      <div class="alert alert-{{ message.tags }}">
-                          <a class="close" data-dismiss="alert">×</a>
-                          {{ message|safe }}
-                      </div>
-                  {% endfor %}
-              {% endif %}
-          {% endblock %}
+<!--        {% block messages %}-->
+<!--              {% if messages %}-->
+<!--                  {% for message in messages %}-->
+<!--                      <div class="alert alert-{{ message.tags }}">-->
+<!--                          <a class="close" data-dismiss="alert">×</a>-->
+<!--                          {{ message|safe }}-->
+<!--                      </div>-->
+<!--                  {% endfor %}-->
+<!--              {% endif %}-->
+<!--          {% endblock %}-->
 
 
       {% if user.is_authenticated %}

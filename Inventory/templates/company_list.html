@@ -13,9 +13,13 @@
         {% if user.is_authenticated %}
          <br><br>
         <label><a href="../company/add/" >Add company</a></label>
-
-        {{ message }}
         {% endif %}
+
+         {% for message in messages%}
+      <h3 class="message message_delete"> {{ message }}</h3>
+        {% endfor %}
+
+
     </div>
 
     <div>
