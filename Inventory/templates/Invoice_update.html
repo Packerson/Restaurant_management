@@ -27,6 +27,10 @@
           </tr>
     </table>
 
+         {% for message in messages%}
+      <h3 class="message message_delete"> {{ message }}</h3>
+        {% endfor %}
+
          {% if user.is_authenticated %}
         <br>
     <form class="block_view" action="" method="post">
@@ -40,7 +44,7 @@
 
 {% endif %}
     <table class="tg">
-        {{ message }}
+
         <thead>
           <tr>
             <th class="tg-7cam, table-bold ">ID</th>

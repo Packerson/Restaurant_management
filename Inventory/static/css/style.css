@@ -55,6 +55,12 @@ header {
 .message {
     font-weight: bolder;
     font-size: 20px;
+
+}
+
+.message_delete {
+	color: red;
+	background-color: red;
 }
 
 .tg  {border-collapse:collapse;border-spacing:0;}

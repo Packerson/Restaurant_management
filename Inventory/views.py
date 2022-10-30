@@ -14,8 +14,10 @@ from Inventory.models import Product, Company, Invoice, ProductQuantity, \
 
 """Pamiętać!"""
 
+"""Jak dodać messages do redirect, dodać wszędzie message.info i pozmieniać w templatach"""
+
 """Add tests for invoice_inventory_add """
-"""Jak dodać messages do redirect"""
+
 
 """
 coś naknocone z Inventory(form.valid()), 
@@ -23,7 +25,6 @@ update one to one , informacja że produkt już istnieje w bazie?????,
 after updated product product is going on bottom of the table, why?"""
 
 """w przyszłości wyszukiwarka produktów i firm z bazy danych"""
-
 
 """pomyśleć nad dodaniem zapytania ,czy na pewno usunął ? w JavaScripcie?"""
 
@@ -171,7 +172,9 @@ class ProductDeleteView(View):
         return render(request, 'product_delete.html', ctx)
 
     def post(self, request, pk):
-        Product.objects.filter(pk=pk).delete()
+        product_deleted = Product.objects.get(pk=pk)
+        messages.info(request, f"Product {product_deleted.name} deleted")
+        product_deleted.delete()
         return redirect('product_list')
 
 
@@ -254,10 +257,11 @@ class CompanyDelete(View):
         return render(request, 'company_delete.html', ctx)
 
     def post(self, request, pk):
-        """redirect after succes delete"""
+        """redirect after success deleted"""
         with transaction.atomic():
-            Company.objects.get(pk=pk).delete()
-            # ctx = {'message': "Company deleted"}
+            company_deleted = Company.objects.get(pk=pk)
+            messages.info(request, f"Company {company_deleted.name} deleted")
+            company_deleted.delete()
             return redirect('company_list')
 
 
@@ -360,19 +364,21 @@ class InvoiceAddProduct(View):
 
         if not ProductQuantity.objects.filter(invoice=invoice, product=product):
             form = InvoiceDetailsForm(request.POST)
-            context2 = {'form': form, 'message': 'Product added!'}
+            messages.info(request, f"Product added")
+            context2 = {'form': form}
         else:
             product_on_invoice = ProductQuantity.objects.get(invoice=invoice, product=product)
             form = InvoiceDetailsForm(request.POST, instance=product_on_invoice)
-            context2 = {'form': form, 'message': 'Product updated!'}
+            messages.info(request, "Product updated!")
+            context2 = {'form': form}
         context = self.result_total(pk)
         if form.is_valid():
             form.save()
             context = self.result_total(pk)
             context.update(context2)
             return render(request, 'Invoice_update.html', context)
-
-        context2 = {'message': 'something went wrong', 'form': InvoiceDetailsForm()}
+        messages.info(request, "something went wrong")
+        context2 = {'form': InvoiceDetailsForm()}
         context.update(context2)
         return render(request, 'Invoice_update.html', context)
 
@@ -389,10 +395,10 @@ class InvoiceDeleteProduct(View):
         """After delete redirect to invoice view"""
         with transaction.atomic():
             product = ProductQuantity.objects.get(pk=pk)
-            invoice_id = product.invoice.id
+            invoice = product.invoice
+            messages.info(request, f"Product {product.product.name} deleted form {invoice.number}")
             product.delete()
-            # context = {'message': "Product deleted"}
-            return redirect('invoice_edit', pk=invoice_id)
+            return redirect('invoice_edit', pk=invoice.id)
 
 
 class InvoiceDelete(View):
@@ -405,8 +411,9 @@ class InvoiceDelete(View):
 
     def post(self, request, pk):
         with transaction.atomic():
-            Invoice.objects.filter(pk=pk).delete()
-            # ctx = {'message': "Invoice deleted"}
+            invoice_deleted = Invoice.objects.get(pk=pk)
+            messages.info(request, f"Invoice {invoice_deleted.number} deleted ")
+            invoice_deleted.delete()
             return redirect('invoice_list')
 
 
@@ -438,8 +445,8 @@ class InventoryView(View):
                 if not Inventory.objects.filter(product=product):
                     Inventory.objects.create(product=product, amount=amount)
                     inventory = Inventory.objects.all()
-                    context = {'form': InventoryForm(), 'message': 'Product added',
-                               'inventory': inventory, 'form_invoice': form_invoice}
+                    messages.info(request, "Product added")
+                    context = {'form': InventoryForm(), 'inventory': inventory, 'form_invoice': form_invoice}
                     return render(request, 'inventory.html', context)
             else:
                 updated_product = Inventory.objects.get(product=request.POST['product'])

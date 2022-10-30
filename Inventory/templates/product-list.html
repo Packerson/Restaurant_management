@@ -10,11 +10,15 @@
         </form>
 
     <br><br>
+
         {% if user.is_authenticated %}
                 <label><a href="../product/add/" >Add product</a></label>
         {% endif %}
 
-      <h3>{{ message }}</h3>
+        {% for message in messages%}
+      <h3 class="message message_delete"> {{ message }}</h3>
+        {% endfor %}
+
 
         <h2>List of products:</h2>
     <table class="tg">
