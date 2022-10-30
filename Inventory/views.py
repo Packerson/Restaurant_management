@@ -14,15 +14,8 @@ from Inventory.models import Product, Company, Invoice, ProductQuantity, \
 
 """Pamiętać!"""
 
-"""Jak dodać messages do redirect, dodać wszędzie message.info i pozmieniać w templatach"""
 
 """Add tests for invoice_inventory_add """
-
-
-"""
-coś naknocone z Inventory(form.valid()), 
-update one to one , informacja że produkt już istnieje w bazie?????,
-after updated product product is going on bottom of the table, why?"""
 
 """w przyszłości wyszukiwarka produktów i firm z bazy danych"""
 
@@ -99,9 +92,8 @@ class ProductView(View):
 
     def get(self, request):
         products = Product.objects.order_by('name')
-        ctx = {'products': products}
         if len(products) == 0:
-            ctx['message'] = 'No products in base'
+            messages.info(request, "No products in database")
 
         """create pagination, condition 50 products on page"""
         paginator = Paginator(products, 50)
@@ -125,9 +117,10 @@ class ProductAddView(View):
         with transaction.atomic():
             if form.is_valid():
                 form.save()
-                context['message'] = 'product added'
+                messages.info(request, "Product added")
                 return render(request, 'product-add.html', context)
-            context['message'] = 'something went wrong'
+
+            messages.info(request, 'something went wrong')
             return render(request, 'product-add.html', context)
 
 
@@ -143,11 +136,13 @@ class ProductUpdateView(View):
                                     'amount': product.amount,
                                     'gross_price': product.gross_price,
                                     'net_price': product.net_price})
+
                 context = {'form': form, 'product': product}
                 return render(request, 'product-update.html', context)
         except:
             form = ProductForm()
-            context = {'form': form, 'message': f"No product with this ID:{pk}"}
+            messages.info(request, f"No product with this ID:{pk}")
+            context = {'form': form}
             return render(request, 'product-update.html', context)
 
     def post(self, request, pk):
@@ -156,10 +151,10 @@ class ProductUpdateView(View):
         context = {'form': form, 'product': product}
         if form.is_valid():
             form.save()
-            context['message'] = 'product update'
+            messages.info(request, "Product updated")
             return render(request, 'product-update.html', context)
 
-        context['message'] = 'something went wrong'
+        messages.info(request, 'something went wrong')
         return render(request, 'product-update.html', context)
 
 
@@ -194,10 +189,11 @@ class CompanyAddView(View):
             if form.is_valid():
                 form.save()
                 form = CompanyForm()
-                context = {'form': form, 'message': 'company added'}
+                messages.info(request, 'company added')
+                context = {'form': form}
                 return render(request, 'company_add.html', context)
 
-            context['message'] = 'something went wrong'
+            messages.info(request, 'something went wrong')
             return render(request, 'company_add.html', context)
 
 
@@ -208,7 +204,7 @@ class CompanyListView(View):
         companys = Company.objects.order_by('name')
         ctx = {'companys': companys}
         if len(companys) == 0:
-            ctx['message'] = 'No companys in base'
+            messages.info(request, 'No company in database')
 
         """create pagination, condition 50 elements on page"""
         paginator = Paginator(companys, 50)
@@ -232,7 +228,8 @@ class CompanyUpdateView(View):
                 return render(request, 'company_update.html', context)
         except:
             form = CompanyForm()
-            context = {'form': form, 'message': f"No company with this ID:{pk}"}
+            messages.info(request, f"No company with this ID:{pk}")
+            context = {'form': form, }
             return render(request, 'company_update.html', context)
 
     def post(self, request, pk):
@@ -241,10 +238,10 @@ class CompanyUpdateView(View):
         context = {'form': form, 'company': company}
         if form.is_valid():
             form.save()
-            context['message'] = 'Company update'
+            messages.info(request, 'Company update')
             return render(request, 'company_update.html', context)
 
-        context['message'] = 'something goes wrong'
+        messages.info(request, 'something goes wrong')
         return render(request, 'company_update.html', context)
 
 
@@ -279,12 +276,15 @@ class InvoiceAdd(View):
         form = InvoiceForm(pDict)
         context = {'form': form}
         with transaction.atomic():
+
             if form.is_valid():
                 form.save()
                 form = InvoiceForm()
-                context = {'form': form, 'message': 'Invoice added'}
+                messages.info(request, 'Invoice added')
+                context = {'form': form}
                 return render(request, 'invoice_add.html', context)
-        context['message'] = 'something went wrong'
+
+        messages.info(request, 'something went wrong')
         return render(request, 'invoice_add.html', context)
 
 
@@ -303,12 +303,13 @@ class InvoiceUpdateView(View):
         invoice = Invoice.objects.get(pk=pk)
         form = InvoiceForm(request.POST, instance=invoice)
         context = {'form': form, 'invoice': invoice}
+
         if form.is_valid():
             invoice.save()
-            context['message'] = 'invoice update'
+            messages.info(request, 'Invoice updated')
             return render(request, 'invoice_add.html', context)
 
-        context['message'] = 'something went wrong'
+        messages.info(request, 'something went wrong')
         return render(request, 'invoice_add.html', context)
 
 
@@ -318,9 +319,9 @@ class InvoiceListView(View):
     def get(self, request):
         """Order invoices by creating date"""
         invoices = Invoice.objects.order_by('-date')
-        ctx = {'invoices': invoices}
         if len(invoices) == 0:
-            ctx['message'] = 'No invoices in base'
+            messages.info(request, 'No invoices in base')
+
         """create pagination and conditions 50 elements on page"""
         paginator = Paginator(invoices, 50)
         page = request.GET.get('page')
@@ -367,16 +368,19 @@ class InvoiceAddProduct(View):
             messages.info(request, f"Product added")
             context2 = {'form': form}
         else:
-            product_on_invoice = ProductQuantity.objects.get(invoice=invoice, product=product)
+            product_on_invoice = ProductQuantity.objects.get(invoice=invoice,
+                                                             product=product)
             form = InvoiceDetailsForm(request.POST, instance=product_on_invoice)
             messages.info(request, "Product updated!")
             context2 = {'form': form}
         context = self.result_total(pk)
+
         if form.is_valid():
             form.save()
             context = self.result_total(pk)
             context.update(context2)
             return render(request, 'Invoice_update.html', context)
+
         messages.info(request, "something went wrong")
         context2 = {'form': InvoiceDetailsForm()}
         context.update(context2)
@@ -433,48 +437,49 @@ class InventoryView(View):
         """Product add or update in inventory"""
         """add product"""
         if 'Add product' in request.POST:
-            # instance or initial?
-            # zanim sprawdzać formularz sprawdzić czy produkt jest na fakturze, sprawdzić instancję
 
-            form = InventoryForm(request.POST)
-            form_invoice = AddInvoiceToInventoryForm()
+            product_to_add = request.POST['product']
+            amount = int(request.POST['amount'])
 
-            if form.is_valid():
-                product = form.cleaned_data['product']
-                amount = form.cleaned_data['amount']
-                if not Inventory.objects.filter(product=product):
-                    Inventory.objects.create(product=product, amount=amount)
-                    inventory = Inventory.objects.all()
+            if amount > 0:
+                if not Inventory.objects.filter(product=product_to_add):
+                    """checking if product not exist """
+
+                    form = InventoryForm(request.POST)
                     messages.info(request, "Product added")
-                    context = {'form': InventoryForm(), 'inventory': inventory, 'form_invoice': form_invoice}
-                    return render(request, 'inventory.html', context)
-            else:
-                updated_product = Inventory.objects.get(product=request.POST['product'])
-                amount_value = float(request.POST['amount'])
-                # updated_product.amount = amount_value if amount_value > 0 else False
-                if amount_value > 0:
-                    updated_product.amount = amount_value
-                    updated_product.save()
-                    """maybe add invoice to inventory"""
-                    inventory = Inventory.objects.all()
-                    context = {'form': form, 'message': 'Product updated!',
-                               'inventory': inventory}
-                    return render(request, 'inventory.html', context)
+
                 else:
+                    inventory_product = Inventory.objects.get(product=product_to_add)
+                    form = InventoryForm(request.POST, instance=inventory_product)
+                    messages.info(request, "Product updated")
+
+                form_invoice = AddInvoiceToInventoryForm()
+                if form.is_valid():
+                    form.save()
                     inventory = Inventory.objects.all()
-                    context = {'form': form, 'message': 'Amount cant be negative!',
-                               'inventory': inventory}
+                    context = {'form': InventoryForm(), 'inventory': inventory,
+                               'form_invoice': form_invoice}
                     return render(request, 'inventory.html', context)
+
+            else:
+                form_invoice = AddInvoiceToInventoryForm()
+                messages.error(request, "something went wrong or amount is negative")
+                inventory = Inventory.objects.all()
+                context = {'form': InventoryForm(), 'inventory': inventory,
+                           'form_invoice': form_invoice}
+                return render(request, 'inventory.html', context)
 
         if 'Add invoice' in request.POST:
             """Add invoice to inventory"""
             form = InventoryForm()
             form_invoice = AddInvoiceToInventoryForm(request.POST)
             if form_invoice.is_valid():
-                invoice_to_inventory = Invoice.objects.get(id=form_invoice.cleaned_data['invoice'])
+                invoice_to_inventory = Invoice.objects.get \
+                    (id=form_invoice.cleaned_data['invoice'])
                 inventory = Inventory.objects.all()
+                messages.info(request, f'Invoice {invoice_to_inventory} '
+                                       f'added to inventory')
                 context = {'form': form, 'form_invoice': form_invoice,
-                           'message': f'Invoice {invoice_to_inventory} added to inventory',
                            'inventory': inventory}
                 return render(request, 'inventory.html', context)
 
@@ -491,5 +496,7 @@ class InventoryDeleteProduct(View):
         """After delete redirect to inventory view"""
         with transaction.atomic():
             inventory = Inventory.objects.get(pk=pk)
+            messages.info(request, f'Product {inventory.product.name} '
+                                   f'deleted from inventory')
             inventory.delete()
             return redirect('inventory_list')

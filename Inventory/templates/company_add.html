@@ -3,7 +3,11 @@
 {% block content %}
     <form action="" method="post">
         <div class="column_form">
-            <span class="message">{{ message }}</span>
+
+            {% for message in messages%}
+      <h3 class="message message_delete"> {{ message }}</h3>
+            {% endfor %}
+
         <h3>Add company</h3>
 
         {% csrf_token %}

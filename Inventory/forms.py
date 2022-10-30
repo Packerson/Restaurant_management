@@ -42,10 +42,6 @@ class CompanyForm(forms.ModelForm):
         model = Company
         fields = '__all__'
 
-        # widgets = {
-        #     'Address': forms.CharField(widget=)
-        # }
-
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -60,7 +56,7 @@ class InvoiceForm(forms.ModelForm):
             'date': DateInput()
         }
 
-    def clean_date(self, *args, **kwargs):
+    def clean_date(self):
         date = self.cleaned_data['date']
         present = datetime.date.today()
 
@@ -83,6 +79,14 @@ class InventoryForm(forms.ModelForm):
         model = Inventory
         fields = "__all__"
 
+        """ it wont work, because in return inventoryForm(request.POST)
+         and this will return error (this name already exists)"""
+    # def clean_amount(self):
+    #     amount = self.cleaned_data['amount']
+    #     print(amount)
+    #     if amount < 0:
+    #         raise forms.ValidationError("Amount cant be negative")
+    #     return amount
 
 
 def choices_invoices():

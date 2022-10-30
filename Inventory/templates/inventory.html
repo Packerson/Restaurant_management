@@ -2,6 +2,11 @@
 
 {% block content %}
 <view class="">
+
+     {% for message in messages%}
+                  <span class="message message_delete"> {{ message }}</span>
+                    {% endfor %}
+
 <form action="" method="post">
 
         {% csrf_token %}
@@ -9,6 +14,7 @@
 
         {% if user.is_authenticated %}
         {{ form}}
+
         <input  type="submit" value="Add product" name="Add product">
         </div>
 
@@ -24,9 +30,13 @@
 
     </form>
 
+
             <h2>List of products:</h2>
                 <table class="tg">
-                    {{ message }}
+
+
+
+
                     <thead>
                       <tr>
                         <th class="tg-7cam">ID</th>
