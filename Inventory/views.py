@@ -21,7 +21,8 @@ from Inventory.models import Product, Company, Invoice, ProductQuantity, \
 
 """pomyśleć nad dodaniem zapytania ,czy na pewno usunął ? w JavaScripcie?"""
 
-"""fastAPI, PANDAS"""
+"""fasInventory application for restaurants based on my previous professional expierence (7 years as a chef)
+Aplication allows for creating user accounts with login access, creating product and supplier database, creating invoices, updating inventory based on invoice contentstAPI, PANDAS"""
 
 
 def home(request):
