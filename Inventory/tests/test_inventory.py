@@ -16,7 +16,7 @@ def test_inventory(client, product):
 def test_inventory_add_products(client, product, invoice, company):
     """adding products"""
 
-    form = {'product': product[0].id, 'amount': 3}
+    form = {'product': product[0], 'amount': 3}
     form_invoice = {"number": "123", "company": company[1].id,
                             "date": invoice[0].date}
 

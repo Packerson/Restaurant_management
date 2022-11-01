@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.contrib.auth.decorators import login_required
 
 from Inventory.views import ProductView, ProductAddView, ProductUpdateView, \
     ProductDeleteView, home, login_view, logout_view, add_user_view, \
     change_password_view, CompanyAddView, CompanyListView, CompanyUpdateView, \
     CompanyDelete, InvoiceListView, InvoiceAdd, InvoiceAddProduct, InvoiceDelete, \
-    InventoryView, InvoiceDeleteProduct, InventoryDeleteProduct, InvoiceUpdateView
+    InventoryView, InvoiceDeleteProduct, InventoryDeleteProduct, InvoiceUpdateView, \
+    SearchView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,28 +33,30 @@ urlpatterns = [
     path('password/', change_password_view, name="change_password"),
 
     path('product/', ProductView.as_view(), name='product_list'),
-    path('product/add/', ProductAddView.as_view(), name='product_add'),
-    path('product/<int:pk>/', ProductUpdateView.as_view(), name='product_edit'),
-    path('product/delete/<int:pk>', ProductDeleteView.as_view(),
+    path('product/add/', login_required(ProductAddView.as_view()), name='product_add'),
+    path('product/<int:pk>/', login_required(ProductUpdateView.as_view()), name='product_edit'),
+    path('product/delete/<int:pk>', login_required(ProductDeleteView.as_view()),
          name='product_delete'),
 
     path('company/', CompanyListView.as_view(), name='company_list'),
-    path('company/add/', CompanyAddView.as_view(), name='company_add'),
-    path('company/<int:pk>/', CompanyUpdateView.as_view(), name='company_edit'),
-    path('company/delete/<int:pk>/', CompanyDelete.as_view(),
+    path('company/add/', login_required(CompanyAddView.as_view()), name='company_add'),
+    path('company/<int:pk>/', login_required(CompanyUpdateView.as_view()), name='company_edit'),
+    path('company/delete/<int:pk>/', login_required(CompanyDelete.as_view()),
          name='company_delete'),
 
     path('invoice/', InvoiceListView.as_view(), name='invoice_list'),
-    path('invoice/add/', InvoiceAdd.as_view(), name='invoice_add'),
+    path('invoice/add/', login_required(InvoiceAdd.as_view()), name='invoice_add'),
     path('invoice/<int:pk>/', InvoiceAddProduct.as_view(), name='invoice_edit'),
-    path('invoice/update/<int:pk>/', InvoiceUpdateView.as_view(),
+    path('invoice/update/<int:pk>/', login_required(InvoiceUpdateView.as_view()),
          name='invoice_update'),
-    path('invoice/delete/<int:pk>', InvoiceDelete.as_view(),
+    path('invoice/delete/<int:pk>', login_required(InvoiceDelete.as_view()),
          name='invoice_delete'),
-    path('invoice/product/delete/<int:pk>', InvoiceDeleteProduct.as_view(),
+    path('invoice/product/delete/<int:pk>', login_required(InvoiceDeleteProduct.as_view()),
          name='invoice_product_delete'),
 
     path('inventory/', InventoryView.as_view(), name='inventory_list'),
-    path('inventory/delete/<int:pk>/', InventoryDeleteProduct.as_view(),
-         name='inventory_delete_product')
+    path('inventory/delete/<int:pk>/', login_required(InventoryDeleteProduct.as_view()),
+         name='inventory_delete_product'),
+
+    path('search/', SearchView.as_view(), name='search')
 ]

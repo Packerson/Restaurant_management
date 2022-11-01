@@ -47,11 +47,24 @@ header {
     height: 150px;
     width: 150px;
 }
+.flex-container {
+	display: flex;
+	justify-content: space-between;
+}
+
 .column_form {
     display: flex;
     flex-direction: column;
     justify-content:space-evenly ;
 }
+
+.horizontal_column {
+	display: inline-block;
+	align-items: center;
+	justify-content: space-between;
+
+}
+
 .message {
     font-weight: bolder;
     font-size: 20px;

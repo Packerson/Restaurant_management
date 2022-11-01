@@ -45,7 +45,7 @@ class Invoice(models.Model):
 class ProductQuantity(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
-    amount = models.FloatField()
+    amount = models.FloatField(validators=[MinValueValidator(0, 0)])
 
     class Meta:
         unique_together = ['product', 'invoice']
@@ -53,7 +53,7 @@ class ProductQuantity(models.Model):
 
 class Inventory(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE)
-    amount = models.FloatField()
+    amount = models.FloatField(validators=[MinValueValidator(0, 0)])
     date = models.DateField(auto_now_add=True)
 
 
