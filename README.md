@@ -19,6 +19,7 @@ Aplication allows for creating user accounts with login access, creating product
 	login/				Login user
 	logout/				Logout user
 	password/			User can change his password
+	search/				Search products or company by name or NIP 
 	invoice/			Invoices list
 	invoice/{id}/			Information about invoice, update, delete
 	invoice/add/			Add invoice
