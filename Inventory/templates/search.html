@@ -1,0 +1,119 @@
+{% extends '__base.html' %}
+
+{% block content %}
+    <form action="" method="post" >
+                {% csrf_token %}
+                {% for message in messages%}
+          <h3 class="message message_delete"> {{ message }}</h3>
+                {% endfor %}
+
+            <div>
+                <span>Searching fraze:</span>
+                    <label>
+
+                        <input type="text" name="search" value="{{search}}">
+                        <input type="submit" name="search_fraze" value="Search" >
+                    </label>
+                <br><br>
+            </div>
+        <section class="flex-container" >
+
+            <div>
+                {% if companys_list_by_nip %}
+
+                    <span>Searching company by NIP:</span>
+
+                        <table class="tg">
+                            <thead>
+                              <tr>
+                                <th class="tg-7cam">ID</th>
+                                <th class="tg-7cam">Name</th>
+                                <th class="tg-7cam">NIP</th>
+                                <th class="tg-7cam">Address</th>
+                              </tr>
+                            </thead>
+
+                            <tbody>
+                              <tr>  {% for company in companys_list_by_nip %}
+                                    <td class="tg-7cam">{{company.id}}</td>
+                                    <th class="tg-7cam"><a href="{% url 'company_edit' pk=company.id %}" > {{company.name}} (Edit)</a></td>
+                                    <th class="tg-7cam">{{company.nip}}</td>
+                                    <th class="tg-7cam">{{company.address}}</td>
+                              </tr>
+                                    {% endfor %}
+
+                            </tbody>
+                        </table>
+
+                {% endif %}
+
+            </div>
+
+            <div class="">
+                {% if products_list %}
+                <span>Searching products results:</span>
+
+                     <table class="tg">
+
+                        <thead>
+                          <tr>
+                            <th class="tg-7cam">ID</th>
+                            <th class="tg-7cam">Name</th>
+                            <th class="tg-7cam">unit</th>
+                            <th class="tg-7cam">Base amount</th>
+                            <th class="tg-7cam">gross price</th>
+                            <th class="tg-7cam">net price</th>
+                            <th class="tg-7cam">added date</th>
+
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>  {% for product in products_list %}
+
+                                <td class="tg-7cam">{{product.id}}</td>
+                                <th class="tg-7cam">{{product.name}}</td>
+                                <th class="tg-7cam">{{product.get_unit_display}}</td>
+                                <th class="tg-7cam">{{product.amount}}</td>
+                                <th class="tg-7cam">{{product.gross_price}}</td>
+                                <th class="tg-7cam">{{product.net_price}}</td>
+                                <th class="tg-7cam">{{product.date}}</td>
+                          </tr>
+                        {% endfor %}
+
+                            </tbody>
+                     </table>
+                {% endif %}
+                <br><br>
+            </div>
+            <div>
+                {% if companys_list %}
+                <span>Searching companys results:</span>
+
+                <table class="tg">
+                    <thead>
+                      <tr>
+                        <th class="tg-7cam">ID</th>
+                        <th class="tg-7cam">Name</th>
+                        <th class="tg-7cam">NIP</th>
+                        <th class="tg-7cam">Address</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr>  {% for company in companys_list %}
+                            <td class="tg-7cam">{{company.id}}</td>
+                            <th class="tg-7cam"><a href="{% url 'company_edit' pk=company.id %}" > {{company.name}} (Edit)</a></td>
+                            <th class="tg-7cam">{{company.nip}}</td>
+                            <th class="tg-7cam">{{company.address}}</td>
+                      </tr>
+                            {% endfor %}
+
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+        </section>
+
+    </form>
+
+{% endblock %}

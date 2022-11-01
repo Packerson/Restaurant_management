@@ -86,7 +86,8 @@ class InventoryForm(forms.ModelForm):
     #     print(amount)
     #     if amount < 0:
     #         raise forms.ValidationError("Amount cant be negative")
-    #     return amount
+    #     else:
+    #         return amount
 
 
 def choices_invoices():

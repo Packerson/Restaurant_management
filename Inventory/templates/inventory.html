@@ -15,7 +15,7 @@
         {% if user.is_authenticated %}
         {{ form}}
 
-        <input  type="submit" value="Add product" name="Add product">
+            <input  type="submit" value="Add product" name="Add product">
         </div>
 
 </form>
@@ -23,13 +23,12 @@
     <form action="" method="post" >
         {% csrf_token %}
         {{ form_invoice }}
-            <input type="submit" value="Add invoice" name="Add invoice">
+        <input type="submit" value="Add invoice" name="Add invoice">
 
 
         {% endif %}
 
     </form>
-
 
             <h2>List of products:</h2>
                 <table class="tg">

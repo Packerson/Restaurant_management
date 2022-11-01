@@ -14,7 +14,6 @@ from Inventory.models import Product, Company, Invoice, ProductQuantity, \
 
 """Pamiętać!"""
 
-
 """Add tests for invoice_inventory_add """
 """ https://www.codementor.io/@lakshminp/handling-multiple-forms-on-the-same-page-in-django-fv89t2s3j """
 """w przyszłości wyszukiwarka produktów i firm z bazy danych"""
@@ -277,7 +276,6 @@ class InvoiceAdd(View):
         form = InvoiceForm(pDict)
         context = {'form': form}
         with transaction.atomic():
-
             if form.is_valid():
                 form.save()
                 form = InvoiceForm()
@@ -363,27 +361,30 @@ class InvoiceAddProduct(View):
         """creating or updating product on invoice"""
         invoice = Invoice.objects.get(pk=pk)
         product = request.POST['product']
+        amount = float(request.POST['amount'])
 
-        if not ProductQuantity.objects.filter(invoice=invoice, product=product):
-            form = InvoiceDetailsForm(request.POST)
-            messages.info(request, f"Product added")
-            context2 = {'form': form}
-        else:
-            product_on_invoice = ProductQuantity.objects.get(invoice=invoice,
-                                                             product=product)
-            form = InvoiceDetailsForm(request.POST, instance=product_on_invoice)
-            messages.info(request, "Product updated!")
-            context2 = {'form': form}
+        if amount > 0:
+            if not ProductQuantity.objects.filter(invoice=invoice, product=product):
+                form = InvoiceDetailsForm(request.POST)
+                messages.info(request, f"Product added")
+                context2 = {'form': form}
+
+            else:
+                product_on_invoice = ProductQuantity.objects.get(invoice=invoice,
+                                                                 product=product)
+                form = InvoiceDetailsForm(request.POST, instance=product_on_invoice)
+                messages.info(request, "Product updated!")
+                context2 = {'form': form}
+
+            if form.is_valid():
+                form.save()
+                context = self.result_total(pk)
+                context.update(context2)
+                return render(request, 'Invoice_update.html', context)
+
         context = self.result_total(pk)
-
-        if form.is_valid():
-            form.save()
-            context = self.result_total(pk)
-            context.update(context2)
-            return render(request, 'Invoice_update.html', context)
-
-        messages.info(request, "something went wrong")
-        context2 = {'form': InvoiceDetailsForm()}
+        messages.error(request, "something went wrong")
+        context2 = {'form': InvoiceDetailsForm(initial={'invoice': invoice.id})}
         context.update(context2)
         return render(request, 'Invoice_update.html', context)
 
@@ -436,7 +437,7 @@ class InventoryView(View):
 
     def post(self, request):
         """Product add or update in inventory"""
-        """add product"""
+        """checking which form is chose """
         if 'Add product' in request.POST:
 
             product_to_add = request.POST['product']
@@ -470,7 +471,7 @@ class InventoryView(View):
                            'form_invoice': form_invoice}
                 return render(request, 'inventory.html', context)
 
-        if 'Add invoice' in request.POST:
+        elif 'Add invoice' in request.POST:
             """Add invoice to inventory"""
             form = InventoryForm()
             form_invoice = AddInvoiceToInventoryForm(request.POST)
@@ -501,3 +502,22 @@ class InventoryDeleteProduct(View):
                                    f'deleted from inventory')
             inventory.delete()
             return redirect('inventory_list')
+
+
+class SearchView(View):
+    """Searching in database"""
+    def get(self, request):
+        return render(request, 'search.html')
+
+    def post(self, request):
+        searched = request.POST['search']
+        companys_list = Company.objects.filter(name__contains=searched)
+        products_list = Product.objects.filter(name__contains=searched)
+        context = {'products_list': products_list, 'companys_list': companys_list}
+
+        if len(Company.objects.filter(nip=searched)) == 1:
+            companys_list_by_nip = Company.objects.filter(nip=searched)
+            context['companys_list_by_nip'] = companys_list_by_nip
+            print(companys_list_by_nip)
+
+        return render(request, 'search.html', context)

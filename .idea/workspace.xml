@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="69b563b4-1177-4b01-b632-db5e2c918b95" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/css/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Inventory/templates/search.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/ONL_PYT_W_19_TDD.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/ONL_PYT_W_19_TDD.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/conftest.py" afterDir="false" />
@@ -11,11 +12,26 @@
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/test_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/test_functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_SPY_W_93_ScrumLab/jedzonko/templates/__base__.html" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_SPY_W_93_ScrumLab/jedzonko/templates/__base__.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/templates/Invoice_update.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/Invoice_update.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/templates/__base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/__base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/templates/company_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/company_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/templates/inventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/inventory.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/templates/invoice_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/invoice_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/templates/product-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/product-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/tests/test_inventory.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/test_inventory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Restaurant_management/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Restaurant_management/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -45,7 +61,8 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/pawel/workspace/ONL_SPY_W_93_ScrumLab&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -78,6 +95,9 @@
       <workItem from="1667119546876" duration="2845000" />
       <workItem from="1667143990233" duration="12274000" />
       <workItem from="1667235337097" duration="711000" />
+      <workItem from="1667252094391" duration="835000" />
+      <workItem from="1667290435339" duration="10474000" />
+      <workItem from="1667301649515" duration="6345000" />
     </task>
     <servers />
   </component>
