@@ -9,6 +9,7 @@ from Inventory.models import Product, Company, Invoice, ProductQuantity, \
 
 
 class AddUserForm(UserCreationForm):
+    """User creating form"""
     class Meta:
         model = User
         fields = ("username", "password1", "password2",
@@ -16,17 +17,21 @@ class AddUserForm(UserCreationForm):
 
 
 class PasswordChange(PasswordChangeForm):
+    """PasswordChange form"""
     class Meta:
         model = User
         fields = ("old_password", "password1", "password2")
 
 
 class ProductForm(forms.ModelForm):
+    """Product creating form"""
     class Meta:
         model = Product
         exclude = ['date']
 
     def clean_net_price(self, *args, **kwargs):
+        """price validation, gross has to be bigger than net"""
+
         net_price = self.cleaned_data['net_price']
         gross_price = self.cleaned_data['gross_price']
 
@@ -38,16 +43,19 @@ class ProductForm(forms.ModelForm):
 
 
 class CompanyForm(forms.ModelForm):
+    """company creating form"""
     class Meta:
         model = Company
         fields = '__all__'
 
 
 class DateInput(forms.DateInput):
+    """allow to pick date in calendar"""
     input_type = 'date'
 
 
 class InvoiceForm(forms.ModelForm):
+    """Invoice creating form"""
     class Meta:
         model = Invoice
         exclude = ['products']
@@ -57,6 +65,8 @@ class InvoiceForm(forms.ModelForm):
         }
 
     def clean_date(self):
+        """date validation"""
+
         date = self.cleaned_data['date']
         present = datetime.date.today()
 
@@ -67,6 +77,7 @@ class InvoiceForm(forms.ModelForm):
 
 
 class InvoiceDetailsForm(forms.ModelForm):
+    """create invoice form, invoice field autofill and hidden"""
     class Meta:
         model = ProductQuantity
         fields = "__all__"
@@ -75,6 +86,7 @@ class InvoiceDetailsForm(forms.ModelForm):
 
 
 class InventoryForm(forms.ModelForm):
+    """inventory creatinf form"""
     class Meta:
         model = Inventory
         fields = "__all__"
@@ -104,6 +116,7 @@ class AddInvoiceToInventoryForm(forms.Form):
     invoice = forms.ChoiceField(choices=choices_invoices)
 
     def clean_invoice(self):
+        """logic for adding invoice to inventory"""
         invoice = Invoice.objects.get(id=self.cleaned_data['invoice'])
         products_on_invoice = ProductQuantity.objects.filter(invoice=invoice.pk)
         inventory = Inventory.objects.all()

@@ -19,6 +19,7 @@ def client():
 
 @pytest.fixture
 def product():
+    """create product objects in database"""
     product = Product.objects.create(name='Product1', unit=["QTY"],
                                      amount=(3 + 1 / 100), gross_price=(201 / 100) + 5,
                                      net_price=(101 / 100))
@@ -33,6 +34,7 @@ def product():
 
 @pytest.fixture
 def company():
+    """create company objects in database"""
     company1 = Company.objects.create(name='name_test',
                                       nip=random.randint(1000000000, 9999999999),
                                       address='test_address')
@@ -47,6 +49,7 @@ def company():
 
 @pytest.fixture
 def invoice(company):
+    """create invoice objects in database"""
     invoice = []
     for i in range(3):
         invoice.append(Invoice.objects.create(number=f"test_number_{i}", company=company[i],
