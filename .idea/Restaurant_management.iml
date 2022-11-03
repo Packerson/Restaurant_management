@@ -5,9 +5,10 @@
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.8 (Restaurant_management)" jdkType="Python SDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="ONL_PYT_W_19_TDD" />
     <orderEntry type="module" module-name="ONL_SPY_W_93_ScrumLab" />
+    <orderEntry type="module" module-name="CodeWars" />
   </component>
 </module>

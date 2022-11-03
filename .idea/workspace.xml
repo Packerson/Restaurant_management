@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="69b563b4-1177-4b01-b632-db5e2c918b95" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/css/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Inventory/templates/search.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/ONL_PYT_W_19_TDD.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/ONL_PYT_W_19_TDD.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/conftest.py" afterDir="false" />
@@ -11,19 +10,12 @@
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/test_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/test_functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_SPY_W_93_ScrumLab/jedzonko/templates/__base__.html" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_SPY_W_93_ScrumLab/jedzonko/templates/__base__.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Restaurant_management.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Restaurant_management.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/static/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/Invoice_update.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/Invoice_update.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/__base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/__base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/company_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/company_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/inventory.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/inventory.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/invoice_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/invoice_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/templates/product-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/templates/product-list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/tests/test_inventory.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/test_inventory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/tests/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/conftest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Restaurant_management/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Restaurant_management/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,8 +28,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -98,6 +90,10 @@
       <workItem from="1667252094391" duration="835000" />
       <workItem from="1667290435339" duration="10474000" />
       <workItem from="1667301649515" duration="6345000" />
+      <workItem from="1667323281925" duration="5290000" />
+      <workItem from="1667415881828" duration="7384000" />
+      <workItem from="1667426767729" duration="2525000" />
+      <workItem from="1667492907258" duration="1738000" />
     </task>
     <servers />
   </component>
@@ -119,6 +115,10 @@
     <SUITE FILE_PATH="coverage/Restaurant_management$dice.coverage" NAME="dice Coverage Results" MODIFIED="1666816289362" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../ONL_PYT_W_19_podstawy_pythona/warsztaty/dice" />
     <SUITE FILE_PATH="coverage/Restaurant_management$dice_2.coverage" NAME="dice_2 Coverage Results" MODIFIED="1666816565818" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../ONL_PYT_W_19_podstawy_pythona/warsztaty/dice" />
     <SUITE FILE_PATH="coverage/Restaurant_management$flask_computer_guessing.coverage" NAME="flask_computer_guessing Coverage Results" MODIFIED="1666816153540" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../ONL_PYT_W_19_podstawy_pythona/warsztaty/flask_computer_guessing" />
+    <SUITE FILE_PATH="coverage/Restaurant_management$reverse_words.coverage" NAME="reverse_words Coverage Results" MODIFIED="1667428629055" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../CodeWars" />
+    <SUITE FILE_PATH="coverage/Restaurant_management$descending_order.coverage" NAME="descending_order Coverage Results" MODIFIED="1667327030624" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../CodeWars" />
+    <SUITE FILE_PATH="coverage/Restaurant_management$unique_in_order.coverage" NAME="unique_in_order Coverage Results" MODIFIED="1667417947419" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../CodeWars" />
+    <SUITE FILE_PATH="coverage/Restaurant_management$add_binary.coverage" NAME="add_binary Coverage Results" MODIFIED="1667423304766" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../CodeWars" />
     <SUITE FILE_PATH="coverage/Restaurant_management$lotto.coverage" NAME="lotto Coverage Results" MODIFIED="1666816594603" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../ONL_PYT_W_19_podstawy_pythona/warsztaty/lotto" />
     <SUITE FILE_PATH="coverage/Restaurant_management$pyszne.coverage" NAME="pyszne Coverage Results" MODIFIED="1666815968227" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../ONL_PYT_W_19_podstawy_pythona/07_Dzien_4" />
   </component>

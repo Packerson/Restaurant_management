@@ -16,12 +16,10 @@ from Inventory.models import Product, Company, Invoice, ProductQuantity, \
 
 """Add tests for invoice_inventory_add """
 """ https://www.codementor.io/@lakshminp/handling-multiple-forms-on-the-same-page-in-django-fv89t2s3j """
-"""w przyszłości wyszukiwarka produktów i firm z bazy danych"""
 
 """pomyśleć nad dodaniem zapytania ,czy na pewno usunął ? w JavaScripcie?"""
 
-"""fasInventory application for restaurants based on my previous professional expierence (7 years as a chef)
-Aplication allows for creating user accounts with login access, creating product and supplier database, creating invoices, updating inventory based on invoice contentstAPI, PANDAS"""
+"""fastAPI, PANDAS"""
 
 
 def home(request):
@@ -47,6 +45,7 @@ def login_view(request):
 
 
 def logout_view(request):
+    """logout view"""
     logout(request)
     return redirect("main")
 
@@ -91,6 +90,7 @@ class ProductView(View):
     """Product list view"""
 
     def get(self, request):
+        """load prodcuts order by name """
         products = Product.objects.order_by('name')
         if len(products) == 0:
             messages.info(request, "No products in database")
@@ -100,6 +100,7 @@ class ProductView(View):
         page = request.GET.get('page')
         products_list = paginator.get_page(page)
         ctx = {'products_list': products_list}
+
         return render(request, "product-list.html", ctx)
 
 
@@ -215,7 +216,7 @@ class CompanyListView(View):
 
 
 class CompanyUpdateView(View):
-    """Update inforamtion about company, initial value"""
+    """Update information about company, initial value"""
 
     def get(self, request, pk):
         try:
@@ -229,13 +230,15 @@ class CompanyUpdateView(View):
         except:
             form = CompanyForm()
             messages.info(request, f"No company with this ID:{pk}")
-            context = {'form': form, }
+            context = {'form': form}
+
             return render(request, 'company_update.html', context)
 
     def post(self, request, pk):
         company = Company.objects.get(pk=pk)
         form = CompanyForm(request.POST, instance=company)
         context = {'form': form, 'company': company}
+
         if form.is_valid():
             form.save()
             messages.info(request, 'Company update')
@@ -275,12 +278,14 @@ class InvoiceAdd(View):
         pDict = request.POST.copy()
         form = InvoiceForm(pDict)
         context = {'form': form}
+
         with transaction.atomic():
             if form.is_valid():
                 form.save()
                 form = InvoiceForm()
                 messages.info(request, 'Invoice added')
                 context = {'form': form}
+
                 return render(request, 'invoice_add.html', context)
 
         messages.info(request, 'something went wrong')
@@ -318,6 +323,7 @@ class InvoiceListView(View):
     def get(self, request):
         """Order invoices by creating date"""
         invoices = Invoice.objects.order_by('-date')
+
         if len(invoices) == 0:
             messages.info(request, 'No invoices in base')
 
@@ -326,6 +332,7 @@ class InvoiceListView(View):
         page = request.GET.get('page')
         invoices_list = paginator.get_page(page)
         ctx = {'invoices_list': invoices_list}
+
         return render(request, "invoice_list.html", ctx)
 
 
@@ -338,23 +345,28 @@ class InvoiceAddProduct(View):
         result_total = []
         invoice = Invoice.objects.get(pk=pk)
         products_list = ProductQuantity.objects.filter(invoice=pk)
+
         for result in products_list:
             gross = round(result.amount * result.product.gross_price, 2)
             net = round(result.amount * result.product.net_price, 2)
             result_total.append((gross, net))
+
             """zip for making lists list"""
         total = zip(products_list, result_total)
         context = {'invoice': invoice,
                    'total': total}
+
         return context
 
     def get(self, request, pk):
         """initial, passing invoice.id to hidden input """
         invoice = Invoice.objects.get(pk=pk)
         form = InvoiceDetailsForm(initial={'invoice': invoice.id})
-        """loop for showing gross and net value in templates"""
+
+        """staticmethod for showing gross and net value in templates"""
         context = self.result_total(pk)
         context['form'] = form
+
         return render(request, 'Invoice_update.html', context)
 
     def post(self, request, pk):
@@ -363,13 +375,17 @@ class InvoiceAddProduct(View):
         product = request.POST['product']
         amount = float(request.POST['amount'])
 
+        """amount validation"""
         if amount > 0:
+            """if product doesnt exists in database"""
             if not ProductQuantity.objects.filter(invoice=invoice, product=product):
+
                 form = InvoiceDetailsForm(request.POST)
                 messages.info(request, f"Product added")
                 context2 = {'form': form}
 
             else:
+                """if exists:"""
                 product_on_invoice = ProductQuantity.objects.get(invoice=invoice,
                                                                  product=product)
                 form = InvoiceDetailsForm(request.POST, instance=product_on_invoice)
@@ -382,10 +398,14 @@ class InvoiceAddProduct(View):
                 context.update(context2)
                 return render(request, 'Invoice_update.html', context)
 
+        """if amount is less then 0"""
         context = self.result_total(pk)
         messages.error(request, "something went wrong")
+
+        """form need to be return with initial hidden invoice.id"""
         context2 = {'form': InvoiceDetailsForm(initial={'invoice': invoice.id})}
         context.update(context2)
+
         return render(request, 'Invoice_update.html', context)
 
 
@@ -395,6 +415,7 @@ class InvoiceDeleteProduct(View):
     def get(self, request, pk):
         product_to_delete = ProductQuantity.objects.get(pk=pk)
         context = {'product_to_delete': product_to_delete}
+
         return render(request, 'invoice_delete_product.html', context)
 
     def post(self, request, pk):
@@ -404,6 +425,7 @@ class InvoiceDeleteProduct(View):
             invoice = product.invoice
             messages.info(request, f"Product {product.product.name} deleted form {invoice.number}")
             product.delete()
+
             return redirect('invoice_edit', pk=invoice.id)
 
 
@@ -413,6 +435,7 @@ class InvoiceDelete(View):
     def get(self, request, pk):
         invoice_to_delete = Invoice.objects.get(pk=pk)
         context = {'invoice_to_delete': invoice_to_delete}
+
         return render(request, 'invoice_delete.html', context)
 
     def post(self, request, pk):
@@ -420,6 +443,7 @@ class InvoiceDelete(View):
             invoice_deleted = Invoice.objects.get(pk=pk)
             messages.info(request, f"Invoice {invoice_deleted.number} deleted ")
             invoice_deleted.delete()
+
             return redirect('invoice_list')
 
 
@@ -443,7 +467,9 @@ class InventoryView(View):
             product_to_add = request.POST['product']
             amount = int(request.POST['amount'])
 
+            """amount validation"""
             if amount > 0:
+                """if doesnt exists"""
                 if not Inventory.objects.filter(product=product_to_add):
                     """checking if product not exist """
 
@@ -451,6 +477,7 @@ class InventoryView(View):
                     messages.info(request, "Product added")
 
                 else:
+                    """if exists"""
                     inventory_product = Inventory.objects.get(product=product_to_add)
                     form = InventoryForm(request.POST, instance=inventory_product)
                     messages.info(request, "Product updated")
@@ -464,6 +491,7 @@ class InventoryView(View):
                     return render(request, 'inventory.html', context)
 
             else:
+                """if amount is less then 0 or something bad happened:) """
                 form_invoice = AddInvoiceToInventoryForm()
                 messages.error(request, "something went wrong or amount is negative")
                 inventory = Inventory.objects.all()
@@ -471,10 +499,12 @@ class InventoryView(View):
                            'form_invoice': form_invoice}
                 return render(request, 'inventory.html', context)
 
+
         elif 'Add invoice' in request.POST:
-            """Add invoice to inventory"""
+            """second form is chosen, add invoice to inventory """
             form = InventoryForm()
             form_invoice = AddInvoiceToInventoryForm(request.POST)
+
             if form_invoice.is_valid():
                 invoice_to_inventory = Invoice.objects.get \
                     (id=form_invoice.cleaned_data['invoice'])
@@ -483,6 +513,7 @@ class InventoryView(View):
                                        f'added to inventory')
                 context = {'form': form, 'form_invoice': form_invoice,
                            'inventory': inventory}
+
                 return render(request, 'inventory.html', context)
 
 
@@ -501,11 +532,13 @@ class InventoryDeleteProduct(View):
             messages.info(request, f'Product {inventory.product.name} '
                                    f'deleted from inventory')
             inventory.delete()
+
             return redirect('inventory_list')
 
 
 class SearchView(View):
     """Searching in database"""
+
     def get(self, request):
         return render(request, 'search.html')
 
@@ -515,6 +548,7 @@ class SearchView(View):
         products_list = Product.objects.filter(name__contains=searched)
         context = {'products_list': products_list, 'companys_list': companys_list}
 
+        """searching by NIP, need to return only 1 objects! """
         if len(Company.objects.filter(nip=searched)) == 1:
             companys_list_by_nip = Company.objects.filter(nip=searched)
             context['companys_list_by_nip'] = companys_list_by_nip
