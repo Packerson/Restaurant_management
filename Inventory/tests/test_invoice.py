@@ -1,14 +1,21 @@
 from datetime import date
 
 import pytest
-from django.urls import reverse
 from django.contrib.messages import get_messages
+from django.urls import reverse
+
 from Inventory.models import Company, Invoice, ProductQuantity
 
 
 @pytest.mark.django_db
-def test_invoice_add(client):
+def test_invoice_add(client, django_user_model):
     """add invoice test"""
+
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
 
     company = Company.objects.create(name="abc", nip='1234567891',
                                      address="random address")
@@ -28,8 +35,14 @@ def test_invoice_add(client):
 
 
 @pytest.mark.django_db
-def test_invoice_date(client, company):
+def test_invoice_date(client, company, django_user_model):
     """test invoice date, date cant be from future"""
+
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
 
     response = client.post(reverse("invoice_add"),
                            {"number": "123", "company": company[0].id,
@@ -41,8 +54,14 @@ def test_invoice_date(client, company):
 
 
 @pytest.mark.django_db
-def test_invoice_remove(client, invoice, company):
+def test_invoice_remove(client, invoice, company, django_user_model):
     """remove invoice test"""
+
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
     response = client.post(reverse('invoice_delete', kwargs={'pk': invoice[1].id}))
 
     assert response.status_code == 302
@@ -50,8 +69,14 @@ def test_invoice_remove(client, invoice, company):
 
 
 @pytest.mark.django_db
-def test_invoice_update(client, invoice, company):
+def test_invoice_update(client, invoice, company, django_user_model):
     """update invoice data test"""
+
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
     response = client.post(reverse("invoice_update", kwargs={'pk': invoice[0].id}),
                            {"number": "123", "company": company[1].id,
                             "date": invoice[0].date})
@@ -63,8 +88,14 @@ def test_invoice_update(client, invoice, company):
 
 
 @pytest.mark.django_db
-def test_invoice_add_product(client, invoice, company, product):
+def test_invoice_add_product(client, invoice, company, product, django_user_model):
     """Adding product test"""
+
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
     response = client.post(reverse("invoice_edit", kwargs={'pk': invoice[2].id}),
                            {'product': product[0].id, 'invoice': invoice[2].id, 'amount': 2})
 
@@ -77,8 +108,15 @@ def test_invoice_add_product(client, invoice, company, product):
 
 
 @pytest.mark.django_db
-def test_invoice_update_and_remove_product(client, invoice, company, product):
+def test_invoice_update_and_remove_product(client, invoice, company,
+                                           product, django_user_model):
     """Updating product test"""
+
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
     ProductQuantity.objects.create(product=product[0], invoice=invoice[1],
                                    amount=2)
     invoice_products_test = ProductQuantity.objects.first()

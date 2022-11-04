@@ -36,7 +36,7 @@ def product():
 def company():
     """create company objects in database"""
     company1 = Company.objects.create(name='name_test',
-                                      nip=random.randint(1000000000, 9999999999),
+                                      nip='1234567899',
                                       address='test_address')
     company2 = Company.objects.create(name='Adam Reyes',
                                       nip=random.randint(1000000000, 9999999999),

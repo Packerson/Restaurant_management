@@ -12,8 +12,14 @@ def test_company(company):
 
 
 @pytest.mark.django_db
-def test_company_add(client):
+def test_company_add(client, django_user_model):
     """add company """
+
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
     response = client.post(reverse("company_add"),
                            {"name": "abc", "nip": '1234567891',
                             "address": "random address"})
@@ -32,8 +38,14 @@ def test_company_add(client):
 
 
 @pytest.mark.django_db
-def test_company_add_nip(client):
+def test_company_add_nip(client, django_user_model):
     """Nip has to have ten digits"""
+
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
     response = client.post(reverse("company_add"),
                            {"name": "abc", "nip": 'AAAA56A891',
                             "address": "random address"})
@@ -44,8 +56,14 @@ def test_company_add_nip(client):
 
 
 @pytest.mark.django_db
-def test_company_remove(client, company):
+def test_company_remove(client, company, django_user_model):
     """remove company test"""
+
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
     response = client.post(reverse('company_delete',
                                    kwargs={'pk': company[1].id}))
 
@@ -54,8 +72,14 @@ def test_company_remove(client, company):
 
 
 @pytest.mark.django_db
-def test_company_update(client, company):
+def test_company_update(client, company, django_user_model):
     """update company test"""
+
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
     response = client.post(reverse("company_edit",
                                    kwargs={'pk': company[0].id}),
                            {"name": "abc", "nip": '1234567891',

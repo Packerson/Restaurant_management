@@ -35,8 +35,14 @@ def test_product(product):
 
 
 @pytest.mark.django_db
-def test_product_add(client):
+def test_product_add(client, django_user_model):
     """add product test"""
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
+
     response = client.post(reverse("product_add"),
                            {"name": "abc", "unit": "L",
                             "amount": 1,
@@ -53,8 +59,13 @@ def test_product_add(client):
 
 
 @pytest.mark.django_db
-def test_product_remove(client, product):
+def test_product_remove(client, product, django_user_model):
     """remove product test"""
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
     response = client.post(reverse('product_delete', kwargs={'pk': product[1].id}))
 
     assert response.status_code == 302
@@ -62,8 +73,13 @@ def test_product_remove(client, product):
 
 
 @pytest.mark.django_db
-def test_product_update(client, product):
+def test_product_update(client, product, django_user_model):
     """update product test"""
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
     response = client.post(reverse('product_edit', kwargs={'pk': product[0].id}),
                            {"name": "abc", "unit": "L",
                             "amount": 1,
