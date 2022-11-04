@@ -462,6 +462,7 @@ class InventoryView(View):
     def post(self, request):
         """Product add or update in inventory"""
         """checking which form is chose """
+
         if 'Add product' in request.POST:
 
             product_to_add = request.POST['product']
@@ -500,21 +501,23 @@ class InventoryView(View):
                 return render(request, 'inventory.html', context)
 
 
-        elif 'Add invoice' in request.POST:
+        # elif 'Add invoice' in request.POST:
+        else:
             """second form is chosen, add invoice to inventory """
             form = InventoryForm()
             form_invoice = AddInvoiceToInventoryForm(request.POST)
 
-            if form_invoice.is_valid():
-                invoice_to_inventory = Invoice.objects.get \
-                    (id=form_invoice.cleaned_data['invoice'])
-                inventory = Inventory.objects.all()
-                messages.info(request, f'Invoice {invoice_to_inventory} '
-                                       f'added to inventory')
-                context = {'form': form, 'form_invoice': form_invoice,
-                           'inventory': inventory}
+            invoice_to_inventory = Invoice.objects.get \
+                (id=request.POST['invoice'])
 
-                return render(request, 'inventory.html', context)
+            inventory = Inventory.objects.all()
+            messages.info(request, f'Invoice {invoice_to_inventory} '
+                                   f'added to inventory')
+
+            context = {'form': form, 'form_invoice': form_invoice,
+                       'inventory': inventory}
+
+            return render(request, 'inventory.html', context)
 
 
 class InventoryDeleteProduct(View):

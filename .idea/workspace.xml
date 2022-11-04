@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="69b563b4-1177-4b01-b632-db5e2c918b95" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/css/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Inventory/tests/test_search.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/ONL_PYT_W_19_TDD.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/ONL_PYT_W_19_TDD.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/conftest.py" afterDir="false" />
@@ -10,11 +11,12 @@
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/test_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_PYT_W_19_TDD/project/test_functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ONL_SPY_W_93_ScrumLab/jedzonko/templates/__base__.html" beforeDir="false" afterPath="$PROJECT_DIR$/../ONL_SPY_W_93_ScrumLab/jedzonko/templates/__base__.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Restaurant_management.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Restaurant_management.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Inventory/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/tests/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/conftest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/tests/test_company.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/test_company.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/tests/test_inventory.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/test_inventory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/tests/test_invoice.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/test_invoice.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Inventory/tests/test_product.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/tests/test_product.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Inventory/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Inventory/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -93,7 +95,8 @@
       <workItem from="1667323281925" duration="5290000" />
       <workItem from="1667415881828" duration="7384000" />
       <workItem from="1667426767729" duration="2525000" />
-      <workItem from="1667492907258" duration="1738000" />
+      <workItem from="1667492907258" duration="2336000" />
+      <workItem from="1667578603279" duration="6370000" />
     </task>
     <servers />
   </component>

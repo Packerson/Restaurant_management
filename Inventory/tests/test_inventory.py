@@ -1,7 +1,7 @@
 import pytest
 from django.urls import reverse
 
-from Inventory.models import Inventory
+from Inventory.models import Inventory, ProductQuantity
 
 
 @pytest.mark.django_db
@@ -13,12 +13,47 @@ def test_inventory(client, product):
 
 
 @pytest.mark.django_db
-def test_inventory_add_products(client, product, invoice, company):
-    """adding products"""
+def test_inventory_remove_product(client, django_user_model, product):
+    """remove product from inventory test"""
+
+    inventory_product = Inventory.objects.create(product=product[0], amount=1)
+
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
+
+    assert len(Inventory.objects.all()) == 1
+
+    response = client.post(reverse('inventory_delete_product',
+                                   kwargs={'pk': inventory_product.id}))
+
+    """redirect"""
+    assert response.status_code == 302
+    assert len(Inventory.objects.all()) == 0
+
+@pytest.mark.django_db
+def test_inventory_add_products(client, product, invoice, company,
+                                django_user_model):
+    """adding products to inventory"""
+
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
+
+    ProductQuantity.objects.create(product=product[0], invoice=invoice[1],
+                                   amount=2)
+
+    """dictionary to send values for two forms"""
 
     form = {'product': product[0], 'amount': 3}
-    form_invoice = {"number": "123", "company": company[1].id,
-                            "date": invoice[0].date}
+    form_invoice = {"invoice": invoice[1].id}
+
+    """should be {**form, **form_invoice}, 
+    but it doesnt work, probably problem in views"""
 
     response_1 = client.post(reverse('inventory_list'),
                              {**form, **form_invoice})
@@ -27,6 +62,10 @@ def test_inventory_add_products(client, product, invoice, company):
     print(products_in_inventory)
     assert len(products_in_inventory) == 1
     assert products_in_inventory[0].product == product[0]
+
+
+
+
 
     # response_2 = client.post(reverse('inventory_list'),
     #                          {'product': product[1].id,
