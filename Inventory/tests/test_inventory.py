@@ -33,6 +33,7 @@ def test_inventory_remove_product(client, django_user_model, product):
     assert response.status_code == 302
     assert len(Inventory.objects.all()) == 0
 
+
 @pytest.mark.django_db
 def test_inventory_add_products(client, product, invoice, company,
                                 django_user_model):
@@ -44,19 +45,11 @@ def test_inventory_add_products(client, product, invoice, company,
         (username=username, password=password)
     client.force_login(user)
 
-    ProductQuantity.objects.create(product=product[0], invoice=invoice[1],
-                                   amount=2)
-
-    """dictionary to send values for two forms"""
-
-    form = {'product': product[0], 'amount': 3}
-    form_invoice = {"invoice": invoice[1].id}
-
-    """should be {**form, **form_invoice}, 
-    but it doesnt work, probably problem in views"""
+    """Add product in dictionary is the button name"""
+    form = {'product': product[0].id, 'amount': 3, 'Add product': 'Add product'}
 
     response_1 = client.post(reverse('inventory_list'),
-                             {**form, **form_invoice})
+                             {**form})
 
     products_in_inventory = Inventory.objects.all()
     print(products_in_inventory)
@@ -64,8 +57,30 @@ def test_inventory_add_products(client, product, invoice, company,
     assert products_in_inventory[0].product == product[0]
 
 
+@pytest.mark.django_db
+def test_inventory_add_products_by_invoice(client, product, invoice, company,
+                                           django_user_model):
+    """adding products to inventory"""
 
+    username = "user1"
+    password = "bar"
+    user = django_user_model.objects.create_user \
+        (username=username, password=password)
+    client.force_login(user)
 
+    ProductQuantity.objects.create(product=product[0], invoice=invoice[1],
+                                   amount=2)
+
+    """Add invoice in dictionary is the button name"""
+    form_invoice = {"invoice": invoice[1].id, 'Add invoice': 'Add invoice'}
+
+    response_1 = client.post(reverse('inventory_list'),
+                             {**form_invoice})
+
+    products_in_inventory = Inventory.objects.all()
+    print(products_in_inventory)
+    assert len(products_in_inventory) == 1
+    assert products_in_inventory[0].product == product[0]
 
     # response_2 = client.post(reverse('inventory_list'),
     #                          {'product': product[1].id,

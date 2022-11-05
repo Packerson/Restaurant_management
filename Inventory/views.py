@@ -500,9 +500,7 @@ class InventoryView(View):
                            'form_invoice': form_invoice}
                 return render(request, 'inventory.html', context)
 
-
-        # elif 'Add invoice' in request.POST:
-        else:
+        elif 'Add invoice' in request.POST:
             """second form is chosen, add invoice to inventory """
             form = InventoryForm()
             form_invoice = AddInvoiceToInventoryForm(request.POST)
